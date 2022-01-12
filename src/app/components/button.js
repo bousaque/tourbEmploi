@@ -16,8 +16,6 @@ export class Button {
 
     };
 
-
-
     initUI() {
         
         //console.log(this.buttonHTML);
@@ -34,8 +32,6 @@ export class Button {
 
     };
 
-
-
     initEvents() {
         
         this.buttonHTML.addEventListener('click', ($event) => {
@@ -50,7 +46,5 @@ export class Button {
         
         });
     };
-        
-        
 
 };

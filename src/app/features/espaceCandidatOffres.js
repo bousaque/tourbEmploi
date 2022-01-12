@@ -63,7 +63,7 @@ export class EspaceCandidatOffres {
                                 </div>
                                 <br>
                                 <div>
-                                    ${offre.recruteur}
+                                    ${offre.recruteurName}
                                 </div>
                                 <br>
                                 <img src="${offre.recruteurLogo}" alt="logo-recruteur">
@@ -129,25 +129,21 @@ export class EspaceCandidatOffres {
         
         const ul = document.querySelector('ul');
         ul.addEventListener('click', ($event) => {
-
-                //Place un listener click sur l'élément 'ul'...
-
-                    //console.log('Cliqué dans DIV')
         
-                const liOffre = $event.target.closest('li'); //...et on vise un type 'li'
-                    //console.log(liOffre); //= <li id="offre-003">offre003</li>
-                    
-                if (liOffre) {
+            const liOffre = $event.target.closest('li'); //...et on vise un type 'li'
+                //console.log(liOffre); //= <li id="offre-003">offre003</li>
 
-                    const id = liOffre.id; //On target l'id de chaque offre
-                    //console.log(id); //= offre-003
+            if (liOffre) {
 
-                    const key = id.split('-')[1]; //On coupe le string id au niveau du '-' et la deuxième partie[1] on l'appelle key
-                    //console.log(key); //= 003
+                const id = liOffre.id; //On target l'id de chaque offre
+                //console.log(id); //= offre-003
+
+                const key = id.split('-')[1]; //On coupe le string id au niveau du '-' et la deuxième partie[1] on l'appelle key
+                //console.log(key); //= 003
                 
 
-                    new OffreDisplayCandidat(key);
-                };
+                new OffreDisplayCandidat(key);
+            };
                 
         });
     };
