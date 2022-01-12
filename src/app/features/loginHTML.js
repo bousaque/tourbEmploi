@@ -225,7 +225,7 @@ export class LoginHTML {
                 this.bodyApp.innerHTML = '';
 
             
-            new EspaceCandidat( userId , fName);
+            new EspaceCandidat( user , fName);
 
             } , 3500);    
 

@@ -19,12 +19,11 @@ export class EspaceCandidat {
     On va créer la classe VignetteOffre et la classe VignetteCoaching
     */
 
-    constructor(user) {
+    constructor() {
         //user va passer dans le constructeur
 
         this.initUI();
         this.addButtons();
-        this.user = user;
 
         const db = getDatabase();
         const auth = getAuth();

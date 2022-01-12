@@ -1,23 +1,24 @@
-
-
 import { child, get, getDatabase, ref } from 'firebase/database';
+
 import { Button } from '../components/button';
 import { EspaceCandidat } from './espaceCandidat';
+import { OffreDisplayCandidat } from './offreDisplayCandidat';
 
 
 export class EspaceCandidatOffres {
 
 
-    constructor(user) {
+    constructor(user , key) {
 
-        user = this.user;
+        this.user = user;
+        this.key = key;
         this.initUI();
         this.displayOffres();
         this.addButtons();
+        this.addEventsListeners();
     
     };
 
-    
 
     initUI() {
 
@@ -37,29 +38,79 @@ export class EspaceCandidatOffres {
         //dbRef va chercher la DB dans FireBase et offres c'est le nom du noeud
         .then(
             (snapshot) => {
-            
-                console.log(snapshot.val());
-                
+                            
                 //Là c'est une boucle for qui va sortir chaque item sous "offres" dans le noeud
                 const object = snapshot.val();
+                    //retourne objet JSON sans les méthodes
+                
+
                 for (const key in object) {
                     //Au sein du snapshot, pour chaque offre(object) on va récupérer la clé (ici le titre)
                     if (Object.hasOwnProperty.call(object, key)) {
                         const offre = object[key];
-                        console.log(offre);
+                        //console.log(offre);
                         //Ainsi l'offre sera la ou les clés de l'object snapshot 
                         //et de là on va faire s'afficher les valeurs extraites.
                         
                         document.querySelector('#offresList').innerHTML +=`
-                        <li id="offre-${key}">${offre.titre}</li>
+                            <li id="offre-${key}">
+                                <div>
+                                    ${offre.titre}
+                                </div>
+                                <br> 
+                                <div>
+                                    ${offre.position}
+                                </div>
+                                <br>
+                                <div>
+                                    ${offre.recruteur}
+                                </div>
+                                <br>
+                                <img src="${offre.recruteurLogo}" alt="logo-recruteur">
+                            </li>
                         `;
                     };
                 };
     
             }
         );
+
+        // get( child ( dbRef , `recruteurs` ) )
+        // .then(
+        //     (snapshot) => {
+
+
+        //         const object = snapshot.val();
+        //         //console.log(object);
+
+        //         for (const recruteur in object) {
+                    
+        //             const inRecruteur = object[recruteur];
+        //             const pathLogo = inRecruteur.recruteurLogo;
+        //             //console.log(pathLogo); 
+
+        //             document.querySelector(`#logoRecruteur-${recruteur}`).innerHTML =`
+        //                 <img src="${pathLogo}" alt="logo-recruteur">
+        //                 `;
+                    
+        //             //Au sein du snapshot, pour chaque offre(object) on va récupérer la clé (ici le titre)
+        //             // if (Object.hasOwnProperty.call(object, key)) {
+        //             //     const recruteur = object[key];
+        //             //     console.log(recruteur);
+        //             //     //Ainsi l'offre sera la ou les clés de l'object snapshot 
+        //             //     //et de là on va faire s'afficher les valeurs extraites.
+                        
+        //             //     document.querySelector('#logoRecruteur').innerHTML +=`
+        //             //     <img src="${recruteur.recruteurLogo}" alt="logo-recruteur">
+        //             //     `;
+        //             // };
+        //         };
+
                 
+
+        //     });
     };
+
 
     addButtons() {
     
@@ -73,24 +124,32 @@ export class EspaceCandidatOffres {
     
     };
 
+
     addEventsListeners() {
         
         const ul = document.querySelector('ul');
         ul.addEventListener('click', ($event) => {
 
                 //Place un listener click sur l'élément 'ul'...
-            if ($event.target.nodeName === 'UL') {
+
+                    //console.log('Cliqué dans DIV')
         
                 const liOffre = $event.target.closest('li'); //...et on vise un type 'li'
+                    //console.log(liOffre); //= <li id="offre-003">offre003</li>
+                    
+                if (liOffre) {
 
-                const id = liOffre.id; //On target l'id de chaque offre
+                    const id = liOffre.id; //On target l'id de chaque offre
+                    //console.log(id); //= offre-003
 
-                const key = id.split('-')[1]; //On coupe le string id au niveau du '-' et la deuxième partie[1] on l'appelle key
+                    const key = id.split('-')[1]; //On coupe le string id au niveau du '-' et la deuxième partie[1] on l'appelle key
+                    //console.log(key); //= 003
+                
 
-                deleteByIndex(key); //Ne pas oublier d'appeler la fonction
-
-            }
+                    new OffreDisplayCandidat(key);
+                };
+                
         });
-    }
+    };
 
 };
