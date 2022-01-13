@@ -11,7 +11,7 @@ GlobalWorkerOptions.workerSrc = PDFJSWorker;
 //Inner Import
 import { Button } from "../components/button";
 import { EspaceCandidatOffres } from "./espaceCandidatOffres";
-import { CreneauxRecruteur } from "./creneauxRecruteur";
+import { CreneauxRecruteur } from "./choixCreneaux";
 
 
 

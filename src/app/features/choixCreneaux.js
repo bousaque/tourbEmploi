@@ -1,4 +1,5 @@
-export class CreneauxRecruteur {
+import { RegistreCreneauRecruteur } from "../components/registreCreneauxRecruteur";
+export class ChoixCreneaux {
 
     constructor(key) {
         
