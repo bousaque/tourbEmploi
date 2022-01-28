@@ -43,10 +43,10 @@ export class LoginHTML {
             //sa logique métier dans la classe LoginHTML{}.
 
             
-        
+        // console.log(this.userId);
+
     };
 
-    
     initUI() {
         
         
@@ -68,7 +68,6 @@ export class LoginHTML {
         `
         
     };
-
 
     async googlePopup() {
         //Async parce qu'on attend le retour du fetch
@@ -104,9 +103,6 @@ export class LoginHTML {
 
             this.db.writeUserData();
             
-            //const writeinDB = this.db;
-            //console.log(this.db);
-
         })
 
         .catch((error) => {
@@ -123,7 +119,6 @@ export class LoginHTML {
 
     }
 
-    
     addButtons() {
 
         /*
@@ -133,12 +128,14 @@ export class LoginHTML {
         */
 
         if (this.userId) {
+            //Si userId existe, on lance le formulaire complémentaire
 
             //form
             this.signupAction();
             
 
         } else {
+            //Si userId n'existe pas, on met le bouton Connexion, et ensuite this.userId existe donc formulaire complémentaire
 
             //popup
             new Button(this.bodyApp.querySelector('#signupHTML') , 'Connexion' , async () => {
@@ -164,7 +161,6 @@ export class LoginHTML {
         
     };
 
-    
     signupAction() {
         
         this.bodyApp.querySelector('#signupFormHTML').innerHTML = `
@@ -193,6 +189,8 @@ export class LoginHTML {
             let email = this.bodyApp.querySelector('#signupMail').value;
             let tel = this.bodyApp.querySelector('#signupPhone').value;
             let activity = this.bodyApp.querySelector('#signupStatus').value;
+
+            this.fName = fName;
             
 
 
@@ -213,19 +211,19 @@ export class LoginHTML {
 
             this.bodyApp.innerHTML = `
                 <h2 id="successMessage">
-                    Merci pour votre inscription ${fName} !
+                    Merci pour votre inscription ${this.fName} !
                 <br>
                     Vous avez à présent accès à votre compte Candidat.
                     L'Espace Candidat va se charger dans un bref instant. 
                 </h2>
                 `;
         
-            setInterval( () => {
+            setTimeout( () => {
 
                 this.bodyApp.innerHTML = '';
 
             
-            new EspaceCandidat( user , fName);
+            new EspaceCandidat( this.userId , this.fName );
 
             } , 3500);    
 
@@ -234,7 +232,5 @@ export class LoginHTML {
         
         
     };
-
    
-
 };

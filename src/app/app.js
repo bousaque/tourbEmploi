@@ -14,6 +14,7 @@ let imageUrl;
 let username;
 
 
+
 /* 
 Button{}
 On met la classe Button{} avant la classe Login{} puisque Login{}
@@ -41,7 +42,7 @@ session ou s'il doit signUp.
 
 
 const auth = getAuth();
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
 
     /*
     Ici on va tester si le user qui actionne le Auth existe. 
@@ -50,54 +51,67 @@ onAuthStateChanged(auth, (user) => {
     si oui, on laisse passer. S'il n'y a pas ces infos, on lance juste le formulaire.
     */
   
-    //console.log('1. onAuthStateChanged a reçu un getAuth de user')
-    if (user) {
+   
+   if (user) {
+       
+       /*
+       Etape 1.5 du connecté
+       */
+      
+      const dbRef = ref( getDatabase() );
+      const snapshot = await get( child ( dbRef , `users/${user.uid}` ) );
+      const userId = user.uid;
+      const snapshotDyn = snapshot.val();
+      
+        //console.log(snapshotDyn);
+        //console.log(activity);
+        //console.log(snapshot._node.children_.root_.left.left.value.value_);
 
-        const dbRef = ref( getDatabase() );
 
-        get( child ( dbRef , `users/${user.uid}` ) )
-    
-        .then( (snapshot) => {
-    
-            //console.log( '2.a Le snapshot est parti !' , snapshot.val() )
-            if ( !snapshot.exists() || !snapshot.child('activity').val()  ) { 
-                /*
-                Ici on balance le formulaire seulement si : user = true && !exists || !activity
+        if ( !userId || !snapshotDyn || !snapshotDyn.activity ) { 
 
-                    Si exists() c'est que user est connecté et si activity, c'est que form est completé.
-                    Ça implique que :
-                    - le mec connecté mais pas complété va avoir le formulaire
-                    - le mec pas connecté mais complété va pas passer là
-                    - le mec connecté et complété passe au else et passera
-                */
+            /*
+            Etape 2 du connecté - enregistré
+            Ici on balance le formulaire seulement si : user = true && !exists || !activity
+
+                Si exists() c'est que user est connecté et si activity, c'est que form est completé.
+                Ça implique que :
+                - le mec connecté mais pas complété va avoir le formulaire
+                - le mec pas connecté mais complété va pas passer là
+                - le mec connecté et complété passe au else et passera
+            */
                 
 
-                //console.log( '3.a Le snapshot était vide ou navait pas de valeurs autre que celles rentrées par Auth()');
-                new LoginHTML(user.uid , user.displayName , user.email , user.photoURL);
-            }
+            new LoginHTML(user.uid , user.displayName , user.email , user.photoURL);
+        }
     
             
-            else { 
-                //Si on est déjà connecté et que infos complémentaire = true
+        else { 
+            /*
+            Etape 3 du connecté + enregistré
+            Si on est déjà connecté et que infos complémentaire = true
+            */
 
-                //console.log('3.b Le snapshot n était pas vide ou avait des valeurs autre que celles de Auth()');
+            document.querySelector('#bodyApp').innerHTML = '';
 
-                document.querySelector('#bodyApp').innerHTML = '';
+            new EspaceCandidat(userId , snapshotDyn.fName);
 
-                new EspaceCandidat(user);
-
-            }
+        };
     
-        });
+        
 
 
-  } else {
-      //Si !user, alors on fait LoginHTML et c'est lui ensuite qui teste si la DB est renseignée.
+    } else {
 
-    new LoginHTML();
-    //console.log( '2.b user existe pas')
+        /*
+        Etape 1 du non-connecté/jamais venu
 
-  }
+        Si !user, alors on fait LoginHTML et c'est lui ensuite qui teste si la DB est renseignée.
+        */
+
+        new LoginHTML();
+
+    };
 
 });
 

@@ -1,65 +1,45 @@
-import { getDatabase, ref, onValue } from "firebase/database";
-import { getAuth } from "firebase/auth";
+import { getDatabase, ref , get , orderByChild , query , equalTo } from "firebase/database";
 
 import { EspaceCandidatOffres } from "./espaceCandidatOffres";
 import { EspaceCoaching } from "./espaceCoaching";
 import { MessageCandidat } from "./messageCandidat";
 import { Button } from "../components/button";
 
-
-
 export class EspaceCandidat {
 
-    /*
-    On va instancier : 
-    - un bouton Offres
-    - un bouton Contact
-    - un bouton Coaching
+    constructor(userId , fName ) {
 
-    On va créer la classe VignetteOffre et la classe VignetteCoaching
-    */
+        this.userId = userId;
+        this.fName = fName;
 
-    constructor() {
-        //user va passer dans le constructeur
+        // console.log('Espace Candidat fName = '+this.fName);
+        // console.log('Offre Display userId = '+this.userId);
+
 
         this.initUI();
         this.addButtons();
+        this.addFname();
+        this.addListeCreneaux();
 
-        const db = getDatabase();
-        const auth = getAuth();
-        this.userId = auth.currentUser.uid;
-
-        return onValue(ref(db, '/users/' + this.userId), (snapshot) => {
-            
-            document.querySelector('#userName').innerHTML = (snapshot.val() && snapshot.val().fName) || 'Anonymous';
-
-            console.log(snapshot.val());
-        
-
-        }, {
-            onlyOnce: true
-        });
-        
-        
         
     };
-
+    
     initUI() {
-         
+        
         
         //On va créer le nouveau HTML
         document.querySelector('#bodyApp').innerHTML =`
-            <div id="espaceCandidatHTML">
-                <div id="buttonOffresHTML"></div>
-                <div id="buttonCoachingHTML"></div>
-                <div id="buttonContactHTML"></div>
-                <h1>Espace Candidat</h1>
-                <h2>Vous êtes connecté à votre Espace Candidat en tant que <span id="userName"></span>!</h2>
-                <div id="candidatCalendrierHTML">
-                    <h3>Votre calendrier de rendez-vous :</h3>
-                    <ul id="ListeCreneauxHTML"></ul>
-                </div>
+        <div id="espaceCandidatHTML">
+            <div id="buttonOffresHTML"></div>
+            <div id="buttonCoachingHTML"></div>
+            <div id="buttonContactHTML"></div>
+            <h1>Espace Candidat</h1>
+            <h2>Vous êtes connecté à votre Espace Candidat en tant que <span id="userName"></span>!</h2>
+            <div id="candidatCalendrierHTML">
+                <h3>Votre calendrier de rendez-vous :</h3>
+                <ul id="ListeCreneauxHTML"></ul>
             </div>
+        </div>
         `;
     };
 
@@ -67,10 +47,10 @@ export class EspaceCandidat {
 
         const buttonOffres = new Button(document.querySelector('#buttonOffresHTML') , 'Vers les Offres' , () => {
 
-            console.log('Bouton Offres pressé');
+            //console.log('Bouton Offres pressé');
             //new ListOffres{} -> new PageRecruteur{} -> new Offre{}
             document.querySelector('#bodyApp').innerHTML = '';
-            new EspaceCandidatOffres(this.user);
+            new EspaceCandidatOffres(this.userId , this.fName);
 
         });
 
@@ -78,7 +58,7 @@ export class EspaceCandidat {
 
             console.log('Bouton Coaching pressé');
             //new ExplicationsCoaching{} -> new Coaching{}
-            new EspaceCoaching(this.user);
+            new EspaceCoaching(this.userId , this.fName);
 
         });
 
@@ -86,7 +66,7 @@ export class EspaceCandidat {
 
             console.log('Bouton Contact pressé');
             //new CandidatMessage{}
-            new MessageCandidat(this.user);
+            new MessageCandidat(this.userId);
 
         });
 
@@ -94,6 +74,60 @@ export class EspaceCandidat {
 
     };
 
-    
+    addFname() {
 
+        document.querySelector('#userName').innerHTML = this.fName || 'Anonymous';
+
+    };
+
+    async addListeCreneaux() {
+
+
+        /*
+        Requête tendant à choper les créneaux, ordrés par userID et dans lesquels il y a bien un userID
+        */
+        const refDbCreneaux = ref( getDatabase() , "creneaux" );
+        const snapshotUser = await get( query( refDbCreneaux , orderByChild('userID') , equalTo(this.userId) ) );
+        const idCandidatOBJ = snapshotUser.val();
+        
+        //console.log(idCandidatOBJ)
+
+        
+        /*
+        Collecte des créneaux choisis par l'utilisateur et transformation en tableau
+        */
+       let offreList = [];        
+       for (const offreID in idCandidatOBJ) {
+           
+           
+           if (Object.hasOwnProperty.call(idCandidatOBJ, offreID)) {
+               
+               const keyReservationOBJ = idCandidatOBJ[offreID];
+               offreList.push(keyReservationOBJ);
+               
+            };
+        };
+
+        //console.log(offreList)
+
+
+        
+        /*
+        Rendu <li> des créneaux
+        */
+       offreList.forEach( creneauPris => {
+           
+           document.querySelector('#ListeCreneauxHTML').innerHTML +=`
+           <li>
+            Référence offre : ${creneauPris.offreID} - 
+            Horaire créneau : ${creneauPris.time} - 
+            Entreprise :  ${creneauPris.recruteurName} - 
+            Position :  ${creneauPris.positionName} - 
+            <img src="${creneauPris.recruteurLogo}" alt="Logo Recruteur" />
+           </li>
+           `;
+           
+        });
+    
+    };
 };
