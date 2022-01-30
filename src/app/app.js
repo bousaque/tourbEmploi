@@ -2,6 +2,10 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase , get, ref , child } from "firebase/database";
 
+import { HeaderApp } from "./components/header";
+import { FooterApp } from "./components/footer";
+
+
 import { LoginHTML } from "./features/loginHTML";
 import { EspaceCandidat } from "./features/espaceCandidat";
 
@@ -40,6 +44,8 @@ session ou s'il doit signUp.
 Évidemment, si le snapshot revient existant 
 */
 
+new HeaderApp();
+new FooterApp();
 
 const auth = getAuth();
 onAuthStateChanged(auth, async (user) => {

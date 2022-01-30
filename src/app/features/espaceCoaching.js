@@ -1,3 +1,5 @@
+
+
 import { ChoixCreneauxCoaching } from "../components/choixCreneauxCoaching";
 import { Button } from "../components/button";
 
@@ -10,19 +12,25 @@ export class EspaceCoaching {
         this.userId = userId;
         this.fName = fName;
 
+        this.initUI();
+        this.addButtons();
+        this.addCoachingCreneau();
+
     };
 
     initUI() {
 
-        document.querySelector('#bodyApp').innerHTML = `
-        <div id="backButton></div>
-        `;
+        document.querySelector('#bodyApp').innerHTML =`
+        <div id="backButton"></div>
+        LISTE COACHINGS EN TRAVAUX
+        <ul id="listeCreneaux"></ul>
+       `;
 
     };
 
     addButtons() {
 
-        const buttonBackEspaceCandidat = new Button(document.querySelector('#buttonBack') , 'Retour' , () => {
+        const buttonBackEspaceCandidat = new Button(document.querySelector('#backButton') , 'Retour' , () => {
     
             //console.log('Bouton Retour pressé');
             //Reprend l'objet précédent
@@ -33,7 +41,7 @@ export class EspaceCoaching {
 
     addCoachingCreneau() {
 
-        //new ChoixCreneauxCoaching(this.userId, this.fName);
+        new ChoixCreneauxCoaching(this.userId);
 
     };
 };

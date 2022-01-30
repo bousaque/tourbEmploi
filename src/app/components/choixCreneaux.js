@@ -61,7 +61,7 @@ export class ChoixCreneaux {
         
         ];
 
-        //comparasion entre tableau vide et celui plein, on met Disponible partout ou il n'y a pas d'ID dans RTDB
+        //comparaison entre tableau vide et celui plein, on met Disponible partout ou il n'y a pas d'ID dans RTDB
         for (let index = 0; index < repertoire.length; index++) {
             const element = repertoire[index];
             

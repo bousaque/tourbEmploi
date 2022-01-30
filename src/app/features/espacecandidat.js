@@ -2,7 +2,6 @@ import { getDatabase, ref , get , orderByChild , query , equalTo } from "firebas
 
 import { EspaceCandidatOffres } from "./espaceCandidatOffres";
 import { EspaceCoaching } from "./espaceCoaching";
-import { MessageCandidat } from "./messageCandidat";
 import { Button } from "../components/button";
 
 export class EspaceCandidat {
@@ -26,8 +25,6 @@ export class EspaceCandidat {
     
     initUI() {
         
-        
-        //On va créer le nouveau HTML
         document.querySelector('#bodyApp').innerHTML =`
         <div id="espaceCandidatHTML">
             <div id="buttonOffresHTML"></div>
@@ -43,7 +40,7 @@ export class EspaceCandidat {
         `;
     };
 
-    addButtons() {
+    async addButtons() {
 
         const buttonOffres = new Button(document.querySelector('#buttonOffresHTML') , 'Vers les Offres' , () => {
 
@@ -54,23 +51,21 @@ export class EspaceCandidat {
 
         });
 
-        const buttonCoaching = new Button(document.querySelector('#buttonCoachingHTML') , 'Demande de Coaching' , () => {
+        const snapshotCoaching = await get( query( ref( getDatabase() , "coaching" ) , orderByChild('userID') , equalTo(this.userId) ) );
+        const coaching = snapshotCoaching.val(); //={-MuQ776x2MWJy12v9NFb: {…}} ou ''
 
-            console.log('Bouton Coaching pressé');
-            //new ExplicationsCoaching{} -> new Coaching{}
-            new EspaceCoaching(this.userId , this.fName);
+        if (!coaching) {
 
-        });
+            const buttonCoaching = new Button(document.querySelector('#buttonCoachingHTML') , 'Demande de Coaching' , () => {
+    
+                console.log('Bouton Coaching pressé');
+                //new ExplicationsCoaching{} -> new Coaching{}
+                document.querySelector('#bodyApp').innerHTML = '';
+                new EspaceCoaching(this.userId , this.fName);
+    
+            });
+        };
 
-        const buttonContactHTML = new Button(document.querySelector('#buttonContactHTML') , 'Contact' , () => {
-
-            console.log('Bouton Contact pressé');
-            //new CandidatMessage{}
-            new MessageCandidat(this.userId);
-
-        });
-
-        
 
     };
 
@@ -108,24 +103,40 @@ export class EspaceCandidat {
             };
         };
 
-        //console.log(offreList)
-
-
+        
+        
         
         /*
         Rendu <li> des créneaux
         */
+       
+       
+       
        offreList.forEach( creneauPris => {
            
-           document.querySelector('#ListeCreneauxHTML').innerHTML +=`
-           <li>
-            Référence offre : ${creneauPris.offreID} - 
-            Horaire créneau : ${creneauPris.time} - 
-            Entreprise :  ${creneauPris.recruteurName} - 
-            Position :  ${creneauPris.positionName} - 
-            <img src="${creneauPris.recruteurLogo}" alt="Logo Recruteur" />
-           </li>
-           `;
+        if (creneauPris.offreID) {
+
+            document.querySelector('#ListeCreneauxHTML').innerHTML +=`
+            <li>
+            Entretien - 
+             Référence offre : ${creneauPris.offreID} - 
+             Horaire créneau : ${creneauPris.time} - 
+             Entreprise :  ${creneauPris.recruteurName} - 
+             Position :  ${creneauPris.positionName} - 
+             <img src="${creneauPris.recruteurLogo}" alt="Logo Recruteur" />
+            </li>
+            `;
+
+        } else {
+
+            document.querySelector('#ListeCreneauxHTML').innerHTML +=`
+            <li>
+             Coaching - Horaire : ${creneauPris.time} 
+            </li>
+            `;
+
+        };
+        
            
         });
     

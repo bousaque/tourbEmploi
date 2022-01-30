@@ -2,10 +2,8 @@
 import { getDatabase , get, ref , child , query , orderByChild , equalTo } from "firebase/database";
 
 //PDFJSWorker Import
-import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
-import { pdfjsLib } from "pdfjs-dist";
+import { getDocument , GlobalWorkerOptions , pdfjsLib } from 'pdfjs-dist';
 import { PDFJSWorker } from 'pdfjs-dist/build/pdf.worker.entry';
-
 GlobalWorkerOptions.workerSrc = PDFJSWorker;
 
 //Inner Import
@@ -163,42 +161,42 @@ export class OffreDisplayCandidat {
         
     addOffreCanvas() {
             
-            document.querySelector('#canvasVisuel').innerHTML =`CANVAS PDF OFFRE EN TRAVAUX`;
+        document.querySelector('#canvasVisuel').innerHTML =`CANVAS PDF OFFRE EN TRAVAUX`;
             
-            //Choper le PDF
-            //     const pdfPath = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/recruteurs_offres%2FJOB%20DESCRIPTION%20AGENT%20TECH.%20SPECIALISE%20CVC.pdf?alt=media&token=0bdb1f98-af14-41d4-b12e-d904785fe027";
-            //     const loadingTask = pdfjsLib.getDocument(pdfPath);
-            //     //pdfjsLib est UNDEFINED...
+        
+        const pdfPath = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/recruteurs_offres%2FJOB%20DESCRIPTION%20AGENT%20TECH.%20SPECIALISE%20CVC.pdf?alt=media&token=0bdb1f98-af14-41d4-b12e-d904785fe027";
+        const loadingTask = getDocument(pdfPath);
+        //pdfjsLib est UNDEFINED...
             
-            //     loadingTask.promise
-            //     .then( (pdfDocument) => {
+        loadingTask.promise
+        .then( (pdfDocument) => {
                 
-                //             // Request a first page
-                //         return pdfDocument.getPage(1)
-                //         .then( (pdfPage) => {
+            // Request a first page
+            return pdfDocument.getPage(1)
+            .then( (pdfPage) => {
                     
-                    //                 // Display page on the existing canvas with 100% scale.
-                    //             const viewport = pdfPage.getViewport({ scale: 1.0 });
-                    //             const canvas = document.querySelector("#pdfCanvas");
+                    // Display page on the existing canvas with 100% scale.
+                const viewport = pdfPage.getViewport({ scale: 1.0 });
+                const canvas = document.querySelector("#pdfCanvas");
                     
-                    //             canvas.width = viewport.width;
-                    //             canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
                     
-                    //             const ctx = canvas.getContext("2d");
-                    //             const renderTask = pdfPage.render({
+                const ctx = canvas.getContext("2d");
+                const renderTask = pdfPage.render({
                         
-                        //                 canvasContext: ctx,
-                        //                     viewport,
+                            canvasContext: ctx,
+                            viewport,
                         
-                        //                 });
+                        });
                         
-                        //             return renderTask.promise;
+                    return renderTask.promise;
                         
-                        //         });
-                        //     })
-                        //     .catch(function (reason) {
-                            //         console.error("Error: " + reason);
-                            //     });
+            });
+        })
+        .catch(function (reason) {
+            console.error("Error: " + reason);
+        });
     };
                         
     async allCreneauxAgendaire() {
