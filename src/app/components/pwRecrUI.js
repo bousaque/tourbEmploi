@@ -15,7 +15,13 @@ export class PwRecrUI {
 
     initUI() {
 
-        document.querySelector('#loginButtonRecruteurMail').innerHTML = `            
+        document.querySelector('#bodyApp').innerHTML = `  
+                <div id="pwExplainations">
+                    Chères Recruteuses, Chers Recruteurs,</br>
+                    Merci de vous choisir un email qui vous servira d'identifiant ainsi qu'un mot de passe. Ce dernier doit contenit au moins une majuscule, 
+                    un chiffre et comporter au moins 8 caractères. Un email de confirmation vous sera envoyé à l'adresse email fournie, il vous faudra simplement cliquer dessus
+                    pour compléter l'inscription.
+                </div>         
                 <div id="containerPW">
                     <form>
                         <div id="userNamePW">
@@ -62,13 +68,13 @@ export class PwRecrUI {
                 // Signed in 
                 const user = userCredential.user;
 
-
-                
-                console.log(user);
-                
-                
-
-                new EspaceRecruteur(user , this.emailRecr , this.pwRecr);
+                document.querySelector('#bodyApp').innerHTML =`
+                <p id="successMessageRECR">
+                    Votre inscription a bien été prise en compte, votre compte sera opérationnel
+                    une fois que vous aurez cliqué sur le lien de confirmation contenu dans l'email
+                    à l'adresse ${this.emailRecr}.
+                </p>
+                `;
                 // ...
             })
             .catch((error) => {

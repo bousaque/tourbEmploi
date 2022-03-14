@@ -41,7 +41,6 @@
 	padding: 0;
 	border: 0;
 	font-size: 100%;
-	font: inherit;
 	vertical-align: baseline;
     }
     /* HTML5 display-role reset for older browsers */
@@ -72,7 +71,7 @@
     /*COMMON RULES*/
     body {
     background-color: whitesmoke;
-    font-family: 'Roboto';
+    font-family: 'Maax';
     }
     
     a {
@@ -81,17 +80,42 @@
     }
     
     @font-face {
-    font-family: 'Roboto';
-    src: url('assets/fonts/Roboto/Roboto-Light.ttf') format('ttf');
+    font-family: 'Maax Regular';
+    src: url('assets/fonts/Maax\ -\ Regular-205TF.otf') format('otf');
     font-weight: normal;
     font-style: normal;
     }
 
     @font-face {
-    font-family: 'Roboto Serif';
-    src: url('assets/fonts/Roboto\,Roboto_Serif/Roboto_Serif.ttf') format('tff');
+    font-family: 'Maax Bold';
+    src: url('assets/fonts/Maax\ -\ Bold-205TF.otf') format('otf');
     font-weight: bold;
     font-style: normal;
+    }
+
+    @font-face {
+    font-family: 'Maax Bold Italic';
+    src: url('assets/fonts/Maax\ -\ Bold\ Italic-205TF.otf') format('otf');
+    font-weight: bold;
+    font-style: italic;
+    }
+
+    @font-face {
+    font-family: 'Maax Italic';
+    src: url('assets/fonts/Maax\ -\ Italic-205TF.otf') format('otf');
+    font-weight: normal;
+    font-style: italic;
+    }
+
+    @supports(-webkit-appearance: none) or (-moz-appearance: none) {
+        input[type='text'],
+        input[type='email'],
+        input[type='tel'],
+        input[type='password'],
+        input[type='submit'] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
     }
 
 
@@ -161,9 +185,11 @@
 
     }
     
-    #recruteurOffres {
-        margin: 10% 0 15% 0;
-        border: 1px solid;
+    #pdfCanvas {
+        margin: 10% 0 10% 0;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+
     }
     
     #recruteurHeader {
@@ -279,6 +305,339 @@
         align-items: center;
         justify-content: space-around;
     }
+
+    #loginButtonRecruteur,
+    #loginButtonCandidate {
+        text-align: center;
+    
+    }
+
+    #loginTitle,
+    #signupFormHTML,
+    #signupHTML,
+    #signinHTML {
+        text-align: center;
+        margin-top: 8%;
+        font-size: 131%;
+        font-weight: bold;
+    }
+
+    #signature {
+        text-align: center;
+        margin-top: 5%;
+        font-size: 70%;
+        font-style: italic;
+    }
+
+    #signupFname,
+    #signupLname,
+    #signupMail,
+    #signupStatus {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 5%;
+    }
+
+    #signupPhone {
+        margin: 5% 4% 8% -1%;
+        padding: 3% 1%;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+
+    }
+
+    #yesCheckID,
+    #noCheckID,
+    #checkLabelID {
+        font-size: 62%;
+        font-weight: normal;
+        color: #767676;
+    }
+
+    #successBox {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 1%;
+        margin: 20%;
+    }
+
+    #successMessage,
+    #successMessage2 {
+        text-align: center;
+        margin: 5%;
+        font-size: 131%;
+        font-weight: bold;
+    }
+
+    #buttonOffresHTML,
+    #buttonCoachingHTML {
+        text-align: center;
+        margin: 1%;
+    }
+
+    #candidatAccueil {
+        text-align: center;
+        margin: 5%;
+        font-size: 131%;
+        font-weight: bold;
+    }
+
+    #espCandTitle {
+        font-variant: small-caps;
+    }
+
+    #calTxt {
+        text-align: center;
+        font-style: italic;
+        font-size: 131%;
+        margin-top: 10%;
+    }
+
+    #vignetteCreneauLI,
+    #coaching {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 2% 3%;
+        margin: 7%;
+    }
+
+    #vignetteCreneauDIV {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #entretien {
+        font-weight: bold;
+        padding: unset;
+        font-size: 100%;
+    }
+
+    #coachingTitle {
+        font-weight: bold;
+        font-size: 100%;
+        margin: 2% 0;
+    }
+
+    #coachingSlot {
+        margin: 2% 0;
+    }
+
+    #coaching {
+        text-align: center;
+    }
+
+    #offresRecrTitle {
+        text-align: center;
+        font-size: 131%;
+        font-weight: bold;
+    }
+
+    .logoRecruteur {
+        margin: 2% 1%;
+        padding: 1% 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        cursor: pointer;
+        border: black solid 0.1px;
+    }
+
+    #recruteurName {
+        text-align: center;
+        font-size: 131%;
+        font-weight: bold;
+        margin: 5% 0;
+    }
+
+    #logoRecruteur {            
+        padding: 3%;
+        margin: 3%;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        max-width: 20%;
+        border: black solid 0.1px;
+    }
+
+
+    .resSoc {
+        max-width: 10%;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border-radius: 50%;
+    }
+
+    #recruteurHead {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 3% 0;
+        margin: 2% 0;
+        border: black solid 0.1px;
+        text-align: center;
+    }
+
+    #videoFront {
+        text-align: center;
+        padding-top: 7%;
+    }
+
+    #offreCreneauxAgendaBOX {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 3% 0;
+        margin: 2% 0;
+        border: black solid 0.1px;
+        text-align: center;
+    }
+
+    .libre {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 2% 20%;
+        padding: 1% 1%;
+        cursor: pointer;
+    }
+
+    .occupay {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 2% 20%;
+        padding: 1% 1%;
+    }
+
+    #priseCreneau {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 2% 15%;
+        padding: 1% 5%;
+        text-align: center;
+
+    }
+
+    #logoRecrIN {
+        max-width: 40%;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 5% 15%;
+        padding: 1% 5%;
+    }
+
+    #boutonReserverCreneau {
+        margin: 5% 1%;
+    }
+
+    #creneauReserver {
+        font-weight: bold;
+        margin: 5% 1%;
+    }
+
+    #backButton {
+        text-align: end;
+        margin-top: 5%;
+    }
+
+    #listDispoCoaching {
+        text-align: center;
+        margin: 5% 1%;
+    }
+
+    #listeCreneaux {
+        margin-bottom: 15%;
+    }
+
+    #resaCoachingBOX {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 2% 15%;
+        padding: 1% 5%;
+        text-align: center;
+    }
+
+    #messageNoCreneaux,
+    #messageCoachingAlready {
+        margin: 2% auto 7% auto;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        max-width: 50%;
+        display: block;
+        padding: 1% 5%;        
+    }
+
+    #ListeCreneauxHTML {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 5% 1%;
+        padding: 1% 1%;
+    }
+
+    #coachingText,
+    #boutonReserverCoaching {
+        margin: 5% auto;
+    }
+
+    #loginButtonCandidat,
+    #loginButtonCandidatMail,
+    #loginButtonRecruteur,
+    #loginButtonRecruteurMail {
+        text-align: center;
+        margin: 2% auto;
+    }
+
+    #containerPW {
+        display: flex;
+        justify-content: center;
+        padding: 5% 31% 3% 31%;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 5% auto 7% auto;
+    }
+
+    #usrname,
+    #psw {
+        width: -webkit-fill-available;
+        margin: 5% auto;
+        padding: 2% 1%;
+        background: white;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+    }
+
+    #message {
+        display: none;
+        position: relative;
+        padding: 20px;
+        margin-top: 10px;
+    }
+
+    .valid {
+        color: green;
+    }
+
+    .valid:before {
+        position: relative;
+        left: -35px;
+    }
+
+    .invalid {
+        color: red;
+    }
+
+    .invalid:before {
+        position: relative;
+        left: -35px;
+    }
+
+    #letter,
+    #capital,
+    #number,
+    #length {
+        text-align: center;
+    }
+
+    #letter {
+        margin-top: 5%;
+    }
+
+    #length {
+        margin-bottom: 2%;
+    }
+
+    
+        
             
             
             
@@ -294,14 +653,6 @@
         
         #footerLogos {
             text-align: center;
-        }
-        
-        #logoRecruteur {            
-            padding: 3%;
-            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
-            max-width: 100%;
-            border: black solid 0.1px;
-
         }
         
         .text-center {
@@ -368,14 +719,7 @@
             font-size: 131%;
         }
         
-        #logo_001,
-        #logo_002,
-        #logo_003,
-        #logo_004,
-        #logo_005,
-        #logo_006,
-        #logo_007,
-        #logo_008 {
+        .logoVitrine {
             
             max-width: 20%;
             margin: 3% auto;
@@ -420,9 +764,10 @@
         button {
             background-color: white;
             border: black solid 0.1px;
-            padding: 4% 2%;
+            padding: 2%;
             box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
             cursor: pointer;
+            font-family: Maax;
 
         }
 
@@ -437,7 +782,45 @@
         #coachingTxt {
             color: black;
         }
-    
+
+        #signupCells {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: black solid 0.1px;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            margin: 4% 15%;
+        }
+
+        #signupCells1, 
+        #signupCells2 {
+            display: flex;
+            flex-direction: column;
+            padding: 3%;
+        }
+
+        #signupFname, 
+        #signupLname, 
+        #signupMail, 
+        #signupPhone, 
+        #signupStatus {
+            margin: 8% 0% 7% 0%;
+            
+        }
+
+        #recruteurList {
+            display: flex;
+            margin: 8% 0%;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .logoOffres {
+            max-width: 75%;
+            display: block;
+            margin: 0 auto;
+        }
+            
             
     }
     
@@ -503,14 +886,7 @@
             padding: 10px;
         }
         
-        #logo_001,
-        #logo_002,
-        #logo_003,
-        #logo_004,
-        #logo_005,
-        #logo_006,
-        #logo_007,
-        #logo_008 {
+        .logoVitrine {
             
             max-width: 45%;
             margin: 3% auto;
@@ -561,6 +937,7 @@
             border: black solid 0.1px;
             padding: 2%;
             box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            font-family: Maax;
         }
         
         #coachingButton {
