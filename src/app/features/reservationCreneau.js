@@ -1,31 +1,36 @@
 import { getDatabase , ref , child , update , push , get } from 'firebase/database';
 
 import { Button } from '../components/button';
-import { OffreDisplayCandidat } from './offreDisplayCandidat';
+import { OffreDisplayCandidat } from './offresDisplayCandidat';
 import { EspaceCandidat } from './espaceCandidat';
 
 export class ReservationCreneau {
 
-    constructor(userId, creneauChoisi , offreID , recruteurId , recruteurLogo , recruteurName , positionName) {
+    constructor(userId, creneauChoisi , splittedID , fName , splittedLI , logoRecruteur , recruteurName , positionName) {
 
+        this.userId = userId;
+        this.fName = fName;
         this.creneauChoisi = creneauChoisi;
-        this.offreID = offreID;
-        this.recruteurId = recruteurId;
-        this.recruteurLogo = recruteurLogo;
+        this.splittedID = splittedID;
+        this.splittedLI = splittedLI;
+        this.logoRecruteur = logoRecruteur;
         this.recruteurName = recruteurName;
         this.positionName = positionName;
 
-        this.userId = userId;
-        this.fName = this.fName;
+        console.log(this.logoRecruteur)
+        // console.log(this.userId)
+        // console.log(this.fName)
+        // console.log(this.creneauChoisi)
+        // console.log(this.splittedID)
+        // console.log(this.splittedLI)
+        // console.log(this.logoRecruteur)
+        // console.log(this.recruteurName)
+        // console.log(this.positionName)
 
-        // console.log('Créneau choisi = '+this.creneauChoisi);
-        // console.log('Recruteur ID = '+this.recruteurId);
-        // console.log('Offre ID = '+this.offreID);
-        // console.log('Recruteur Logo URL = '+this.recruteurLogo);
 
         this.initUI();
-        this.addButtons();
         this.addLogoRecruteur();
+        this.addButtons();
 
     };
 
@@ -33,25 +38,33 @@ export class ReservationCreneau {
 
         document.querySelector('#bodyApp').innerHTML =`
         <div id="buttonBack"></div>
-        <div id="logoRecruteurConf"></div>
-        <div id="">${this.recruteurName} : ${this.positionName}</div>
-        <div id="creneauReserver">Créneau : ${this.creneauChoisi}</div>
-        <div id="boutonReserverCreneau"></div>
+        <div id="priseCreneau">
+            <div id="logoRecruteurConf"></div>
+            <div id="nameRecruteur">${this.recruteurName} : ${this.positionName}</div>
+            <div id="creneauReserver">Créneau : ${this.creneauChoisi}</div>
+            <div id="boutonReserverCreneau"></div>
+        </div>
+        `;
+
+    };
+
+    addLogoRecruteur() {
+
+        document.querySelector('#logoRecruteurConf').innerHTML =`
+        <img id="logoRecrIN" src="${this.logoRecruteur}" alt="Logo Recruteur"/>
         `;
 
     };
 
     addButtons() {
     
-        const buttonBackDisplayOffres = new Button(document.querySelector('#buttonBack') , 'Retour' , () => {
-    
-            //console.log('Bouton Retour pressé');
-            //Reprend l'objet précédent
-            new OffreDisplayCandidat(this.offreID , this.userId , this.fName);
+        const buttonBackDisplayOffres = new Button( document.querySelector('#buttonBack') , 'Retour' , () => {
+
+            new OffreDisplayCandidat(this.splittedID , this.userId , this.fName);
     
         });
 
-        const buttonReserverCreneau = new Button(document.querySelector('#boutonReserverCreneau') , 'Réserver ce créneau' , async () => {
+        const buttonReserverCreneau = new Button( document.querySelector('#boutonReserverCreneau') , 'Réserver ce créneau' , async () => {
 
             //On va prendre l'id de l'utilisateur et le push dans RTDB, de sorte qu'à la place de '' on aie l'id de l'utilisateur
 
@@ -59,7 +72,7 @@ export class ReservationCreneau {
             const newCreneauKey = push(child(refDB , 'creneaux')).key;
             const newCreneauDB = {
 
-                'offreID':this.offreID ,
+                'offreID':this.splittedID ,
                 'time':this.creneauChoisi , 
                 'userID':this.userId ,
                 'recruteurName':this.recruteurName ,
@@ -78,7 +91,7 @@ export class ReservationCreneau {
             //console.log(this.userId )
             document.querySelector('#bodyApp').innerHTML = `
                 <h2 id="successMessage">
-                    Vous avez réservé le créneau de ${this.creneauChoisi} pour l'offre ${this.offreID} de ${this.positionName} chez ${this.recruteurName}. 
+                    Vous avez réservé le créneau de ${this.creneauChoisi} pour l'offre ${this.splittedID} de ${this.positionName} chez ${this.recruteurName}. 
                 <br>
                     Vous allez la retrouver dans le calendrier de votre Espace Candidat, qui va se charger dans un bref instant. 
                 </h2>
@@ -103,12 +116,5 @@ export class ReservationCreneau {
     
     };
 
-    addLogoRecruteur() {
-
-        document.querySelector('#logoRecruteurConf').innerHTML =`
-        <img src="${this.recruteurLogo}" alt="Logo Recruteur"/>
-        `;
-
-    };
 
 };

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourbillon Emploi</title>
+<script defer src="main.js"></script></head>
+<body>
+
+    <div id="wrapper">
+
+        <div id="headerApp" class=""></div>
+    
+        <div id="bodyApp"></div>
+    
+        <div id="footerApp"></div>
+
+    </div>
+
+<style>
+    /* http://meyerweb.com/eric/tools/css/reset/ 
+    v2.0 | 20110126
+    License: none (public domain)
+    */
+
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed, 
+    figure, figcaption, footer, header, hgroup, 
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+    }
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure, 
+    footer, header, hgroup, menu, nav, section {
+	display: block;
+    }
+    body {
+	line-height: 1;
+    }
+    ol, ul {
+	list-style: none;
+    }
+    blockquote, q {
+	quotes: none;
+    }
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+	content: '';
+	content: none;
+    }
+    table {
+	border-collapse: collapse;
+	border-spacing: 0;
+    }
+    /**********************************/
+
+    /*COMMON RULES*/
+    body {
+    background-color: whitesmoke;
+    font-family: 'Roboto';
+    }
+    
+    a {
+        text-decoration: none;
+        
+    }
+    
+    @font-face {
+    font-family: 'Roboto';
+    src: url('assets/fonts/Roboto/Roboto-Light.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+    }
+
+    @font-face {
+    font-family: 'Roboto Serif';
+    src: url('assets/fonts/Roboto\,Roboto_Serif/Roboto_Serif.ttf') format('tff');
+    font-weight: bold;
+    font-style: normal;
+    }
+
+
+
+    .logos_footer { 
+
+    max-width: 7%; 
+    padding: 2%;
+    border-radius: 13px;
+    box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+
+    }
+    
+    #vignettesRecruteurs {
+        margin: 5% 0 20% 0;
+        display: flex;
+        flex-wrap: wrap;
+        
+    }
+    
+    #header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .bolder {
+        font-weight: bold;
+        margin: 7% 0 1% 0;
+    }
+    
+    .mainTxt {
+        margin: 7% 0 1% 0;
+    }
+    
+    .mainTxt3 {
+        margin: 1% 0 7% 0;
+    }
+    
+    .listRight {
+        text-align: right;
+        margin: 5% 0;
+    }
+    
+    .italic {
+        font-style: italic;
+    }
+    
+    #webTV {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        padding-top: 62.5%;
+
+    }
+    
+    #iframe {
+        position: absolute;
+        top: 10%;
+        left: 10%;
+        bottom: 0;
+        right: 0;
+        width: 80%;
+        height: 80%;
+        border: none;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+
+    }
+    
+    #recruteurOffres {
+        margin: 10% 0 15% 0;
+        border: 1px solid;
+    }
+    
+    #recruteurHeader {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 1% 0;
+        margin: 2% 0;
+        border: black solid 0.1px;
+    }
+    
+    #pdfCanvas {
+        max-width: 100%;
+    }
+    
+    .wrapper {
+        margin: auto;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, .1);
+    }
+    
+    
+    .button-front.active {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        
+    }
+    
+    .active {
+        background-color: white;
+    }
+    
+    
+    .content {  
+        padding: 10px 20px;
+        display: none;
+    }
+    
+    .content.active {
+        display: block;
+    }
+    
+    .displayNone {
+        display: none;
+    }
+    
+    #offres2021 {
+        text-align: center;
+        padding-top: 8%;
+        font-style: italic;
+    }
+
+    .box {
+        background: rgba(255,255,255,0.2);
+        max-width: 22%;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        background-color: white;
+        border: black solid 0.1px;
+        padding: 1%;
+        cursor: pointer;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        opacity: 0;
+    }
+    .overlay:target {
+        visibility: visible;
+        opacity: 1;
+    }
+    
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        max-width: 80%;
+        position: relative;
+    }
+    
+    .popup h2 {
+        font-size: 150%;
+        text-align: center;
+        margin: 5% 0;
+        font-weight: bold;    
+    }
+
+    .popup .close {
+        position: absolute;
+        top: 1%;
+        right: 4%;
+        transition: all 200ms;
+        font-size: 30px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+    }
+    
+    .popup .content {
+        max-height: 30%;
+        overflow: auto;
+        text-align: center;
+    }
+
+    #popupBox {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+            
+            
+            
+    /*DESKTOP VIEW*/
+    @media screen and (min-width: 800px) {
+                
+        #wrapper {
+            max-width: 60%;
+            margin: 0 auto;
+            padding: 2%;
+            background-color: white;
+        }
+        
+        #footerLogos {
+            text-align: center;
+        }
+        
+        #logoRecruteur {            
+            padding: 3%;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            max-width: 100%;
+            border: black solid 0.1px;
+
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mainTxt2 {
+            margin: 5% 15%;
+            list-style: initial;
+            
+        }
+        
+        #logoR {
+            max-width: 30%;
+            display: block;
+            margin: 4% auto 1% auto;
+        }
+        
+        #buttonBack {
+            text-align: end;
+            margin-top: 5%;
+            
+        }
+        
+        .buttonWrapper {
+            text-align: center;
+            
+        }
+        
+        .button-front {
+            border:none;
+            padding: 10px 5%;
+            background-color: white;
+            color: #232c3d;
+            font-size: 160%;
+            cursor: pointer;
+            transition: 0.5s;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            
+        }
+        
+        #logoTourbillon {
+            max-width: 26%;
+        }
+        
+        #welcomeTitle {
+            margin: 8% 0 5% 0;
+            font-weight: bold;
+            font-variant: small-caps;
+            font-size: 200%;
+            padding-bottom: 3%;
+            text-align: center;
+        }
+        
+        p {
+            text-align: left;
+            padding: 10px;
+            font-size: 131%;
+        }
+        
+        li.mainTxt2 {
+            text-align: left;
+            padding: 0% 3%;
+            font-size: 131%;
+        }
+        
+        #logo_001,
+        #logo_002,
+        #logo_003,
+        #logo_004,
+        #logo_005,
+        #logo_006,
+        #logo_007,
+        #logo_008 {
+            
+            max-width: 20%;
+            margin: 3% auto;
+            padding: 1% 10%;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            cursor: pointer;
+            border: black solid 0.1px;
+
+            
+        }
+        
+        #logoLinkedin,
+        #logoYoutube,
+        #logoFacebook,
+        #logoInstagram {
+            max-width: 10%;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            border-radius: 50%;
+        } 
+
+        #sociR {
+            text-align: center;
+            margin-bottom: 5%;
+            
+        }
+        
+        .offre-liste {
+            margin: 5% 4%;
+            text-align: center;
+            text-decoration: underline;
+            border: black solid 0.1px;
+            padding: 3% 0;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            
+        }
+
+        #recruteurOffres li {
+            cursor: pointer;
+
+        }
+
+        button {
+            background-color: white;
+            border: black solid 0.1px;
+            padding: 4% 2%;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            cursor: pointer;
+
+        }
+
+        #buttonText {
+            font-size: 131%;
+        }
+        
+        #coachingButton {
+            max-width: 30%;
+        }
+        
+        #coachingTxt {
+            color: black;
+        }
+    
+            
+    }
+    
+    
+    
+    /*PHONE VIEW*/
+    @media screen and (max-width: 799px) {
+        
+        #wrapper {
+            text-align: center;
+            margin: 0 auto;
+            padding: 10%;
+            background-color: white;
+        }
+        
+        .mainTxt2 {
+            margin: 1% 0 1% 0;
+            
+        }
+        
+        .listRight {
+            text-align: right;
+            margin: 5% 0;
+        }
+        
+        #buttonBack {
+            text-align: right;
+            
+        }
+        
+        #logoR {
+            text-align: left;
+            margin-top: 5%;
+            
+        }
+        
+        .button-front {
+            padding: 10px 5%;
+            background-color: white;
+            color: #232c3d;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.5s;
+            border: none;
+        }
+        
+        #logoTourbillon {
+            max-width: 35%;
+        }
+        
+        
+        #welcomeTitle {
+            margin: 8% 0;
+            font-weight: bold;
+            font-variant: small-caps;
+            font-size: larger;
+            padding-bottom: 3%;
+            text-align: center;
+        }
+        
+        p {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        #logo_001,
+        #logo_002,
+        #logo_003,
+        #logo_004,
+        #logo_005,
+        #logo_006,
+        #logo_007,
+        #logo_008 {
+            
+            max-width: 45%;
+            margin: 3% auto;
+            padding: 1% 10%;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            cursor: pointer;
+            border: black solid 0.1px;
+
+            
+        }
+        
+        #logoLinkedin,
+        #logoYoutube,
+        #logoFacebook,
+        #logoInstagram {
+            max-width: 15%;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            border-radius: 50%;
+        }
+        
+        #sociR {
+            text-align: center;
+            
+        }
+        
+        .offre-liste {
+            margin: 10% 4%;
+            text-align: center;
+            text-decoration: underline;
+            border: black solid 0.1px;
+            padding: 3% 0;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            
+        }
+        
+        #logoRecruteur {
+            max-width: 30%;
+            padding: 3%;
+            display: block;
+            border: black solid 0.1px;
+            margin: 0 auto;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        }
+            
+        
+        button {
+            background-color: white;
+            border: black solid 0.1px;
+            padding: 2%;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        }
+        
+        #coachingButton {
+            max-width: 30%;
+            
+        }
+
+        #coachingTxt {
+            color: black;
+            font-size: 3vw;
+        }
+
+        #coachingBox {
+            margin: 2% 0;
+            max-width: 30%;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+
+        }
+    }
+    
+</style>
+</body>
+</html>

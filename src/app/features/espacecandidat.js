@@ -11,9 +11,8 @@ export class EspaceCandidat {
         this.userId = userId;
         this.fName = fName;
 
-        // console.log('Espace Candidat fName = '+this.fName);
-        // console.log('Offre Display userId = '+this.userId);
-
+        // console.log(this.userId)
+        // console.log(this.fName)
 
         this.initUI();
         this.addButtons();
@@ -27,13 +26,15 @@ export class EspaceCandidat {
         
         document.querySelector('#bodyApp').innerHTML =`
         <div id="espaceCandidatHTML">
-            <div id="buttonOffresHTML"></div>
-            <div id="buttonCoachingHTML"></div>
-            <div id="buttonContactHTML"></div>
-            <h1>Espace Candidat</h1>
-            <h2>Vous êtes connecté à votre Espace Candidat en tant que <span id="userName"></span>!</h2>
+            <div>
+                <div id="buttonOffresHTML""></div>
+                <div id="buttonCoachingHTML"></div>
+            </div>
+            <div id="candidatAccueil">
+                <h2>Vous êtes connecté à votre Espace Candidat en tant que <span id="userName"></span>!</h2>
+            </div>
             <div id="candidatCalendrierHTML">
-                <h3>Votre calendrier de rendez-vous :</h3>
+                <h3 id="calTxt">Votre calendrier de rendez-vous :</h3>
                 <ul id="ListeCreneauxHTML"></ul>
             </div>
         </div>
@@ -42,29 +43,103 @@ export class EspaceCandidat {
 
     async addButtons() {
 
-        const buttonOffres = new Button(document.querySelector('#buttonOffresHTML') , 'Vers les Offres' , () => {
-
-            //console.log('Bouton Offres pressé');
-            //new ListOffres{} -> new PageRecruteur{} -> new Offre{}
-            document.querySelector('#bodyApp').innerHTML = '';
-            new EspaceCandidatOffres(this.userId , this.fName);
-
-        });
-
+        
         const snapshotCoaching = await get( query( ref( getDatabase() , "coaching" ) , orderByChild('userID') , equalTo(this.userId) ) );
         const coaching = snapshotCoaching.val(); //={-MuQ776x2MWJy12v9NFb: {…}} ou ''
+        
+        const snapshotCreneaux = await get( query( ref( getDatabase() , "creneaux" ) , orderByChild('userID') , equalTo(this.userId) ) );
+        const creneaux = snapshotCreneaux.val();
+        
+        let creneauEach = [];
+        for (const creneau in creneaux) {
+            if (Object.hasOwnProperty.call(creneaux, creneau)) {
+                const creneauDetails = creneaux[creneau];
 
-        if (!coaching) {
+                for (const key in creneauDetails) {
+                    if (Object.hasOwnProperty.call(creneauDetails, key)) {
+                        const element = creneauDetails[key];
+                        
+                        if(key === 'recruteurName') {
+                            creneauEach.push(key);
+                        }
+                    }
+                }   
+            }
+        }
 
-            const buttonCoaching = new Button(document.querySelector('#buttonCoachingHTML') , 'Demande de Coaching' , () => {
-    
-                console.log('Bouton Coaching pressé');
-                //new ExplicationsCoaching{} -> new Coaching{}
-                document.querySelector('#bodyApp').innerHTML = '';
-                new EspaceCoaching(this.userId , this.fName);
-    
-            });
+        //console.log(creneauEach.length<=4);
+
+        switch (true) {
+
+            case (creneauEach.length<=4):
+
+                const buttonOffres = new Button(document.querySelector('#buttonOffresHTML') , 'Vers les Offres' , () => {
+                
+                    //console.log('Bouton Offres pressé');
+                    //new ListOffres{} -> new PageRecruteur{} -> new Offre{}
+                    document.querySelector('#bodyApp').innerHTML = '';
+                    new EspaceCandidatOffres(this.userId , this.fName);
+                
+                });
+                break;
+            
+            default:
+
+                document.querySelector('#buttonOffresHTML').innerHTML = `
+                <div id="messageCreneauxTooMuch">
+                    Vous ne pouvez pas réserver plus de 4 entretiens
+                </div>
+                `;
+        }
+        
+
+        
+        //console.log('!coaching = '+!coaching)
+        //console.log(!(!creneaux))
+        
+        //console.log('!coaching && creneaux = '(!coaching && creneaux == true))
+        // console.log('!creneaux && !coaching = '+(!creneaux && !coaching))
+        // console.log('coaching ='+(coaching==true))
+
+        
+        switch (true) {
+
+            case (!coaching && !(!creneaux)):
+                
+                //console.log('!coaching && !(!creneaux)');
+                const buttonCoaching = new Button(document.querySelector('#buttonCoachingHTML') , 'Demande de Coaching' , () => {
+        
+                    //new ExplicationsCoaching{} -> new Coaching{}
+                    document.querySelector('#bodyApp').innerHTML = '';
+                    new EspaceCoaching(this.userId , this.fName);
+        
+                });
+                break;
+                
+            case ( !coaching && !creneaux):
+                    
+                //console.log('!creneaux && !coaching');
+                document.querySelector('#buttonCoachingHTML').innerHTML =`
+                <div id="messageNoCreneaux">
+                (Vous ne pouvez réserver votre séance de coaching<br/>qu'après avoir réservé au moins un entretien)
+                </div>
+                `;
+                break;
+                    
+            case (!(!coaching) && !(!creneaux)):
+                        
+                //console.log('!(!coaching) && !(!creneaux)');
+                document.querySelector('#buttonCoachingHTML').innerHTML =`
+                <div id="messageCoachingAlready">
+                (Vous avez déjà réservé une séance de coaching)
+                </div>
+                `;
+                break;
+                        
         };
+                
+
+            
 
 
     };
@@ -117,21 +192,31 @@ export class EspaceCandidat {
         if (creneauPris.offreID) {
 
             document.querySelector('#ListeCreneauxHTML').innerHTML +=`
-            <li>
-            Entretien - 
-             Référence offre : ${creneauPris.offreID} - 
-             Horaire créneau : ${creneauPris.time} - 
-             Entreprise :  ${creneauPris.recruteurName} - 
-             Position :  ${creneauPris.positionName} - 
-             <img src="${creneauPris.recruteurLogo}" alt="Logo Recruteur" />
+            <li id="vignetteCreneauLI">
+             <div id="vignetteCreneauDIV">
+                <div>
+                    <p id="entretien">Entretien</p><br/>
+                    <span><span id="reference">Référence offre</span> : ${creneauPris.offreID}</span><br/>
+                    <span><span id="horaire">Horaire créneau</span> : ${creneauPris.time}</span><br/>
+                    <span><span id="entreprise">Entreprise</span> :  ${creneauPris.recruteurName}</span><br/>
+                    <span><span id="poste">Position</span> :  ${creneauPris.positionName}</span><br/>
+                </div>
+                <img src="${creneauPris.recruteurLogo}" alt="Logo Recruteur" />
+             </div>
             </li>
             `;
 
         } else {
 
             document.querySelector('#ListeCreneauxHTML').innerHTML +=`
-            <li>
-             Coaching - Horaire : ${creneauPris.time} 
+            <li id="coaching">
+                <div id="coachingTitle">
+                    Coaching
+                </div>
+                <div id="coachingSlot">
+                Horaire : ${creneauPris.time} 
+                </div>
+                
             </li>
             `;
 

@@ -6,11 +6,12 @@ import { EspaceCandidat } from './espaceCandidat';
 
 export class ReservationCoaching {
 
-    constructor( userId , fName , coachingChoisi ) {
+    constructor( userId , fName , coachingChoisi , forOffre ) {
 
         this.userId = userId;
         this.fName = fName;
         this.coachingChoisi = coachingChoisi;
+        this.forOffre = forOffre;
         
 
         this.initUI();
@@ -22,10 +23,12 @@ export class ReservationCoaching {
 
         document.querySelector('#bodyApp').innerHTML =`
         <div id="buttonBack"></div>
-        <div id="creneauReserver">Séance de coaching : ${this.coachingChoisi}</div>
-        <label for="forOffre">Si votre coaching va porter sur une offre en particulier, merci d'indiquer laquelle ici :</label>
-        <input type="text" id="forOffre">
-        <div id="boutonReserverCoaching"></div>
+        <div id="resaCoachingBOX">
+            <div id="creneauReserver">Séance de coaching : ${this.coachingChoisi}</div>
+            <label for="forOffre"><p id="coachingText">Si votre scéance de coaching va porter sur une offre<br/>en particulier, merci d'indiquer laquelle ici :</p></label>
+            <input type="text" id="forOffre">
+            <div id="boutonReserverCoaching"></div>
+        </div>
         `;
 
     };
@@ -42,14 +45,17 @@ export class ReservationCoaching {
 
             //On va prendre l'id de l'utilisateur et le push dans RTDB, de sorte qu'à la place de '' on aie l'id de l'utilisateur
 
+            this.forOffre = document.querySelector('#forOffre').value;
             const refDB = ref(getDatabase());
             const newCoachingKey = push(child(refDB , 'coaching')).key;
             const newCoachingDB = {
-
+                
                 'time':this.coachingChoisi , 
                 'userID':this.userId ,
-
+                'forOffreInput':this.forOffre,
+                
             };
+            console.log(this.forOffre)
 
             //console.log(refDB); //= ReferenceImpl {_repo: Repo, _path: Path, _queryParams: QueryParams, _orderByCalled: false}
             //console.log(newCoachingKey); //= -Muf_zAjkoVmhjUD817S (par ex.)

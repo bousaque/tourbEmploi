@@ -1,118 +1,108 @@
-import { child, get, getDatabase, ref } from 'firebase/database';
+//FIREBASE
+import { get, getDatabase, ref } from 'firebase/database';
+import { initializeApp } from "firebase/app";
 
+//OWN
 import { Button } from '../components/button';
 import { EspaceCandidat } from './espaceCandidat';
-import { OffreDisplayCandidat } from './offreDisplayCandidat';
+import { OffreDisplayCandidat } from './offresDisplayCandidat';
 
+//CONFIG FIREBASE
+const firebaseConfig = {
+    apiKey: "AIzaSyCBVL9d_RQUd9bW-A8dLlpU4tC-CO2ftc8",
+    authDomain: "projet-nomades-1.firebaseapp.com",
+    databaseURL: "https://projet-nomades-1-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "projet-nomades-1",
+    storageBucket: "projet-nomades-1.appspot.com",
+    messagingSenderId: "164954171217",
+    appId: "1:164954171217:web:bdbee8166ab73c86959570"
+};
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 export class EspaceCandidatOffres {
 
 
-    constructor(userId , fName ) {
+    constructor( userId , fName ) {
 
         this.userId = userId;
         this.fName = fName;
         
+        // console.log(this.userId)
+        // console.log(this.fName)
 
-        // console.log('Espace Candidat Offres fName = '+this.fName);
-        // console.log('Offre Display userId = '+this.userId);
-
-        
         this.initUI();
-        this.displayOffres();
         this.addButtons();
-        this.addEventsListeners();
+        this.addVignettes();
+        this.addSquareListener();
+        
         
     };
 
     initUI() {
 
         document.querySelector('#bodyApp').innerHTML =`
-        <div id="buttonBack"></div>
-        <ul id="offresList"></ul>
+        <div id="buttonBack""></div>
+        <h2 id="offresRecrTitle">Cliquer sur un recruteur pour voir ses offres</h2>
+        <ul id="recruteurList" "></ul>
         `;
 
-    };
-
-    displayOffres() {
-        //Récupérer les objets offres contenus dans la DB
-        const dbRef = ref( getDatabase() );
-
-        get( child ( dbRef , `offres` ) )
-        //dbRef va chercher la DB dans FireBase et offres c'est le nom du noeud
-        .then(
-            (snapshot) => {
-                            
-                //Là c'est une boucle for qui va sortir chaque item sous "offres" dans le noeud
-                const object = snapshot.val();
-                    //retourne objet JSON sans les méthodes
-                
-
-                for (const key in object) {
-                    //Au sein du snapshot, pour chaque offre(object) on va récupérer la clé (ici le titre)
-                    if (Object.hasOwnProperty.call(object, key)) {
-                        const offre = object[key];
-                        //console.log(offre);
-                        //Ainsi l'offre sera la ou les clés de l'object snapshot 
-                        //et de là on va faire s'afficher les valeurs extraites.
-                        
-                        document.querySelector('#offresList').innerHTML +=`
-                            <li id="offre-${key}">
-                                <div>
-                                    ${offre.offreID}
-                                </div>
-                                <br> 
-                                <div>
-                                    ${offre.positionName}
-                                </div>
-                                <br>
-                                <div>
-                                    ${offre.recruteurName}
-                                </div>
-                                <br>
-                                <img src="${offre.recruteurLogo}" alt="logo-recruteur">
-                            </li>
-                        `;
-                    };
-                };
-    
-            }
-        );
-
-    };
+    };    
 
     addButtons() {
     
         const buttonBackCandidat = new Button(document.querySelector('#buttonBack') , 'Retour' , () => {
-    
-            console.log('Bouton Retour pressé');
-            //Reprend l'objet précédent
+
+            // console.log(this.userId)
+            // console.log(this.fName)
+
             new EspaceCandidat(this.userId , this.fName);
-    
+            
         });
     
     };
 
-    addEventsListeners() {
-        
-        const ul = document.querySelector('ul');
-        ul.addEventListener('click', ($event) => {
-        
-            const liOffre = $event.target.closest('li'); //...et on vise un type 'li'
-                //console.log(liOffre); //= <li id="offre-003">offre003</li>
+    async addVignettes() {
 
-            if (liOffre) {
-
-                const id = liOffre.id; //On target l'id de chaque offre
-                //console.log(id); //= offre-003
-
-                const offreID = id.split('-')[1]; //On coupe le string id au niveau du '-' et la deuxième partie[1] on l'appelle key
-                //console.log(key); //= 003
+        const snapshot = await get( ref( database , 'recruteurs' ) );
+        const recruteursSnapshot = snapshot.val();
+    
+        for (const recruteur in recruteursSnapshot) {
+            
+    
+            if (Object.hasOwnProperty.call(recruteursSnapshot, recruteur)) {
                 
-
-                new OffreDisplayCandidat(offreID , this.userId , this.fName );
+                const recruteursIND = recruteursSnapshot[recruteur];
+                const logoRecruteur = recruteursIND.recruteurLogo;
+    
+                document.getElementById('recruteurList').innerHTML +=`
+                <li class="logoRecruteur">
+                    <img src="${logoRecruteur}" id="logo_${recruteur}" class="logoOffres" alt="Logo ${recruteursIND.recruteurName}"/>
+                </li>
+                `;
+    
             };
-                
+    
+        };
+    
+       };
+
+    addSquareListener() {
+
+    const vignettes = document.querySelector('#recruteurList');
+    vignettes.addEventListener('click', ($event) => {
+    
+        const vignetteIMG = $event.target.closest('img'); //...et on vise un type 'vignetteIMG'
+        //console.log(vignetteIMG); //=  <img src="..." id="logo_XXX" alt="Logo ..."/>         
+                        
+        const id = vignetteIMG.id; //On target l'id recruteur de chaque logo
+        //console.log(id); //= logo_XXX
+                        
+        const splittedID = id.split('_')[1]; //On coupe le string id au niveau du '_' et la deuxième partie[1] on l'appelle splittedID
+        //console.log(splittedID) //= XXX
+    
+        new OffreDisplayCandidat(splittedID , this.userId , this.fName);
+                    
         });
     };
 };

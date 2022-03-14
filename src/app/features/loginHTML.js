@@ -14,7 +14,7 @@ const firebaseConfig = {
 
 import { Button } from "../components/button";
 import { DataBaseUser } from "../components/databaseUser";
-import { EspaceCandidat } from "../features/espaceCandidat"
+import { EspaceCandidat } from "./espaceCandidat";
 
 const provider = new GoogleAuthProvider();
 const app = initializeApp(firebaseConfig);
@@ -52,18 +52,13 @@ export class LoginHTML {
         
         this.bodyApp.innerHTML =`
         <div id="divSign">
-            <div>Candidat</div>
-            <div>Recruteur</div>
-            <p>
-                Bienvenue sur la plateforme Tourbillon Emploi !
-            <br>
+            <h2 id="loginTitle">
                 Merci de vous inscrire ou de vous connecter pour 
                 agender des entretiens.
-            </p>
+            </h2>
             <section id="signupFormHTML"></section>
             <section id="signupHTML"></section>
             <section id="signinHTML"></section>
-            <p>D&eacute;velopp&eacute; par V. Magnenat</p>
         </div>
         `
         
@@ -164,32 +159,48 @@ export class LoginHTML {
     signupAction() {
         
         this.bodyApp.querySelector('#signupFormHTML').innerHTML = `
-        <input type="text" id="signupFname" placeholder="Prénom">
-        <br>
-        <input type="text" id="signupLname" placeholder="Nom">
-        <br>
-        <input type="email" id="signupMail" placeholder="E-mail">
-        <br>
-        <input type="tel" id="signupPhone" placeholder="N° de téléphone">
-        <br>
-        <input type="text" id="signupStatus" placeholder="Activité prof. actuelle">
-        <br>
+        <div id="signupCells">
+            <div id="signupCells1">
+                <input type="text" id="signupFname" placeholder="Prénom">
+                <input type="text" id="signupLname" placeholder="Nom">
+                <input type="email" id="signupMail" placeholder="E-mail">
+            </div>
+            <div id="signupCells2">
+                <input type="tel" id="signupPhone" placeholder="N° de téléphone">
+                <div id="checkboxFlex">
+                    <label for="checkbox" id="checkLabelID">Êtes-vous à la recherche d'un emploi ?</label>
+                    <form id="checkbox">
+                        <label for="yesCheckbox" id="yesCheckID">Oui</label>
+                        <input type="radio" id="yesCheckbox" value="À la recherche d'un emploi" name="emploi" checked>
+                        <label for="noCheckbox" id="noCheckID">Non</label>
+                        <input type="radio" id="noCheckbox" value="En emploi" name="emploi">
+                    </form>
+                </div>
+            </div>
+        </div>
         <span id="submitButton"></span>
         `
         ;
         //Ne pas mettre un bouton dans submitButton puisqu'on le définit juste après...
             
-
+        
         const envoyer = new Button(this.bodyApp.querySelector('#submitButton') , 'Envoyer' , () => {
 
-            //console.log('Bouton Envoyer READY', getAuth().currentUser);
 
             let fName = this.bodyApp.querySelector('#signupFname').value;
             let lName = this.bodyApp.querySelector('#signupLname').value;
             let email = this.bodyApp.querySelector('#signupMail').value;
             let tel = this.bodyApp.querySelector('#signupPhone').value;
-            let activity = this.bodyApp.querySelector('#signupStatus').value;
-
+            
+            let value = '';
+            if (document.getElementById('yesCheckbox').checked) {
+                value = document.getElementById('yesCheckbox').value;
+            } else if (document.getElementById('noCheckbox').checked) {
+                value = document.getElementById('noCheckbox').value;
+            }
+            
+            let activity = value;
+            
             this.fName = fName;
             
 
@@ -210,12 +221,15 @@ export class LoginHTML {
             
 
             this.bodyApp.innerHTML = `
-                <h2 id="successMessage">
-                    Merci pour votre inscription ${this.fName} !
-                <br>
-                    Vous avez à présent accès à votre compte Candidat.
-                    L'Espace Candidat va se charger dans un bref instant. 
-                </h2>
+                <div id="successBox">
+                    <h2 id="successMessage">
+                        Merci pour votre inscription ${this.fName} !
+                    </h2>
+                    <p id="successMessage2">
+                        Vous avez à présent accès à votre compte Candidat.
+                        L'Espace Candidat va se charger dans un bref instant. 
+                    </p>
+                </div>
                 `;
         
             setTimeout( () => {

@@ -1,6 +1,6 @@
+import { getDatabase , ref , get , orderByChild , query , equalTo } from 'firebase/database';
 
-
-import { ChoixCreneauxCoaching } from "../components/choixCreneauxCoaching";
+import { ChoixCreneauxCoaching } from "../components/choixCreneauCoaching";
 import { Button } from "../components/button";
 
 import { EspaceCandidat } from "./espaceCandidat";
@@ -22,7 +22,7 @@ export class EspaceCoaching {
 
         document.querySelector('#bodyApp').innerHTML =`
         <div id="backButton"></div>
-        LISTE COACHINGS EN TRAVAUX
+        <p id="listDispoCoaching">LISTE DISPONIBILITÉS COACHING :</p>
         <ul id="listeCreneaux"></ul>
        `;
 
@@ -39,7 +39,7 @@ export class EspaceCoaching {
         });
     };
 
-    addCoachingCreneau() {
+    async addCoachingCreneau() {
 
         new ChoixCreneauxCoaching(this.userId);
 
