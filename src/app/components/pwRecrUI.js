@@ -1,7 +1,22 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword , sendEmailVerification } from "firebase/auth";
+import { getDatabase } from "firebase/database";
+import { initializeApp } from "firebase/app";
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCBVL9d_RQUd9bW-A8dLlpU4tC-CO2ftc8",
+    authDomain: "projet-nomades-1.firebaseapp.com",
+    databaseURL: "https://projet-nomades-1-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "projet-nomades-1",
+    storageBucket: "projet-nomades-1.appspot.com",
+    messagingSenderId: "164954171217",
+    appId: "1:164954171217:web:bdbee8166ab73c86959570"
+};
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
 
 import { Button } from '../components/button';
-import { EspaceRecruteur } from '../features/espaceRecruteur';
 
 export class PwRecrUI {
 
@@ -11,16 +26,19 @@ export class PwRecrUI {
         this.addButtons();
         this.pwVerifUI();
 
+
     };
 
     initUI() {
 
         document.querySelector('#bodyApp').innerHTML = `  
                 <div id="pwExplainations">
-                    Chères Recruteuses, Chers Recruteurs,</br>
-                    Merci de vous choisir un email qui vous servira d'identifiant ainsi qu'un mot de passe. Ce dernier doit contenit au moins une majuscule, 
-                    un chiffre et comporter au moins 8 caractères. Un email de confirmation vous sera envoyé à l'adresse email fournie, il vous faudra simplement cliquer dessus
-                    pour compléter l'inscription.
+                <h3 id="pwExplTitle">Chères Recruteuses, Chers Recruteurs,</h3>
+                <p>
+                    Merci de vous choisir un email qui vous servira d'identifiant. Un email de confirmation vous sera 
+                    envoyé à l'adresse email fournie, il vous faudra simplement <em class="emClick">cliquer dessus pour compléter 
+                    l'inscription</em> et remplir votre profil Recruteur.
+                </p>
                 </div>         
                 <div id="containerPW">
                     <form>
@@ -48,8 +66,7 @@ export class PwRecrUI {
 
     addButtons() {
 
-        new Button( document.querySelector('#submitRecrPW') , 'Envoyer' , () => {
-
+        new Button( document.querySelector('#submitRecrPW') , 'Envoyer' , async () => {
 
             const inputM = document.querySelector('input#usrname').value;
             const emailRecr = inputM.toString();
@@ -61,27 +78,40 @@ export class PwRecrUI {
             this.pwRecr = pwRecr;
             const auth = getAuth();
 
-            console.log(this.emailRecr)
+            if (this.emailRecr.length < 4) {
+                alert('Please enter an email address.');
+                return;
+            }
 
-            createUserWithEmailAndPassword(auth, this.emailRecr, this.pwRecr)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
+            if (this.pwRecr.length < 4) {
+                alert('Please enter a password.');
+                return;
+              }
 
+            const userOBJ = await createUserWithEmailAndPassword(auth, this.emailRecr, this.pwRecr)
+            const user = userOBJ.user;
+            console.log(user);
+            console.log(auth.currentUser);
+            
+
+            const emailOBJ = await sendEmailVerification(auth.currentUser , {url: "https://tourbillonemploi.ch",});
+
+            setTimeout( () => {
+                
                 document.querySelector('#bodyApp').innerHTML =`
-                <p id="successMessageRECR">
-                    Votre inscription a bien été prise en compte, votre compte sera opérationnel
-                    une fois que vous aurez cliqué sur le lien de confirmation contenu dans l'email
-                    à l'adresse ${this.emailRecr}.
-                </p>
+                <div id="successMessageRECR">
+                    Votre profil a été crée ! Il ne vous reste plus qu'à <em class="emClick">cliquer sur le lien</em> que vous avez reçu par email 
+                    à l'adresse : <div id="emailRECR">${this.emailRecr}</div>
+                </div>
                 `;
-                // ...
-            })
-            .catch((error) => {
-                const errorMessage = error.message;
-                console.error(errorMessage);
-                // ..
-            });
+                
+            } , 100); 
+
+            
+
+
+            
+            
 
         });
 
@@ -157,6 +187,7 @@ export class PwRecrUI {
         });
 
     };
+
 
    
 
