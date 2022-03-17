@@ -1,26 +1,28 @@
+import { set , get , child , ref , getDatabase } from "firebase/database";
+
 import { Button } from "../components/button";
+import { ModifyPen } from "../components/modifyPen";
 import { AddOfferRECR } from "../components/addOfferRECR";
 import { OffreRecruteurRECR } from "./offreRecruteurRECR";
 import { ModifyHeadersRecr } from "../components/modifyHeadersRecr";
 
 
+
 export class EspaceRecruteur {
 
-    constructor(user , emailRecr , pwRecr) {
+    constructor(recrID) {
 
-        this.user = user;
-        this.emailRecr = emailRecr;
-        this.pwRecr = pwRecr;
+        this.recrID = recrID; 
+        this.inputVALUE = '';       
 
-        console.log(this.user);
-        console.log(this.emailRecr);
-        console.log(this.pwRecr);
+        this.initUI();        
+        this.addRecruteurHeaders().then( ()=> {
+            this.addButtons()
+            
+            //this.addRecruteurOffres();
+            //this.addSquareListener();
+        });
 
-        this.initUI();
-        this.addButtons();
-        //this.addRecruteurHeaders();
-        //this.addRecruteurOffres();
-        //this.addSquareListener();
 
 
     };
@@ -29,13 +31,8 @@ export class EspaceRecruteur {
 
         document.querySelector('#bodyApp').innerHTML = `
         <div id="espaRecrBOX">
-            <div id="offreHeader">
-                <div id="recruteurHead">
-                    <div id="recruteurWeb"></div>
-                    <div id="recruteurLinks"></div>
-                </div>
-                <div id="videoFront"></div>
-            </div>
+            <div id="offreHeader"></div>
+            <div id="recruteurWeb"></div>
             <div id="addOfferRECR"></div>
             <ul id="recruteurOffres"></ul>
         </div>
@@ -50,9 +47,11 @@ export class EspaceRecruteur {
         
         //console.log(this.splittedID);    
         //Async/await sur le recruteur, l'objet-réponse est dans snapshotRecruteur
-        const snapshotRecruteur = await get( child( dbRef , `recruteurs/` + this.splittedID) );
+        const snapshotRecruteur = await get( child( dbRef , `recruteurs/${this.recrID}`) );
         
         const recruteur = snapshotRecruteur.val();
+
+        console.log(recruteur);
         
         //LOGO + WEBSITE
         const logoRecruteur = recruteur.recruteurLogo;
@@ -62,133 +61,241 @@ export class EspaceRecruteur {
         
         const websiteURL = recruteur.adresseWeb;
         
-        //CHAINE YT + LOGO YT
-        const webtvAdresse = recruteur.adresseWebTV;
-        const webtvLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FyoutubeLogo.svg?alt=media&token=57fdaedb-4977-43ea-9d98-308a7d482e3f";
+        // //CHAINE YT + LOGO YT
+        // const webtvAdresse = recruteur.adresseWebTV;
+        // const webtvLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FyoutubeLogo.svg?alt=media&token=57fdaedb-4977-43ea-9d98-308a7d482e3f";
         
-        //LINKEDIN + LOGO
-        const linkedinAdresse = recruteur.adresseLinkedIn;
-        const linkedinLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FlinkedinLogo.svg?alt=media&token=1122fa2d-100a-4fe6-95fd-2c0ab3e5408e";
+        // //LINKEDIN + LOGO
+        // const linkedinAdresse = recruteur.adresseLinkedIn;
+        // const linkedinLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FlinkedinLogo.svg?alt=media&token=1122fa2d-100a-4fe6-95fd-2c0ab3e5408e";
         
-        //FACEBOOK + LOGO
-        const facebookAdresse = recruteur.adresseFacebook;
-        const facebookLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FfacebookLogo.svg?alt=media&token=ab738520-5db8-4b92-9e36-633e5a96f5b8";
+        // //FACEBOOK + LOGO
+        // const facebookAdresse = recruteur.adresseFacebook;
+        // const facebookLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FfacebookLogo.svg?alt=media&token=ab738520-5db8-4b92-9e36-633e5a96f5b8";
         
-        //INSTAGRAM + LOGO
-        const instagramAdresse = recruteur.adresseInstagram;
-        const instagramLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FinstagramLogo.svg?alt=media&token=07bded61-68d5-4f0a-934f-9320e80a4f08";
+        // //INSTAGRAM + LOGO
+        // const instagramAdresse = recruteur.adresseInstagram;
+        // const instagramLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FinstagramLogo.svg?alt=media&token=07bded61-68d5-4f0a-934f-9320e80a4f08";
         
-        //IFRAME YOUTUBE
-        const urlVideoFront = recruteur.adresseVideoFront;
-        const stringIdFromURL = urlVideoFront.split("v=")[1];
-        
-        
+        // //IFRAME YOUTUBE
+        // const urlVideoFront = recruteur.adresseVideoFront;
+        // //console.log(urlVideoFront==true)
+        // if (urlVideoFront) {
+            
+        //     const stringIdFromURL = urlVideoFront.split("v=")[1];
+
+        // };
         
         
         //LOGO + WEBSITE
-        document.querySelector('#recruteurWeb').innerHTML =`
-        <div id="logoWebRecrBOX">
-        <a href="${websiteURL}" target="_blank">
-        <img id="logoRecruteur" src="${logoRecruteur}" alt="LogoEntreprise""/>
-        </a>
-        <div id="modifyLogoandWebRecr"></div>
-        </div>
-        `;
         
-        //CHAINE YT + LOGO YT
-        document.querySelector('#recruteurLinks').innerHTML +=`
-        <div id="ytRecrBOX">
-        <a href="${webtvAdresse}" target="_blank">
-        <img class="resSoc" src="${webtvLogo}" alt="LogoEntreprise"/>
-        </a>
-        <div id="modifyYtRecr"></div>
-        </div>
-        `;
+        if(logoRecruteur) {
+            
+            document.querySelector('#recruteurWeb').innerHTML =`
+            <a href="${websiteURL}" target="_blank">
+                <img id="logoRecruteur" src="${logoRecruteur}" alt="LogoEntreprise" />
+            </a>
+            <div id="modifyBOX">
+                <img id="modifyLogoandWebRecr" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_UI%2FIcon%20awesome-pencil-alt.png?alt=media&token=abac222a-f7cf-454d-88ee-d2355a06f576" alt="ModifyPen" />
+            </div>
+            `;
+
+        } else {
+
+            document.querySelector('#recruteurWeb').innerHTML =`
+            <img id="logoRecruteur" alt="LogoEntreprise" />
+            <div id="modifyBOX">
+                <img id="modifyLogoandWebRecr" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_UI%2FIcon%20awesome-pencil-alt.png?alt=media&token=abac222a-f7cf-454d-88ee-d2355a06f576" alt="ModifyPen" />
+            </div>
+            `;
+            
+        };
         
-        //LINKEDIN + LOGO
-        document.querySelector('#recruteurLinks').innerHTML +=`
-        <div id="linkedInRecrBOX">
-        <a href="${linkedinAdresse}" target="_blank">
-        <img class="resSoc" src="${linkedinLogo}" alt="LogoEntreprise"/>
-        </a>
-        <div id="modifyLinkedInRecr"></div>
-        </div>
-        `;
+
+
+        // //CHAINE YT + LOGO YT
+        // if(webtvAdresse) { 
+
+        //     document.querySelector('#recruteurLinks').innerHTML +=`
+        //     <div id="ytRecrBOX">
+        //         <a href="${webtvAdresse}" target="_blank">
+        //             <img class="resSoc" src="${webtvLogo}" alt="LogoYT"/>
+        //         </a>
+        //         <div id="modifyYtRecr"></div>
+        //     </div>
+        //     `;
+
+        // } else {
+
+        //     document.querySelector('#recruteurLinks').innerHTML +=`
+        //     <div id="ytRecrBOX">
+        //         <img class="resSoc" src="${webtvLogo}" alt="LogoYT"/>
+        //         <div id="modifyYtRecr"></div>
+        //     </div>
+        //     `;
+
+        // };
         
-        //FACEBOOK + LOGO
-        document.querySelector('#recruteurLinks').innerHTML +=`
-        <div id="fbRecrBOX">
-        <a href="${facebookAdresse}" target="_blank">
-        <img class="resSoc" src="${facebookLogo}" alt="LogoEntreprise"/>
-        </a>
-        <div id="modifyFbRecr"></div>
-        </div>
-        `;
+        // //LINKEDIN + LOGO
+        // if(linkedinAdresse) {
+
+        //     document.querySelector('#recruteurLinks').innerHTML +=`
+        //     <div id="linkedInRecrBOX">
+        //         <a href="${linkedinAdresse}" target="_blank">
+        //             <img class="resSoc" src="${linkedinLogo}" alt="LogoLKND"/>
+        //         </a>
+        //         <div id="modifyLinkedInRecr"></div>
+        //     </div>
+        //     `;
+
+        // } else {
+
+        //     document.querySelector('#recruteurLinks').innerHTML +=`
+        //     <div id="linkedInRecrBOX">
+        //         <img class="resSoc" src="${linkedinLogo}" alt="LogoLKND"/>
+        //         <div id="modifyLinkedInRecr"></div>
+        //     </div>
+        //     `;
+
+        // };
         
-        //INSTAGRAM + LOGO
-        document.querySelector('#recruteurLinks').innerHTML +=`
-        <div id="instaRecrBOX">
-        <a href="${instagramAdresse}" target="_blank">
-        <img class="resSoc" src="${instagramLogo}" alt="LogoEntreprise"/>
-        </a>
-        <div id="modifyInstaRecr"></div>
-        </div>
-        `;
+        // //FACEBOOK + LOGO
+        // if(facebookAdresse) {
+
+        //     document.querySelector('#recruteurLinks').innerHTML +=`
+        //     <div id="fbRecrBOX">
+        //         <a href="${facebookAdresse}" target="_blank">
+        //             <img class="resSoc" src="${facebookLogo}" alt="LogoFCBK"/>
+        //         </a>
+        //         <div id="modifyFbRecr"></div>
+        //     </div>
+        //     `;
+
+        // } else {
+
+        //     document.querySelector('#recruteurLinks').innerHTML +=`
+        //     <div id="fbRecrBOX">
+        //         <img class="resSoc" src="${facebookLogo}" alt="LogoFCBK"/>
+        //         <div id="modifyFbRecr"></div>
+        //     </div>
+        //     `;
+
+        // };
         
-        //IFRAME YOUTUBE
-        document.querySelector('#videoFront').innerHTML = `
-        <div id="YtVidFRecrBOX">
-        <iframe width="520" height="415" src="https://www.youtube.com/embed/${stringIdFromURL}?showinfo=0&controls=2&mute=1&autoplay=0&rel=0">
-        </iframe>
-        <div id="modifyYtVidRecr"></div>
-        </div>
-        `;
+        // //INSTAGRAM + LOGO
+        // if(instagramAdresse) {
+
+        //     document.querySelector('#recruteurLinks').innerHTML +=`
+        //     <div id="instaRecrBOX">
+        //         <a href="${instagramAdresse}" target="_blank">
+        //             <img class="resSoc" src="${instagramLogo}" alt="LogoINSTA"/>
+        //         </a>
+        //         <div id="modifyInstaRecr"></div>
+        //     </div>
+        //     `;
+
+        // } else {
+
+        //     document.querySelector('#recruteurLinks').innerHTML +=`
+        //     <div id="instaRecrBOX">
+        //         <img class="resSoc" src="${instagramLogo}" alt="LogoINSTA"/>
+        //         <div id="modifyInstaRecr"></div>
+        //     </div>
+        //     `;
+
+        // };
+        
+        // //IFRAME YOUTUBE
+        // if(urlVideoFront) {
+
+        //     document.querySelector('#videoFront').innerHTML = `
+        //     <div id="YtVidFRecrBOX">
+        //         <iframe width="520" height="415" src="https://www.youtube.com/embed/${stringIdFromURL}?showinfo=0&controls=2&mute=1&autoplay=0&rel=0">
+        //         </iframe>
+        //         <div id="modifyYtVidRecr"></div>
+        //     </div>
+        //     `;
+
+        // } else {
+
+        //     document.querySelector('#videoFront').innerHTML = `
+        //     <div id="YtVidFRecrBOX">
+        //         <img id="replacementYT" src="${instagramLogo}" alt="LogoINSTA"/>
+        //         <div id="modifyYtVidRecr"></div>
+        //     </div>
+        //     `;
+
+        // };
         
     };
 
     addButtons() {
 
+        
         new Button( document.querySelector('#addOfferRECR') , 'Ajouter une offre' , () => {
 
             new AddOfferRECR();
 
         });
 
-        new Button(document.querySelector('#modifyLogoandWebRecr') , 'Modifier' , () => {
+        new ModifyPen( document.querySelector('#modifyLogoandWebRecr') , '' , () => {
 
-
+            // console.log('Modifier Logo');
+            document.querySelector('#modifyBOX').innerHTML =`
+            <span id="modifyFORM">
+                <input id="modifyINPUT" type="file" required />
+            </span>
+            <div id="modifySUBMIT"></div>
+            `;
+            this.addButtonInButton();
             
-        });
+            const inputVALUE = document.querySelector('#modifyINPUT').value.toString();
+            this.inputVALUE = inputVALUE;
 
-        new Button( document.querySelector('#modifyYtRecr') , 'Modifier' , () => {
-
-            new ModifyHeadersRecr();
 
         });
 
-        new Button( document.querySelector('#modifyLinkedInRecr') , 'Modifier' , () => {
 
-            new ModifyHeadersRecr();
+        // new Button( document.querySelector('#modifyYtRecr') , 'Modifier' , () => {
+
+        //     new ModifyHeadersRecr();
+
+        // });
+
+        // new Button( document.querySelector('#modifyLinkedInRecr') , 'Modifier' , () => {
+
+        //     new ModifyHeadersRecr();
+
+        // });
+
+        // new Button( document.querySelector('#modifyFbRecr') , 'Modifier' , () => {
+
+        //     new ModifyHeadersRecr();
+
+        // });
+
+        // new Button( document.querySelector('#modifyInstaRecr') , 'Modifier' , () => {
+
+        //     new ModifyHeadersRecr();
+        
+
+        // });
+
+        // new Button( document.querySelector('#modifyYtVidRecr') , 'Modifier' , () => {
+
+        //     new ModifyHeadersRecr();
+
+        // });
+    };
+
+    addButtonInButton() {
+
+        new Button( document.querySelector('#modifySUBMIT') , 'Envoyer' , () => {
+
+            console.log(this.inputVALUE);
 
         });
 
-        new Button( document.querySelector('#modifyFbRecr') , 'Modifier' , () => {
-
-            new ModifyHeadersRecr();
-
-        });
-
-        new Button( document.querySelector('#modifyInstaRecr') , 'Modifier' , () => {
-
-            new ModifyHeadersRecr();
-
-        });
-
-        new Button( document.querySelector('#modifyYtVidRecr') , 'Modifier' , () => {
-
-            new ModifyHeadersRecr();
-
-        });
     };
 
     async addRecruteurOffres() {

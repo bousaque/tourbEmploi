@@ -456,11 +456,12 @@
         box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
         max-width: 20%;
         border: black solid 0.1px;
+        cursor: pointer;
     }
 
 
     .resSoc {
-        max-width: 10%;
+        max-width: 35%;
         box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
         border-radius: 50%;
     }
@@ -636,10 +637,78 @@
         margin-bottom: 2%;
     }
 
+    #recruteurLinks {
+        display: flex;
+        margin: 1% 0%;
+    }
+
+    #fbRecrBOX,
+    #instaRecrBOX,
+    #linkedInRecrBOX,
+    #ytRecrBOX {
+        min-width: 25%;
+    }
+        
+    .modifyPen {
+        cursor: pointer;
+        max-width: 3%;
+    }
+            
+    #recruteurWeb {
+        display: flex;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 1% 0;
+        margin: 2% 0;
+        border: black solid 0.1px;
+        justify-content: center;
+    }
+
+    #modifyLogoandWebRecr {
+        width: 25%;
+        height: 30%;
+        cursor: pointer;
+        margin: 1% 0;
+    }
+
+    #addOfferRECR {
+        text-align: center;
+        margin: 5% auto;
+    }
+
+    #modifyBOX {
+        max-width: 13%;
+        margin: inherit;
+        position: relative;
+    }
+
+    /*#modifyFORM [type=file] {
+        overflow: hidden;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 1% 0;
+        margin: 2% 0;
+        border: black solid 0.1px;
+        justify-content: center;
+    }*/
+
+    #modifyFORM::before {
+        content: 'Choisir une image';
+        display: inline-block;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 5%;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        margin: 10% 0;
+    }
+
+    #modifyINPUT::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+        
     
         
-            
-            
             
     /*DESKTOP VIEW*/
     @media screen and (min-width: 800px) {

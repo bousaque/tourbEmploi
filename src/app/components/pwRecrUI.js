@@ -1,4 +1,5 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth , signInWithEmailAndPassword } from "firebase/auth";
+import { set , ref , getDatabase } from "firebase/database";
 
 import { Button } from '../components/button';
 import { EspaceRecruteur } from '../features/espaceRecruteur';
@@ -9,7 +10,6 @@ export class PwRecrUI {
 
         this.initUI();
         this.addButtons();
-        this.pwVerifUI();
 
     };
 
@@ -29,20 +29,13 @@ export class PwRecrUI {
                         <div id="submitRecrPW"></div>
                     </form>
                 </div>
-                <div id="message">
-                    <h3>Le mot de passe doit contenir au moins :</h3>
-                    <p id="letter" class="invalid">Une minuscule</p>
-                    <p id="capital" class="invalid">Une MAJUSCULE</p>
-                    <p id="number" class="invalid">Un nombre</p>
-                    <p id="length" class="invalid">Minimum 8 charactères</p>
-                </div>
                 `;
 
     };
 
     addButtons() {
 
-        new Button( document.querySelector('#submitRecrPW') , 'Envoyer' , () => {
+        new Button( document.querySelector('#submitRecrPW') , 'Envoyer' , async () => {
 
 
             const inputM = document.querySelector('input#usrname').value;
@@ -51,108 +44,41 @@ export class PwRecrUI {
             const inputP = document.querySelector('input#psw').value;
             const pwRecr = inputP.toString();
             
+            if (emailRecr.length < 4) {
+                alert('Please enter an email address.');
+                return;
+            }
+
+            if (pwRecr.length < 4) {
+                alert('Please enter a password.');
+                return;
+            }
+            
+            localStorage.setItem("signinEmail", emailRecr);
+                        
             this.emailRecr = emailRecr;
             this.pwRecr = pwRecr;
+
             const auth = getAuth();
+            const userOBJ = await signInWithEmailAndPassword(auth, emailRecr, pwRecr);
+            const user = userOBJ.user;
+            this.recrID = user.uid;
 
-            console.log(this.emailRecr)
+            if (user) {
 
-            createUserWithEmailAndPassword(auth, this.emailRecr, this.pwRecr)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
+                const db = getDatabase();
+                const writeDB = await set( ref (db, `recruteurs/${this.recrID}`) , {
+    
+                    emailRecr: user.email,
+              
+                });
 
+                new EspaceRecruteur(this.recrID);
 
-                
-                console.log(user);
-                
-                
-
-                new EspaceRecruteur(user , this.emailRecr , this.pwRecr);
-                // ...
-            })
-            .catch((error) => {
-                const errorMessage = error.message;
-                console.error(errorMessage);
-                // ..
-            });
+            }
 
         });
 
     };
-
-    pwVerifUI() {
-
-        const myInput = document.getElementById("psw");
-        const letter = document.getElementById("letter");
-        const capital = document.getElementById("capital");
-        const number = document.getElementById("number");
-        const length = document.getElementById("length");
-    
-        // When the user clicks on the password field, show the message box
-        
-        myInput.addEventListener('focusin' , () => {
-            
-            document.getElementById("message").style.display = "block";
-    
-        });
-        
-        myInput.addEventListener('focusout' , () => {
-            
-            document.getElementById("message").style.display = "none";
-    
-        });
-    
-        
-    
-        // When the user starts to type something inside the password field
-        
-        myInput.addEventListener('keyup' , () => {
-            
-            // Validate lowercase letters
-            const lowerCaseLetters = /[a-z]/g;
-            if (myInput.value.match(lowerCaseLetters)) {
-                letter.classList.remove("invalid");
-                letter.classList.add("valid");
-            } else {
-                letter.classList.remove("valid");
-                letter.classList.add("invalid");
-            }
-    
-            // Validate capital letters
-            const upperCaseLetters = /[A-Z]/g;
-            if (myInput.value.match(upperCaseLetters)) {
-                capital.classList.remove("invalid");
-                capital.classList.add("valid");
-            } else {
-                capital.classList.remove("valid");
-                capital.classList.add("invalid");
-            }
-    
-            // Validate numbers
-            const numbers = /[0-9]/g;
-            if (myInput.value.match(numbers)) {
-                number.classList.remove("invalid");
-                number.classList.add("valid");
-            } else {
-                number.classList.remove("valid");
-                number.classList.add("invalid");
-            }
-    
-            // Validate length
-            if (myInput.value.length >= 8) {
-                length.classList.remove("invalid");
-                length.classList.add("valid");
-            } else {
-                length.classList.remove("valid");
-                length.classList.add("invalid");
-            }
-    
-        });
-
-    };
-
-   
-
 
 };
