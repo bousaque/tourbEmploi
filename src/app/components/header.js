@@ -21,21 +21,38 @@ export class HeaderApp {
 	            <div class="popup">
 		            <a class="close" href="#">&times;</a>
                     <h2>
-                        Scéances de coaching
+                        Vous vous questionnez à propos de l'entretien, vous avez besoin de soutien, inscrivez-vous pour bénéficier d'un coaching. 
                     </h2>
 		            <p>
-                        Une séance de coaching est proposée pendant l'évènement, qui consiste en un entretien de 15 minutes
-                        avec un.e job-coach pour se préparer aux entretiens.
+                        Dans le cadre de Tourbillon Emploi, une séance de coaching est proposée avant 
+                        l'entretien pour vous aider.
                     </p>
                     <p>
-                        La seule condition pour pouvoir en bénéficier est d'avoir réservé au moins un entretien avec un recruteur,
-                        quel qu'il soit.
+                        Le coaching professionnel consiste à accompagner une personne ou un mini groupe 
+                        pendant 20 à 30 minutes, afin de vous aider à : 
+                    </p>
+                    <ul id="popupList">
+                        <li class="popList">
+                            Répondre à vos questions par rapport à l'entretien d'embauche
+                        </li>
+                        <li class="popList">
+                            Mettre en avant vos qualités, vos compétences, et votre potentiel
+                        </li>
+                        <li class="popList">
+                            Renforcer votre confiance en vous
+                        </li>
+                        <li class="popList">
+                            Finaliser la préparation de votre entretien d'embauche
+                        </li>
+		            </ul>
+                    <p>
+                        Le coaching est un facilitateur :  Il ne détient pas la vérité, mais il vous soutient et 
+                        vous aide à évoluer vers son objectif. 
                     </p>
                     <p>
-                        Afin de mieux se préparer, voici quelques ressources qui seront utiles pour faire une bonne impression,
-                        comprendre ce qu'on attend d'un candidat lors d'un entretien et toutes les questions qui peuvent porter 
-                        sur le recrutement et comment l'approcher.
-		            </p>
+                        Cela vous intéresse ? La seule condition pour en bénéficier est d'avoir réservé 
+                        au moins un entretien avec un recruter quel qu'il soit et de réserver votre coaching.
+                    </p>
 	            </div>
             </div>
         </div>

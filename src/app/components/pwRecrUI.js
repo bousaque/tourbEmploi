@@ -1,5 +1,5 @@
 import { getAuth , signInWithEmailAndPassword } from "firebase/auth";
-import { set , ref , getDatabase } from "firebase/database";
+import { set , ref , getDatabase, get, update } from "firebase/database";
 
 import { Button } from '../components/button';
 import { EspaceRecruteur } from '../features/espaceRecruteur';
@@ -67,6 +67,17 @@ export class PwRecrUI {
             if (user) {
 
                 const db = getDatabase();
+
+                //Vérif si déjà venu ? Pour ne pas écraser à chaque reconnection
+
+                //Oui -> update
+                const data = await get(ref (db, `recruteurs/${this.recrID}`));
+                
+                await update( ref (db, `recruteurs/${this.recrID}`) , {
+                    emailRecr: user.email,
+                });     
+                
+                //Si non, update
                 const writeDB = await set( ref (db, `recruteurs/${this.recrID}`) , {
     
                     emailRecr: user.email,

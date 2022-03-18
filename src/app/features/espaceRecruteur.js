@@ -1,4 +1,6 @@
-import { set , get , child , ref , getDatabase } from "firebase/database";
+import { get , child , ref , getDatabase } from "firebase/database";
+import { getStorage, ref as refS , uploadBytes , uploadBytesResumable , getDownloadURL } from "firebase/storage";
+
 
 import { Button } from "../components/button";
 import { ModifyPen } from "../components/modifyPen";
@@ -13,11 +15,13 @@ export class EspaceRecruteur {
     constructor(recrID) {
 
         this.recrID = recrID; 
-        this.inputVALUE = '';       
-
+        this.inputVALUE = '';   
+        this.inputValueName = '';    
+        
+        this.dbRef = ref( getDatabase() );
         this.initUI();        
         this.addRecruteurHeaders().then( ()=> {
-            this.addButtons()
+             this.addButtons()
             
             //this.addRecruteurOffres();
             //this.addSquareListener();
@@ -39,15 +43,13 @@ export class EspaceRecruteur {
         `;
 
     };
-
     
     async addRecruteurHeaders() {
         
-        const dbRef = ref( getDatabase() );
         
         //console.log(this.splittedID);    
         //Async/await sur le recruteur, l'objet-réponse est dans snapshotRecruteur
-        const snapshotRecruteur = await get( child( dbRef , `recruteurs/${this.recrID}`) );
+        const snapshotRecruteur = await get( child( this.dbRef , `recruteurs/${this.recrID}`) );
         
         const recruteur = snapshotRecruteur.val();
 
@@ -243,16 +245,29 @@ export class EspaceRecruteur {
             // console.log('Modifier Logo');
             document.querySelector('#modifyBOX').innerHTML =`
             <span id="modifyFORM">
-                <input id="modifyINPUT" type="file" required />
+                <label for="modifyINPUT">Choisir une image</label>
+                <input id="modifyINPUT" type="file" required hidden/>
+                <span id="file-chosen">(Pas d'image sélectionnée)</span>
             </span>
             <div id="modifySUBMIT"></div>
             `;
+            
+            const actualBtn = document.getElementById('modifyINPUT');
+            const fileChosen = document.getElementById('file-chosen');
+            
+            actualBtn.addEventListener('change', () => {
+                
+                const inputVALUE = document.querySelector('#modifyINPUT').files[0]; //contient l'objet FILe
+                
+                console.log(inputVALUE);
+
+                fileChosen.innerHTML = inputVALUE.name;
+                this.inputValueName = inputVALUE.name;
+                this.inputVALUE = inputVALUE;
+            });
+                
             this.addButtonInButton();
             
-            const inputVALUE = document.querySelector('#modifyINPUT').value.toString();
-            this.inputVALUE = inputVALUE;
-
-
         });
 
 
@@ -290,9 +305,21 @@ export class EspaceRecruteur {
 
     addButtonInButton() {
 
-        new Button( document.querySelector('#modifySUBMIT') , 'Envoyer' , () => {
+        new Button( document.querySelector('#modifySUBMIT') , 'Envoyer' , async () => {
 
-            console.log(this.inputVALUE);
+            
+            //1. Upload in Storage
+            
+            const storage = getStorage();
+            const createStorageRef = refS( storage , `recruteurs_media/logos_recruteurs/${this.recrID}` + this.inputValueName );
+                        
+            const uploadIMG = await uploadBytes( createStorageRef , this.inputVALUE );
+
+            console.log(this.inputValueName);
+
+            //2. Write in rtdb
+
+            //3. Render HTML
 
         });
 
