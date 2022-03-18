@@ -35,9 +35,9 @@ export class PwRecrUI {
                 <div id="pwExplainations">
                 <h3 id="pwExplTitle">Chères Recruteuses, Chers Recruteurs,</h3>
                 <p>
-                    Merci de vous choisir un email qui vous servira d'identifiant. Un email de confirmation vous sera 
-                    envoyé à l'adresse email fournie, il vous faudra simplement <em class="emClick">cliquer dessus pour compléter 
-                    l'inscription</em> et remplir votre profil Recruteur.
+                    Merci de vous choisir un email qui vous servira d'identifiant, ainsi qu'un mot de passe. Ce dernier doit contenit au moins une majuscule, 
+                    un chiffre et comporter au moins 8 caractères. Un email de confirmation vous sera envoyé à l'adresse email fournie, il vous faudra 
+                    simplement <em class="emClick">cliquer dessus pour compléter l'inscription</em> et remplir votre profil Recruteur.
                 </p>
                 </div>         
                 <div id="containerPW">
