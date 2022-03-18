@@ -31,17 +31,17 @@ export class HeaderApp {
                         Le coaching professionnel consiste à accompagner une personne ou un mini groupe 
                         pendant 20 à 30 minutes, afin de vous aider à : 
                     </p>
-                    <ul>
-                        <li>
+                    <ul id="popupList">
+                        <li class="popList">
                             Répondre à vos questions par rapport à l'entretien d'embauche
                         </li>
-                        <li>
+                        <li class="popList">
                             Mettre en avant vos qualités, vos compétences, et votre potentiel
                         </li>
-                        <li>
+                        <li class="popList">
                             Renforcer votre confiance en vous
                         </li>
-                        <li>
+                        <li class="popList">
                             Finaliser la préparation de votre entretien d'embauche
                         </li>
 		            </ul>
