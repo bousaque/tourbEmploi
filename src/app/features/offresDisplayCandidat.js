@@ -42,7 +42,6 @@ export class OffreDisplayCandidat {
         <div id="offreHeader">
             <div id="recruteurHead">
                 <div id="recruteurWeb"></div>
-                <div id="recruteurLinks"></div>
             </div>
             <div id="videoFront"></div>
         </div>
@@ -87,21 +86,21 @@ export class OffreDisplayCandidat {
         const webtvAdresse = recruteur.adresseWebTV;
         const webtvLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FyoutubeLogo.svg?alt=media&token=57fdaedb-4977-43ea-9d98-308a7d482e3f";
         
-        //LINKEDIN + LOGO
-        const linkedinAdresse = recruteur.adresseLinkedIn;
-        const linkedinLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FlinkedinLogo.svg?alt=media&token=1122fa2d-100a-4fe6-95fd-2c0ab3e5408e";
+        // //LINKEDIN + LOGO
+        // const linkedinAdresse = recruteur.adresseLinkedIn;
+        // const linkedinLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FlinkedinLogo.svg?alt=media&token=1122fa2d-100a-4fe6-95fd-2c0ab3e5408e";
         
-        //FACEBOOK + LOGO
-        const facebookAdresse = recruteur.adresseFacebook;
-        const facebookLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FfacebookLogo.svg?alt=media&token=ab738520-5db8-4b92-9e36-633e5a96f5b8";
+        // //FACEBOOK + LOGO
+        // const facebookAdresse = recruteur.adresseFacebook;
+        // const facebookLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FfacebookLogo.svg?alt=media&token=ab738520-5db8-4b92-9e36-633e5a96f5b8";
         
-        //INSTAGRAM + LOGO
-        const instagramAdresse = recruteur.adresseInstagram;
-        const instagramLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FinstagramLogo.svg?alt=media&token=07bded61-68d5-4f0a-934f-9320e80a4f08";
+        // //INSTAGRAM + LOGO
+        // const instagramAdresse = recruteur.adresseInstagram;
+        // const instagramLogo = "https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_reseauxSociaux%2FinstagramLogo.svg?alt=media&token=07bded61-68d5-4f0a-934f-9320e80a4f08";
         
-        //IFRAME YOUTUBE
-        const urlVideoFront = recruteur.adresseVideoFront;
-        const stringIdFromURL = urlVideoFront.split("v=")[1];
+        // //IFRAME YOUTUBE
+        // const urlVideoFront = recruteur.adresseVideoFront;
+        // const stringIdFromURL = urlVideoFront.split("v=")[1];
         
         
         
@@ -113,39 +112,39 @@ export class OffreDisplayCandidat {
         </a>
         `;
         
-        //CHAINE YT + LOGO YT
-        document.querySelector('#recruteurLinks').innerHTML +=`
-        <a href="${webtvAdresse}" target="_blank">
-        <img class="resSoc" src="${webtvLogo}" alt="LogoEntreprise"/>
-        </a>
-        `;
+        // //CHAINE YT + LOGO YT
+        // document.querySelector('#recruteurLinks').innerHTML +=`
+        // <a href="${webtvAdresse}" target="_blank">
+        // <img class="resSoc" src="${webtvLogo}" alt="LogoEntreprise"/>
+        // </a>
+        // `;
         
-        //LINKEDIN + LOGO
-        document.querySelector('#recruteurLinks').innerHTML +=`
-        <a href="${linkedinAdresse}" target="_blank">
-        <img class="resSoc" src="${linkedinLogo}" alt="LogoEntreprise"/>
-        </a>
-        `;
+        // //LINKEDIN + LOGO
+        // document.querySelector('#recruteurLinks').innerHTML +=`
+        // <a href="${linkedinAdresse}" target="_blank">
+        // <img class="resSoc" src="${linkedinLogo}" alt="LogoEntreprise"/>
+        // </a>
+        // `;
         
-        //FACEBOOK + LOGO
-        document.querySelector('#recruteurLinks').innerHTML +=`
-        <a href="${facebookAdresse}" target="_blank">
-        <img class="resSoc" src="${facebookLogo}" alt="LogoEntreprise"/>
-        </a>
-        `;
+        // //FACEBOOK + LOGO
+        // document.querySelector('#recruteurLinks').innerHTML +=`
+        // <a href="${facebookAdresse}" target="_blank">
+        // <img class="resSoc" src="${facebookLogo}" alt="LogoEntreprise"/>
+        // </a>
+        // `;
         
-        //INSTAGRAM + LOGO
-        document.querySelector('#recruteurLinks').innerHTML +=`
-        <a href="${instagramAdresse}" target="_blank">
-        <img class="resSoc" src="${instagramLogo}" alt="LogoEntreprise"/>
-        </a>
-        `;
+        // //INSTAGRAM + LOGO
+        // document.querySelector('#recruteurLinks').innerHTML +=`
+        // <a href="${instagramAdresse}" target="_blank">
+        // <img class="resSoc" src="${instagramLogo}" alt="LogoEntreprise"/>
+        // </a>
+        // `;
         
-        //IFRAME YOUTUBE
-        document.querySelector('#videoFront').innerHTML = `
-        <iframe width="520" height="415" src="https://www.youtube.com/embed/${stringIdFromURL}?showinfo=0&controls=2&mute=1&autoplay=0&rel=0">
-        </iframe>
-        `;
+        // //IFRAME YOUTUBE
+        // document.querySelector('#videoFront').innerHTML = `
+        // <iframe width="520" height="415" src="https://www.youtube.com/embed/${stringIdFromURL}?showinfo=0&controls=2&mute=1&autoplay=0&rel=0">
+        // </iframe>
+        // `;
 
     };       
                         
@@ -159,6 +158,8 @@ export class OffreDisplayCandidat {
         const snapshotOffres = await get( query( refDbOffres , orderByChild('recruteurId') , equalTo(`${recruteurID}`) ) );
         const offres = snapshotOffres.val();
 
+        console.log(offres)
+        console.log(recruteurID)
         
         for (const offre in offres) {
 

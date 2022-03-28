@@ -16,14 +16,11 @@ const database = getDatabase(app);
 
 export class DataBaseUser {
 
-    constructor(userId , name , email , imageUrl) {
+    constructor(userId , name , email ) {
 
         this.userId = userId;
         this.name = name;
         this.email = email;
-        this.imageUrl = imageUrl;
-        
-
 
     }
 
@@ -39,9 +36,8 @@ export class DataBaseUser {
                 set(ref(database, 'users/' + this.userId), {
     
                     username: this.name,
-                    email: this.email,
-                    profile_picture : this.imageUrl
-              
+                    email: this.email
+
                   });
 
             } else {
@@ -49,9 +45,8 @@ export class DataBaseUser {
                 update(ref(database, 'users/' + this.userId), {
     
                     username: this.name,
-                    email: this.email,
-                    profile_picture : this.imageUrl
-              
+                    email: this.email 
+
                   });
 
             }

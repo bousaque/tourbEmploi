@@ -261,7 +261,9 @@
         transition: opacity 500ms;
         visibility: hidden;
         opacity: 0;
+        overflow-y: auto;
     }
+
     .overlay:target {
         visibility: visible;
         opacity: 1;
@@ -456,11 +458,12 @@
         box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
         max-width: 20%;
         border: black solid 0.1px;
+        cursor: pointer;
     }
 
 
     .resSoc {
-        max-width: 10%;
+        max-width: 35%;
         box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
         border-radius: 50%;
     }
@@ -636,10 +639,88 @@
         margin-bottom: 2%;
     }
 
+    #recruteurLinks {
+        display: flex;
+        margin: 1% 0%;
+    }
+
+    #fbRecrBOX,
+    #instaRecrBOX,
+    #linkedInRecrBOX,
+    #ytRecrBOX {
+        min-width: 25%;
+    }
+        
+    .modifyPen {
+        cursor: pointer;
+        max-width: 3%;
+    }
+            
+    #recruteurWeb {
+        display: flex;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 1% 0;
+        margin: 2% 0;
+        border: black solid 0.1px;
+        justify-content: center;
+    }
+
+    #modifyLogoandWebRecr {
+        width: 25%;
+        height: 30%;
+        cursor: pointer;
+        margin: 1% 0;
+    }
+
+    #addOfferRECR {
+        text-align: center;
+        margin: 5% auto;
+    }
+
+    #modifyBOX {
+        max-width: 13%;
+        margin: inherit;
+        position: relative;
+    }
+
+    #modifyFORM > label {
+        content: 'Choisir une image';
+        display: inline-block;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 5%;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        margin: 10% 0;
+
+    }
+
+    #modifySUBMIT { 
+        margin: 20% 0%;
+    }
+
+    #file-chosen {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 3%;
+        white-space: nowrap;
+    }
+
+    #popupList {
+        list-style: inside;
+        padding: 2% 3%;
+        margin: 1%;
+    }
+
+    .popList {
+        font-size: 131%;
+
+    }
+   
+
     
         
-            
-            
             
     /*DESKTOP VIEW*/
     @media screen and (min-width: 800px) {

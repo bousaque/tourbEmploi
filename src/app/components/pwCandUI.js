@@ -4,7 +4,7 @@ import { set , child , ref , getDatabase, get } from "firebase/database";
 import { Button } from '../components/button';
 import { EspaceRecruteur } from '../features/espaceRecruteur';
 
-export class PwRecrUI {
+export class PwCandUI {
 
     constructor() {
 

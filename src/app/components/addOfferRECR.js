@@ -1,10 +1,31 @@
-import { getDatabase, ref, set } from "firebase/database";
-//import { getStorage, uploadBytes , ref } from "firebase/storage";
+import { getDatabase, ref, set , push , onValue , update } from "firebase/database";
+import { getStorage, uploadBytes , ref as refS , getDownloadURL } from "firebase/storage";
 
+import { Button } from "./button";
 
 export class AddOfferRECR {
 
-    constructor() {
+    constructor( recrID , recruteurName , logoRecruteur ) {
+
+        this.recrID = recrID;
+        this.recruteurName = recruteurName;
+        this.logoRecruteur = logoRecruteur;
+        this.newPositionTitle = '';
+        this.pdfURL = '';
+        this.pdf = [];
+        this.offreID = '';
+        this.pdfSHOW = '';
+
+        this.offreOUT = '';
+
+        // console.log(this.recrID)
+        // console.log(this.recruteurName)
+        // console.log(this.logoRecruteur)
+
+        
+        this.initUI();
+        this.addButtons();
+        
 
     };
 
@@ -23,60 +44,108 @@ export class AddOfferRECR {
                 <div id="submitPDF"></div>
             </form>
         </div>
+        <div id="showPDF"></div>
         `;
-    };
-
-    async writeData() {
-
-        //positionTitle
-        const newPositionTitle = document.querySelector('#positionTitle').value;
-
-        const db = getDatabase();
-        const writePDF = await set(ref(db, 'offres/' /* + this.recruteurID*/), {
-                    
-            offreID: '',
-            offrePDF: '',
-            positionName: newPositionTitle,
-            recruteurId: '',
-            recruteurLogo: '',
-            recruteurName: '',
-
-        });
 
         
         
-        //PDF
+    };  
+    
+    
+    addButtons() {
         
-        
-        let pdf = [];
+        // PDF Control
         document.getElementById("pdfOffer").addEventListener("change", (e) => {
-            pdf = e.target.files;
+    
+            this.pdf = e.target.files;
+            this.pdfName = e.target.files[0].name;
+            
         });
         
-        document.getElementById("send").addEventListener("click", async () => {
+        new Button( document.querySelector('#submitPDF') , 'Envoyer' , async () => {
             
-            if (pdf.length != 0 && pdf.length !=2) {
-                
+            this.newPositionTitle = document.querySelector('#positionTitle').value;
+            
+            console.log(this.pdfName);
+
+
+
+            if ( this.pdf.length != 0 && this.pdf.length != 2 ) {
+                    
+
                 //Write into Storage
                 const storage = getStorage();
-                const storageRef = ref(storage, 'recruteurs_offres');
+                const storageRef = refS( storage , `recruteurs_offres/${this.recrID}/` + this.newPositionTitle + '_' + this.pdfName );
+    
+                const upload = await uploadBytes( storageRef , this.pdf[0] );
 
-                const upload = await uploadBytes(storageRef, pdf[0]);
+                const gsReference = refS( storage, `gs://projet-nomades-1.appspot.com/recruteurs_offres/${this.recrID}/` + this.newPositionTitle + '_' + this.pdfName );
+                this.pdfURL = await getDownloadURL(gsReference);
                 
-                //Write into RTDB as well
+                console.log(this.pdfURL)
 
-                const db = getDatabase();
-                const writePDF = await set(ref(db, 'offres/' /* + this.recruteurID*/), {
+                //Update RTDB with an Offer object
+                const refDB = ref( getDatabase() , `/offres/${this.recrID}/` );
+                const writePDF = await push( refDB , {
                     
-                    offrePDF: 'FILE', //Remplacer par upload.pdf (genre...)
+                    //offreID: writePDF.key,
+                    offrePDF: this.pdfURL,
+                    positionName: this.newPositionTitle,
+                    recruteurId: this.recrID,
+                    recruteurLogo: this.logoRecruteur,
+                    recruteurName: this.recruteurName,
 
-                  });
-                       
-            }
+                });
+                   
+                const refOffreID = ref( getDatabase() , `/offres/${this.recrID}/${writePDF.key}` );
+                const writeOffreID = await update( refOffreID , {
+            
+                    offreID: writePDF.key,
+
+                });
+
+                this.offreID = writePDF.key;
+                
+
+                onValue( refDB , async (snapshot) => {
+                    
+                    let snpsht = snapshot.val();
+
+                    for (const offre in snpsht) {
+                        if (Object.hasOwnProperty.call(snpsht, offre)) {
+                            const element = snpsht[offre];
+                            
+                            // console.log(element.offrePDF)
+                            // console.log(element.offreID)
+                            // console.log(this.offreID)
+                            
+                            if (this.offreID===element.offreID) {
+                            
+                                console.log('this.offreID===element.offreID = true (mais seulement lors du tir !)');
+                                this.pdfSHOW = element.offrePDF;
+                            };
+
+                        };
+                    };
+                    
+                    console.log(this.pdfSHOW)
+
+                    if( snapshot.exists() ) {
+    
+                        const changedPDF = document.querySelector('#showPDF').innerHTML = this.pdfSHOW;
+
+                        // this.initUI();        
+                        // this.addButtons();
+                        
+                    };
+        
+                });
+            };
+
+
         });
-
-
-
-    };
+        
+    };       
+        
 
 };

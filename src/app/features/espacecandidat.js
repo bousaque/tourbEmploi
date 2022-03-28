@@ -11,8 +11,8 @@ export class EspaceCandidat {
         this.userId = userId;
         this.fName = fName;
 
-        // console.log(this.userId)
-        // console.log(this.fName)
+        console.log(this.userId)
+        console.log(this.fName)
 
         this.initUI();
         this.addButtons();

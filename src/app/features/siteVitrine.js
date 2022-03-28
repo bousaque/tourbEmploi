@@ -17,10 +17,10 @@ const database = getDatabase(app);
 
 //OWN
 import { VitrineRecruteur } from './vitrineRecruteur';
-import { EspaceRecruteur } from './espaceRecruteur';
+import { PwCandUI } from '../components/pwCandUI';
 import { PwRecrUI } from '../components/pwRecrUI';
 import { Button } from '../components/button';
-import { Login } from '../components/login';
+import { PopupCandUI } from '../components/popupCandUI';
 
 
 
@@ -76,7 +76,6 @@ export class SiteVitrine {
                     <p class="italic text-center">
                         Laissez-vous surprendre par ces jeunes talents et ouvrez une porte sur leur avenir !
                     </p>
-                    <div id="loginButtonRecruteur"></div>
                     <div id="loginButtonRecruteurMail">
                         <div id="loginButtonRecruteurMailIN"></div>
                     </div>
@@ -184,12 +183,6 @@ export class SiteVitrine {
 
     addButton() {
 
-        new Button(document.querySelector('#loginButtonRecruteur') , 'Inscription / Connexion (GOOGLE)' , () => {
-
-            new EspaceRecruteur();
-
-        });
-
         new Button(document.querySelector('#loginButtonRecruteurMailIN') , 'Inscription / Connexion (MAIL_PW)' , () => {
             
             new PwRecrUI()
@@ -197,15 +190,17 @@ export class SiteVitrine {
         });
 
 
-        new Button(document.querySelector('#loginButtonCandidat') , 'Inscription / Connexion (GOOGLE)' , () => {
+        new Button(document.querySelector('#loginButtonCandidat') , 'Inscription / Connexion (GOOGLE)' , async () => {
 
-            new Login();
+            new PopupCandUI();
 
         });
 
+        
+
         new Button(document.querySelector('#loginButtonCandidatMail') , 'Inscription / Connexion (MAIL_PW)' , () => {
 
-            
+            new PwCandUI();
 
         });
 
