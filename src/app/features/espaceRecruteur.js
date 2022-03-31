@@ -1,4 +1,4 @@
-import { get , child , ref , getDatabase, update , onValue , query , equalTo , orderByChild } from "firebase/database";
+import { get , child , ref , getDatabase, update , onValue , query , orderByChild , equalTo } from "firebase/database";
 import { getStorage, ref as refS , uploadBytes , getDownloadURL } from "firebase/storage";
 
 
@@ -19,14 +19,17 @@ export class EspaceRecruteur {
         this.recruteurName = ''; 
         this.logoRecruteur = '';   
         this.linkInputVALUE = '';
+        this.OffresRecr = '';
+        this.numberInputVALUE = '';
         
         this.dbRef = ref( getDatabase() );
         this.initUI();        
         this.addRecruteurHeaders().then( ()=> {
             this.addButtons()
-            
             this.addRecruteurOffres();
-            //this.addSquareListener();
+            this.addSquareListener();
+            this.addFlip();
+            this.addCalendarRECR();
         });
 
     };
@@ -34,10 +37,29 @@ export class EspaceRecruteur {
     initUI() {
 
         document.querySelector('#bodyApp').innerHTML = `
-        <div id="recruteurNameINPUT"></div>
-        <div id="recruteurWeb"></div>
+        <div id="recruteurBOX">
+            <div id="recruteurNameINPUT"></div>
+            <div id="recruteurWeb"></div>
+        </div> 
+        <div id="nbRecrSimul">
+            <div id="nbSimulDisplay"></div>
+            <div id="nbRecrModify"></div>
+        </div>
         <div id="addOfferRECR"></div>
-        <ul id="recruteurOffres"></ul>
+        <div class="wrapper">
+            <div class="buttonWrapper">
+                <button class="tab-button active button-front" data-id="home">Vos offres</button>
+                <button class="tab-button button-front" data-id="about">Calendrier</button>
+            </div>
+            <div class="contentWrapper">
+                <div class="content active" id="home">
+                    <ul id="recruteurOffres"></ul>
+                </div>
+                <div class="content" id="about">
+                    <ul id="calendarRecr"></ul>
+                </div>
+            </div>
+        </div>
         `;
 
     };
@@ -52,11 +74,9 @@ export class EspaceRecruteur {
         const logoRecruteur = recruteur.recruteurLogo;
         this.logoRecruteur = logoRecruteur;
         this.recruteurName = recruteur.recruteurName;
+        this.parallelITW = recruteur.parallelITW;
         
-        //console.log(logoRecruteur);
-        
-        const websiteURL = recruteur.adresseWeb;
-
+    
         //NAME
         if(!this.recruteurName) {
 
@@ -82,9 +102,7 @@ export class EspaceRecruteur {
         if(logoRecruteur) {
             
             document.querySelector('#recruteurWeb').innerHTML =`
-            <a href="${websiteURL}" target="_blank">
-                <img id="logoRecruteur" src="${logoRecruteur}" alt="LogoEntreprise" />
-            </a>
+            <img id="logoRecruteur" src="${logoRecruteur}" alt="LogoEntreprise" />
             <div id="modifyBOX">
                 <img id="modifyLogoandWebRecr" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_UI%2FIcon%20awesome-pencil-alt.png?alt=media&token=abac222a-f7cf-454d-88ee-d2355a06f576" alt="ModifyPen" />
             </div>
@@ -100,6 +118,28 @@ export class EspaceRecruteur {
             `;
             
         };
+
+        if(this.parallelITW) {
+
+            document.querySelector('#nbSimulDisplay').innerHTML =`
+            <div id="recrNumberText">Nombre actuel d'entretiens à la fois : <b id="itwP">${this.parallelITW}</b></div>
+            <div id="recruteurNumberRECR">
+                <img id="modifyNumberRecr" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_UI%2FIcon%20awesome-pencil-alt.png?alt=media&token=abac222a-f7cf-454d-88ee-d2355a06f576" alt="ModifyPen" />
+            </div>
+            `;
+
+        } else {
+
+            document.querySelector('#nbSimulDisplay').innerHTML =`
+            <div id="recrNumberText">Nombre actuel d'entretiens à la fois : <b id="itwP">(À compléter)</b></div>
+            <div id="recruteurNumberRECR">
+                <img id="modifyNumberRecr" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_UI%2FIcon%20awesome-pencil-alt.png?alt=media&token=abac222a-f7cf-454d-88ee-d2355a06f576" alt="ModifyPen" />
+            </div>
+            `;
+
+        };
+
+        
         
     };
 
@@ -179,7 +219,6 @@ export class EspaceRecruteur {
                             this.addButtons()
                             
                             this.addRecruteurOffres();
-                            //this.addSquareListener();
                         });
                     };
         
@@ -239,34 +278,90 @@ export class EspaceRecruteur {
                             this.addButtons()
                             
                             this.addRecruteurOffres();
-                            //this.addSquareListener();
                         });
                     };
         
                 });
     
             });
-            //console.log(this.linkInputVALUE)
                 
             
         });
-       
+        
+        new ModifyPen( document.querySelector('#modifyNumberRecr') , '' , () => {
+
+            document.querySelector('#recruteurNumberRECR').innerHTML =`
+            <label for="recrSimul">Nombre d'entretiens en simultané que vous souhaitez conduire : <br/><span class="mentions">(par exemple : si vous mettez "2", vous pourrez avoir jusqu'à 2 entretiens en parallèle)</span></label>
+            <input type="number" id="recrSimul" max="3" min="1" required>
+            <div id="modifyNumberSubmit"></div>
+            `;
+
+            const numberInput = document.querySelector('#recrSimul');
+            console.log(numberInput);
+
+            numberInput.addEventListener('change', () => {
+                
+                const numberInputVALUE = document.querySelector('#recrSimul').valueAsNumber; //contient l'objet FILe
+                
+                console.log(numberInputVALUE);
+                this.numberInputVALUE = numberInputVALUE;
+
+            });
+
+            new Button( document.querySelector('#modifyNumberSubmit') , 'Envoyer' , async () => {
+
+                // //2. Write in rtdb
+                const refDB = ref( getDatabase() , `recruteurs/${this.recrID}/` );
+                const newDataRecrDB = {
+                    
+                    'parallelITW': `${this.numberInputVALUE}`, 
+                    
+                };
+              
+                await update( refDB, newDataRecrDB );
+
+                //3. Render HTML
+                
+                onValue( refDB , (snapshot) => {
+                    
+                    console.log(snapshot.val()); //= Objet recruteur concerné...
+    
+                    if( snapshot.exists() ) {
+    
+                        const changeNumber = document.querySelector('#itwP').innerHTML = this.recruteurName;
+                        this.initUI();        
+                        this.addRecruteurHeaders().then( ()=> {
+                            this.addButtons()
+                            
+                            this.addRecruteurOffres();
+                        });
+                    };
+        
+                });
+
+            });
+
+        });
+
     };
 
     async addRecruteurOffres() {
 
 
-        const refDbOffres = ref( getDatabase(), "offres" );
-        const snapshotOffres = await get( query( refDbOffres , orderByChild('recruteurId') , equalTo(`${this.recrID}`) ) );
+        const refDbOffres = ref( getDatabase(), `offres/${this.recrID}` );
+        const snapshotOffres = await get(refDbOffres);
         const offres = snapshotOffres.val();
+        this.dbRefOffres = offres;
 
-        if(offres) {
-
-            for (const offre in offres) {
-    
-                if (Object.hasOwnProperty.call(offres, offre)) {
-    
+        
+        if( offres ) {
+            
+            for ( const offre in offres ) {
+                
+                if ( Object.hasOwnProperty.call( offres , offre ) ) {
+                    
                     const offreIND = offres[offre];
+                    //console.log(offreIND); //= toutes les offres en objet individuel
                     
                     document.querySelector('#recruteurOffres').innerHTML +=`
                     <li id="offre_${offre}">
@@ -303,14 +398,76 @@ export class EspaceRecruteur {
             const splittedLI = id.split('_')[1]; //On coupe le string id au niveau du '_' et la deuxième partie[1] on l'appelle splittedID
             //console.log(splittedLI) //= XXX
 
-            // console.log(this.logoRecruteur)
-            // console.log(this.recruteurName)
+            console.log(splittedLI)
 
             
-            new OffreRecruteurRECR(splittedLI, this.splittedID , this.offrePDF , this.userId , this.fName , this.logoRecruteur , this.recruteurName);
-            document.querySelector('#videoFront').classList.add('displayNone');                          
+            new OffreRecruteurRECR(splittedLI, this.recrID , this.recruteurName , this.logoRecruteur );
+        
         });
     
+    };
+
+    addFlip() {
+
+        const tabs = document.querySelector(".wrapper");
+        const tabButton = document.querySelectorAll(".tab-button");
+        const contents = document.querySelectorAll(".content");
+
+        tabs.onclick = e => {
+        const id = e.target.dataset.id;
+        if (id) { tabButton.forEach(btn => {
+
+            btn.classList.remove("active");
+            });
+
+            e.target.classList.add("active");
+
+            contents.forEach(content => {
+            content.classList.remove("active");
+            });
+
+            const element = document.getElementById(id);
+            element.classList.add("active");
+
+            };
+        };
+    };
+
+    async addCalendarRECR() {
+
+        const refDbCreneaux = ref( getDatabase(), "creneaux" );
+        const snapshotCreneauxRecr = await get( query( refDbCreneaux , orderByChild('recruteurName')  ) ); //1.//
+        const creneauxRecr = snapshotCreneauxRecr.val(); 
+
+        let calendar = [];
+        for (const crenDetails in creneauxRecr) {
+
+            if (Object.hasOwnProperty.call(creneauxRecr, crenDetails)) {
+
+                const crenDetail = creneauxRecr[crenDetails];
+                const recrName = crenDetail['recruteurName'];
+
+                // console.log(recrName)
+                // console.log(this.recruteurName)                
+                
+                if(recrName==this.recruteurName) {
+
+                    calendar.push(crenDetail)
+
+                };
+            };
+        };
+
+        console.log(calendar)
+
+        calendar.forEach(element => {
+            
+            document.querySelector('#calendarRecr').innerHTML +=`
+                <li id="creneau_${this.recrID}" class="creneauRecruteur"><b>${element.time}</b> - Entretien pour le poste : <b>${element.positionName}</b></li>
+            `;
+
+        });
+
     };
 
 

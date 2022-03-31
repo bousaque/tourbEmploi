@@ -1,3 +1,5 @@
+import { getDatabase, ref , get } from "firebase/database";
+
 //PDFJS Import
 import * as pdfjsLib from 'pdfjs-dist/webpack';
 
@@ -9,17 +11,39 @@ import { EspaceRecruteur } from './espaceRecruteur';
 
 export class OffreRecruteurRECR {
 
-    constructor() {
+    constructor( splittedLI , recrID , recruteurName , logoRecruteur ) {
 
-        this.initUI();
-        this.addButtons();
-        this.addOffreCanvas();
+        this.offreID = splittedLI;
+        this.recrID = recrID;
+        this.recruteurName = recruteurName;
+        this.logoRecruteur = logoRecruteur;
+        this.offrePDF = '';
+
+        this.dbRef = ref( getDatabase() , `offres/${this.recrID}/${this.offreID}`);
+
+        this.initUI().then( () => {
+
+            this.addButtons(),
+            this.addOffreCanvas()
+            
+        });
+        
         
     };
 
-    initUI() {
+    async initUI() {
 
-        document.querySelector('#recruteurOffres').innerHTML =`
+        const snapshotOffre = await get( this.dbRef );
+        const offreDetails = snapshotOffre.val();
+
+        console.log(offreDetails.offrePDF)
+        this.offrePDF = offreDetails.offrePDF;
+
+
+        document.querySelector('#bodyApp').innerHTML =`
+        <div id="offreTitle">Offre : "${offreDetails.positionName}"</div>
+        <div id="offreCategory">Catégorie : "${offreDetails.branchOffer}"</div>
+        <div id="buttonBack"></div>
         <canvas id="pdfCanvas"></canvas>
         <div id="offreCreneauxAgendaBOX"></div>
         `;
@@ -28,13 +52,10 @@ export class OffreRecruteurRECR {
 
     addButtons() {
 
-        const backVitrineRecruteur = new Button( document.querySelector('#buttonBack') , 'Retour' , () => {
+        new Button( document.querySelector('#buttonBack') , 'Retour' , () => {            
 
-            // console.log(this.userId)
-            // console.log(this.fName)
-            // console.log(this.splittedID)
+            new EspaceRecruteur(this.recrID);
 
-            new EspaceRecruteur();
         });
 
     };
@@ -50,7 +71,11 @@ export class OffreRecruteurRECR {
 
         const scale = 1.5,
             canvas = document.querySelector('#pdfCanvas'),
-            ctx = canvas.getContext('2d');
+            ctx = document.querySelector('#pdfCanvas').getContext('2d');
+
+            // console.log(document.querySelector('#pdfCanvas'))
+            // console.log(canvas)
+            // console.log(ctx)
 
         //Render the page
         const renderPage = num => {

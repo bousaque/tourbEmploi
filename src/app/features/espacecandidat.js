@@ -15,10 +15,10 @@ export class EspaceCandidat {
         console.log(this.fName)
 
         this.initUI();
-        this.addButtons();
         this.addFname();
+        this.addButtons();
         this.addListeCreneaux();
-
+        
         
     };
     
@@ -41,6 +41,13 @@ export class EspaceCandidat {
         `;
     };
 
+    addFname() {
+
+        console.log(this.fName)
+        document.querySelector('#userName').innerHTML = this.fName;
+
+    };
+
     async addButtons() {
 
         
@@ -61,11 +68,11 @@ export class EspaceCandidat {
                         
                         if(key === 'recruteurName') {
                             creneauEach.push(key);
-                        }
-                    }
-                }   
-            }
-        }
+                        };
+                    };
+                };   
+            };
+        };
 
         //console.log(creneauEach.length<=4);
 
@@ -90,7 +97,7 @@ export class EspaceCandidat {
                     Vous ne pouvez pas réserver plus de 4 entretiens
                 </div>
                 `;
-        }
+        };
         
 
         
@@ -144,12 +151,6 @@ export class EspaceCandidat {
 
     };
 
-    addFname() {
-
-        document.querySelector('#userName').innerHTML = this.fName || 'Anonymous';
-
-    };
-
     async addListeCreneaux() {
 
 
@@ -178,17 +179,14 @@ export class EspaceCandidat {
             };
         };
 
-        
-        
-        
         /*
         Rendu <li> des créneaux
         */
        
-       
-       
        offreList.forEach( creneauPris => {
            
+        console.log(creneauPris.offreID)
+
         if (creneauPris.offreID) {
 
             document.querySelector('#ListeCreneauxHTML').innerHTML +=`

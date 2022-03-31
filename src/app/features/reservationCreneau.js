@@ -6,23 +6,23 @@ import { EspaceCandidat } from './espaceCandidat';
 
 export class ReservationCreneau {
 
-    constructor(userId, creneauChoisi , splittedID , fName , splittedLI , logoRecruteur , recruteurName , positionName) {
+    constructor(userId, creneauChoisi , recruteurID , fName , offreID , logoRecruteur , recruteurName , positionName) {
 
         this.userId = userId;
-        this.fName = fName;
         this.creneauChoisi = creneauChoisi;
-        this.splittedID = splittedID;
-        this.splittedLI = splittedLI;
+        this.recruteurID = recruteurID;
+        this.fName = fName;
+        this.offreID = offreID;
         this.logoRecruteur = logoRecruteur;
         this.recruteurName = recruteurName;
         this.positionName = positionName;
 
-        console.log(this.logoRecruteur)
+        // console.log(this.logoRecruteur)
         // console.log(this.userId)
         // console.log(this.fName)
         // console.log(this.creneauChoisi)
-        // console.log(this.splittedID)
-        // console.log(this.splittedLI)
+        // console.log(this.recruteurID)
+        // console.log(this.offreID)
         // console.log(this.logoRecruteur)
         // console.log(this.recruteurName)
         // console.log(this.positionName)
@@ -60,7 +60,7 @@ export class ReservationCreneau {
     
         const buttonBackDisplayOffres = new Button( document.querySelector('#buttonBack') , 'Retour' , () => {
 
-            new OffreDisplayCandidat(this.splittedID , this.userId , this.fName);
+            new OffreDisplayCandidat(this.recruteurID , this.userId , this.fName);
     
         });
 
@@ -69,21 +69,22 @@ export class ReservationCreneau {
             //On va prendre l'id de l'utilisateur et le push dans RTDB, de sorte qu'à la place de '' on aie l'id de l'utilisateur
 
             const refDB = ref(getDatabase());
-            const newCreneauKey = push(child(refDB , 'creneaux')).key;
+            const newCreneauKey = push(child(refDB , `creneaux`)).key;
             const newCreneauDB = {
 
-                'offreID':this.splittedID ,
+                'offreID':this.offreID ,
+                'recrID':this.recruteurID ,
                 'time':this.creneauChoisi , 
                 'userID':this.userId ,
                 'recruteurName':this.recruteurName ,
                 'positionName':this.positionName ,
-                'recruteurLogo': this.recruteurLogo ,
+                'recruteurLogo': this.logoRecruteur ,
 
 
             };
             
             const updates = {};
-            updates['/creneaux/' + newCreneauKey ] = newCreneauDB;
+            updates[`creneaux/${this.userId}/` + newCreneauKey ] = newCreneauDB;
             //!!! Passer offreID au lieu de userId parce qu'on veut offre & user, recruteur on le trouve via l'offre
           
             await update( refDB, updates );
@@ -91,10 +92,12 @@ export class ReservationCreneau {
             //console.log(this.userId )
             document.querySelector('#bodyApp').innerHTML = `
                 <h2 id="successMessage">
-                    Vous avez réservé le créneau de ${this.creneauChoisi} pour l'offre ${this.splittedID} de ${this.positionName} chez ${this.recruteurName}. 
-                <br>
-                    Vous allez la retrouver dans le calendrier de votre Espace Candidat, qui va se charger dans un bref instant. 
+                    Vous avez réservé le créneau de ${this.creneauChoisi} pour l'offre ${this.positionName} chez ${this.recruteurName}. 
                 </h2>
+                <br>
+                <p>
+                    Vous allez la retrouver dans le calendrier de votre Espace Candidat, qui va se charger dans un bref instant. 
+                </p>
                 `;
                 
                 const snapshot = await get( child ( refDB , `users/${this.userId }` ) );

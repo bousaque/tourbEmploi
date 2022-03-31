@@ -1,17 +1,17 @@
 import { ReservationCreneau } from "../features/reservationCreneau";
 
-import { getDatabase , get, ref , orderByChild, equalTo, query } from "firebase/database";
+import { getDatabase , get, ref } from "firebase/database";
 
 
 export class ChoixCreneaux {
 
-    constructor(userId, fName, splittedID , splittedLI , logoRecruteur , recruteurName, positionName) {
+    constructor(userId, fName, recruteurID , offreID , logoRecruteur , recruteurName, positionName) {
 
 
         this.userId = userId;
         this.fName = fName;        
-        this.splittedID = splittedID; //= offre ID
-        this.splittedLI = splittedLI; //= recruteur ID
+        this.recruteurID = recruteurID; //= offre ID
+        this.offreID = offreID; //= recruteur ID
         this.logoRecruteur = logoRecruteur;
         this.recruteurName = recruteurName;
         this.positionName = positionName;
@@ -20,11 +20,11 @@ export class ChoixCreneaux {
 
         // console.log(this.userId)
         // console.log(this.fName)
-        // console.log(this.splittedID)
-        // console.log(this.splittedLI)
+        console.log(`this.recruteurID = ${this.recruteurID}`)
+        console.log(this.offreID)
         // console.log(this.logoRecruteur)
         // console.log(this.recruteurName)
-        console.log(this.positionName)
+        // console.log(this.positionName)
         // console.log(this.creneauChoisi)
 
         this.initUI();
@@ -34,8 +34,28 @@ export class ChoixCreneaux {
 
     async initUI() {
 
-        const snapshot = await get( query( ref( getDatabase() , "creneaux" ) , orderByChild('offreID') , equalTo(this.splittedID) ) );
+        //1.a Récupérer le nombre d'entretiens que le recruteur veut en même temps -> number
+        const dbRefRecr = ref( getDatabase() , `recruteurs/${this.recruteurID}/` );
+        const recrSnap = await get( dbRefRecr );
+        const recruteur = recrSnap.val();
+
+        console.log(recruteur)
+        //console.log(recruteur.parallelITW)
+
+        //1.b Vérifier le nombre d'entretiens que le recruteur a déjà sur ce créneau -> [N x number]
+
+        //1.c Comparer et mettre les créneaux déjà pleins dans un tableau
+
+        //1.d Fusionner le tableau des créneaux du recruteurs déjà pleins avec le tableau 2. des créneaux candidats déjà pleins
+
+
+
+
+        //2. Récupérer les créneaux pleins et les mettre dans un tableau
+        const refCren = ref( getDatabase() , `creneaux/${this.userId}` );
+        const snapshot = await get( refCren );
         const creneaux = snapshot.val();
+        console.log(creneaux);
         
         //constitution du tableau des créneaux déjà pris, donc ceux qui ont un ID dans RTDB
         const creneauxPleins = [];
@@ -89,7 +109,7 @@ export class ChoixCreneaux {
             //console.log(document);
             
             document.getElementById('offreCreneauxAgendaBOX').innerHTML +=`
-            <li class="${element.userID ? '' : 'libre'}" id="creneau_${element.time}">${element.time} : ${element.userID ? 'Pas disponible' : 'Disponible'}</li>
+            <li class="${element.userID ? 'occupay' : 'libre'}" id="creneau_${element.time}">${element.time} : ${element.userID ? 'Pas disponible' : 'Disponible'}</li>
             `;
 
         };
@@ -97,12 +117,17 @@ export class ChoixCreneaux {
 
         
         //attraper l'id du créneau sélectionné
-        const ul = document.querySelector('ul');
+        const ul = document.querySelector('#offreCreneauxAgendaBOX');
         ul.addEventListener('click', ($event) => {
+            $event.stopPropagation();
+
+            console.log('in Square listner')
 
             const liOffre = $event.target.closest('li'); 
             //console.log(liOffre); //= <li id="offre-003">offre003</li>           
-                    
+            if(!liOffre)   {
+                return;
+            }    
             const id = liOffre.id; //On target l'id de chaque offre
             //console.log(id); //= offre-003
                     
@@ -113,7 +138,7 @@ export class ChoixCreneaux {
 
             if (liOffre.classList.contains('libre') ) {
 
-                new ReservationCreneau(this.userId , this.creneauChoisi, this.splittedID , this.fName , this.splittedLI , this.logoRecruteur , this.recruteurName , this.positionName);
+                new ReservationCreneau(this.userId , this.creneauChoisi, this.recruteurID , this.fName , this.offreID , this.logoRecruteur , this.recruteurName , this.positionName);
 
             };
                 

@@ -147,7 +147,7 @@ export class ChoixCreneauxCoaching {
                 let prisUserID = pris.userID;
                 let elementUserID = element.userID;
 
-                elementUserID += prisUserID
+                elementUserID += prisUserID;
 
                 tableauUnavailable.push(element.time);
 
@@ -180,7 +180,7 @@ export class ChoixCreneauxCoaching {
 
         
         //5.//
-        const ul = document.querySelector('ul');
+        const ul = document.querySelector('#listeCreneaux');
         ul.addEventListener('click', ($event) => {
 
             const liCoaching = $event.target.closest('li'); //...et on vise un type 'li'

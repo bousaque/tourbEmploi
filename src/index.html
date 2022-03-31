@@ -204,7 +204,7 @@
     }
     
     .wrapper {
-        margin: auto;
+        margin: 10% 0%;
         background-color: white;
         border-radius: 10px;
         box-shadow: 0px 5px 15px rgba(0, 0, 0, .1);
@@ -267,6 +267,7 @@
     .overlay:target {
         visibility: visible;
         opacity: 1;
+        z-index: 1;
     }
     
     .popup {
@@ -662,12 +663,14 @@
         padding: 1% 0;
         margin: 2% 0;
         justify-content: center;
+        align-items: center;
+        gap: 5%;
     }
-
+        
     #modifyLogoandWebRecr,
-    #modifyNameRecr {
-        width: 25%;
-        height: 30%;
+    #modifyNameRecr,
+    #modifyNumberRecr {
+        max-width: 5vh;
         cursor: pointer;
         margin: 1% 0;
     }
@@ -681,6 +684,7 @@
         max-width: 13%;
         margin: inherit;
         position: relative;
+        transform: translateX(-45%);
     }
 
     #modifyFORM > label {
@@ -693,13 +697,14 @@
         white-space: nowrap;
         -webkit-user-select: none;
         margin: 10% 0;
-
+        display: flex;
+        flex-wrap: wrap;
     }
 
     #modifyLinkINPUT {
         box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
         border: black solid 0.1px;
-    
+        max-width: 65%;
     }
 
     #modifyLinkFORM {
@@ -718,11 +723,6 @@
     #modifySUBMIT { 
         margin: 20% 0%;
     }
-
-    #modifyLinkSUBMIT {
-
-    }
-
 
     #file-chosen {
         box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
@@ -747,8 +747,83 @@
         font-size: 131%;
 
     }
-   
 
+    #recruteurBOX {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 6% 0%;
+        border: black solid 0.1px;
+        padding: 3% 10%;
+        white-space: nowrap;
+    }
+
+    #recrNameTextDyn {
+        font-size: 150%;
+        font-weight: bold;
+        white-space: normal;
+        max-width: 60%;
+    }
+
+    #recruteurNameRECR {
+        white-space: normal;
+    }
+
+   .creneauRecruteur {
+       box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+       border: black solid 0.1px;
+       padding: 3% 15%;
+       margin: 3% 0%;
+       
+    }
+
+    #calendarRecr {
+        margin: 10% auto;
+    }
+
+    #nbSimulDisplay {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 3% 15%;
+        margin: 3% 0%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 3%;
+        position: relative;
+    }
+
+    #recruteurNumberRECR {
+        display: grid;
+        justify-items: end;
+        align-content: center;
+    }
+
+    #modifyNumberSubmit {
+        margin-top: 3%;
+    }
+
+    #recrNumberText {
+        position: absolute;
+    }
+
+    #modifyNumberRecr {
+        transform: translateX(700%);
+    }
+
+    #recrSimul {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 1% 1%;
+        display: block;
+        margin: 3% auto;
+    }
+
+    .mentions {
+        font-style: italic;
+        font-size: 75%;
+    }
     
         
             

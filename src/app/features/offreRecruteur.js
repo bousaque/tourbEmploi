@@ -13,16 +13,16 @@ import { ChoixCreneaux } from '../components/choixCreneau';
 
 export class OffreRecruteur {
 
-    constructor(splittedLI , splittedID , offrePDF , userId , fName , logoRecruteur , recruteurName ) {
+    constructor(splittedLI , recruteurID , offrePDF , userId , fName , logoRecruteur , recruteurName , positionName ) {
 
-        this.splittedLI = splittedLI; //= LI de l'offre, donc son ID
-        this.splittedID = splittedID; //= ID du recruteur
+        this.offreID = splittedLI; //= LI de l'offre, donc son ID
+        this.recruteurID = recruteurID; //= ID du recruteur
         this.offrePDF = offrePDF;
         this.userId = userId;
         this.fName = fName;
         this.logoRecruteur = logoRecruteur;
         this.recruteurName = recruteurName;
-        this.positionName = '';
+        this.positionName = positionName;
 
         // console.log(this.splittedID)
         // console.log(this.userId)
@@ -30,6 +30,7 @@ export class OffreRecruteur {
         // console.log(this.logoRecruteur)
         // console.log(this.recruteurName)
 
+        // console.log(this.positionName)
 
         this.initUI();
         this.addButtons();
@@ -42,6 +43,7 @@ export class OffreRecruteur {
     
         //document.querySelector('#webTV').innerHTML ='';
         document.querySelector('#recruteurOffres').innerHTML =`
+        <div id="namePosition"></div>
         <canvas id="pdfCanvas"></canvas>
         <div id="offreCreneauxAgendaBOX"></div>
         `;
@@ -56,7 +58,7 @@ export class OffreRecruteur {
             // console.log(this.fName)
             // console.log(this.splittedID)
 
-            new OffreDisplayCandidat(this.splittedID , this.fName , this.userId);
+            new OffreDisplayCandidat(this.recruteurID , this.fName , this.userId);
 
         });
 
@@ -120,7 +122,7 @@ export class OffreRecruteur {
         const creneauxUserID = snapshotCreneauxUserID.val(); 
         
         const refDbOffres = ref( getDatabase(), "offres" );
-        const snapshotOffres = await get( query( refDbOffres , orderByChild('recruteurId') , equalTo(`${this.splittedID}`) ) );
+        const snapshotOffres = await get( query( refDbOffres , orderByChild('recruteurId') , equalTo(`${this.recruteurID}`) ) );
         const offres2 = snapshotOffres.val();
 
         for (const recrID in offres2) {
@@ -145,7 +147,7 @@ export class OffreRecruteur {
                 
                 const offresIndividuelles = creneauxUserID[offre];
                 
-                if (offresIndividuelles.offreID===this.splittedLI) { //2.//
+                if (offresIndividuelles.offreID===this.offreID) { //2.//
                     
                     offresIndividuellesOut.push(offresIndividuelles); //3.//
                     
@@ -163,8 +165,8 @@ export class OffreRecruteur {
             // console.log(this.recruteurName)
             // console.log(this.recruteurLogo)
             // console.log(this.positionName)
-            
-            new ChoixCreneaux(this.userId , this.fName , this.splittedID , this.splittedLI , this.logoRecruteur , this.recruteurName , this.positionName);
+            // console.log('Entrée dans newChoixCreneaux{}')
+            new ChoixCreneaux(this.userId , this.fName , this.recruteurID , this.offreID , this.logoRecruteur , this.recruteurName , this.positionName);
             
         } else {
             

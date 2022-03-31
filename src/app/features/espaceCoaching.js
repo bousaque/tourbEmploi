@@ -39,7 +39,7 @@ export class EspaceCoaching {
         });
     };
 
-    async addCoachingCreneau() {
+    addCoachingCreneau() {
 
         new ChoixCreneauxCoaching(this.userId);
 
