@@ -1,4 +1,4 @@
-import { get , child , ref , getDatabase, update , onValue , query , orderByChild , equalTo } from "firebase/database";
+import { get , child , ref , getDatabase, update , onValue , query , orderByChild } from "firebase/database";
 import { getStorage, ref as refS , uploadBytes , getDownloadURL } from "firebase/storage";
 
 
@@ -21,6 +21,8 @@ export class EspaceRecruteur {
         this.linkInputVALUE = '';
         this.OffresRecr = '';
         this.numberInputVALUE = '';
+        this.eraseOffreID = '';
+        this.actualIDs = [];
         
         this.dbRef = ref( getDatabase() );
         this.initUI();        
@@ -119,6 +121,7 @@ export class EspaceRecruteur {
             
         };
 
+        //ITW SIMULTANÉS
         if(this.parallelITW) {
 
             document.querySelector('#nbSimulDisplay').innerHTML =`
@@ -343,6 +346,7 @@ export class EspaceRecruteur {
 
         });
 
+
     };
 
     async addRecruteurOffres() {
@@ -351,9 +355,7 @@ export class EspaceRecruteur {
         const refDbOffres = ref( getDatabase(), `offres/${this.recrID}` );
         const snapshotOffres = await get(refDbOffres);
         const offres = snapshotOffres.val();
-        this.dbRefOffres = offres;
 
-        
         if( offres ) {
             
             for ( const offre in offres ) {
@@ -364,11 +366,16 @@ export class EspaceRecruteur {
                     //console.log(offreIND); //= toutes les offres en objet individuel
                     
                     document.querySelector('#recruteurOffres').innerHTML +=`
-                    <li id="offre_${offre}">
-                        <h4 class="offre-liste">${offreIND.positionName}</h4> 
-                    </li>
+                    <div id="">
+                        <div id="${offre}" class="close">&#10006;</div>
+                        <li id="offre_${offre}">
+                            <h4 class="offre-liste">${offreIND.positionName}</h4> 
+                        </li>
+                    </div>
                     `;
                     
+                    this.actualIDs.push(`${offre}`);
+                    this.eraseOffreID = offre;
                     this.offrePDF = offreIND.offrePDF;
     
                 };
@@ -381,8 +388,8 @@ export class EspaceRecruteur {
             `;
 
         };
-        
-    }   
+
+    };   
 
     addSquareListener() {
         
@@ -392,19 +399,49 @@ export class EspaceRecruteur {
             const offreLI = $event.target.closest('li'); //...et on vise un type 'li'
             //console.log(offreLI); //=  <img src="..." id="logo_XXX" alt="Logo ..."/>         
             
+            if( !offreLI ) {
+                return;
+            };
+
             const id = offreLI.id; //On target l'id recruteur de chaque logo
             //console.log(id); //= logo_XXX
             
             const splittedLI = id.split('_')[1]; //On coupe le string id au niveau du '_' et la deuxième partie[1] on l'appelle splittedID
             //console.log(splittedLI) //= XXX
 
-            console.log(splittedLI)
+            //console.log(splittedLI)
 
             
             new OffreRecruteurRECR(splittedLI, this.recrID , this.recruteurName , this.logoRecruteur );
         
         });
-    
+
+        
+        const x = this.actualIDs;
+        console.log(x);
+
+        
+        for ( const id of x ) {
+            
+            const toErase = document.querySelector(`#${id}`);
+            toErase.addEventListener('click', ($event) => {
+                
+                const offre = $event.target.closest('div');
+                console.log(offre);
+                const id = offre.id;
+                console.log(id);
+                const splittedID = id.split('_')[1];
+                console.log(splittedID);
+                
+                this.eraseOffreID = splittedID;
+                this.offrePDF = this.offres[splittedID].offrePDF;
+                console.log(this.offrePDF);
+                
+                this.eraseOffre();
+                
+            });
+        }
+        
     };
 
     addFlip() {
@@ -458,7 +495,7 @@ export class EspaceRecruteur {
             };
         };
 
-        console.log(calendar)
+        //console.log(calendar)
 
         calendar.forEach(element => {
             

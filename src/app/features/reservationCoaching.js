@@ -63,8 +63,8 @@ export class ReservationCoaching {
             
             
             const updates = {};
-            updates['/coaching/' + newCoachingKey ] = newCoachingDB;
-            updates['/creneaux/' + newCoachingKey] = newCoachingDB;
+            updates[`/coaching/${this.userId}/` + newCoachingKey ] = newCoachingDB;
+            updates[`/creneaux/${this.userId}/` + newCoachingKey] = newCoachingDB;
             //!!! Passer offreID au lieu de userId parce qu'on veut offre & user, recruteur on le trouve via l'offre
           
             await update( refDB, updates );

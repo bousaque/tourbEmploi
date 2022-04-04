@@ -6,13 +6,13 @@ import { Button } from "../components/button";
 
 export class EspaceCandidat {
 
-    constructor(userId , fName ) {
+    constructor( userId , fName ) {
 
         this.userId = userId;
         this.fName = fName;
 
-        console.log(this.userId)
-        console.log(this.fName)
+        // console.log(this.userId)
+        // console.log(this.fName)
 
         this.initUI();
         this.addFname();
@@ -43,7 +43,7 @@ export class EspaceCandidat {
 
     addFname() {
 
-        console.log(this.fName)
+        //console.log(this.fName)
         document.querySelector('#userName').innerHTML = this.fName;
 
     };
@@ -51,12 +51,21 @@ export class EspaceCandidat {
     async addButtons() {
 
         
-        const snapshotCoaching = await get( query( ref( getDatabase() , "coaching" ) , orderByChild('userID') , equalTo(this.userId) ) );
-        const coaching = snapshotCoaching.val(); //={-MuQ776x2MWJy12v9NFb: {…}} ou ''
-        
-        const snapshotCreneaux = await get( query( ref( getDatabase() , "creneaux" ) , orderByChild('userID') , equalTo(this.userId) ) );
+        // const snapshotCoaching = await get( query( ref( getDatabase() , "coaching" ) , orderByChild('userID') , equalTo(this.userId) ) );
+        // const coaching = snapshotCoaching.val(); //={-MuQ776x2MWJy12v9NFb: {…}} ou ''
+
+        const dbRefCoaching = ref( getDatabase() , `coaching/${this.userId}/` );
+        const snapCoach = await get( dbRefCoaching );
+        const coaching = snapCoach.val();
+
+        const dbRefCren = ref( getDatabase() , `creneaux/${this.userId}/` )
+        const snapshotCreneaux = await get( dbRefCren );
         const creneaux = snapshotCreneaux.val();
         
+        // console.log(creneaux)
+        // console.log(coaching)
+        
+
         let creneauEach = [];
         for (const creneau in creneaux) {
             if (Object.hasOwnProperty.call(creneaux, creneau)) {
@@ -157,8 +166,8 @@ export class EspaceCandidat {
         /*
         Requête tendant à choper les créneaux, ordrés par userID et dans lesquels il y a bien un userID
         */
-        const refDbCreneaux = ref( getDatabase() , "creneaux" );
-        const snapshotUser = await get( query( refDbCreneaux , orderByChild('userID') , equalTo(this.userId) ) );
+        const refDbCreneaux = ref( getDatabase() , `creneaux/${this.userId}/` );
+        const snapshotUser = await get( refDbCreneaux );
         const idCandidatOBJ = snapshotUser.val();
         
         //console.log(idCandidatOBJ)
@@ -176,8 +185,12 @@ export class EspaceCandidat {
                const keyReservationOBJ = idCandidatOBJ[offreID];
                offreList.push(keyReservationOBJ);
                
+               console.log('offreID = '+offreID)
+            //    console.log('idCandidatOBJ = '+idCandidatOBJ)
+            //    console.log('keyReservationOBJ = '+keyReservationOBJ)
             };
         };
+        console.log(offreList)
 
         /*
         Rendu <li> des créneaux
@@ -185,7 +198,6 @@ export class EspaceCandidat {
        
        offreList.forEach( creneauPris => {
            
-        console.log(creneauPris.offreID)
 
         if (creneauPris.offreID) {
 
@@ -194,10 +206,10 @@ export class EspaceCandidat {
              <div id="vignetteCreneauDIV">
                 <div>
                     <p id="entretien">Entretien</p><br/>
-                    <span><span id="reference">Référence offre</span> : ${creneauPris.offreID}</span><br/>
                     <span><span id="horaire">Horaire créneau</span> : ${creneauPris.time}</span><br/>
                     <span><span id="entreprise">Entreprise</span> :  ${creneauPris.recruteurName}</span><br/>
                     <span><span id="poste">Position</span> :  ${creneauPris.positionName}</span><br/>
+                    <span><span id="reference">Référence offre</span> : ${creneauPris.offreID}</span><br/>
                 </div>
                 <img src="${creneauPris.recruteurLogo}" alt="Logo Recruteur" />
              </div>

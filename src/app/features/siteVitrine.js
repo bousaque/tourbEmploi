@@ -114,21 +114,30 @@ export class SiteVitrine {
 
    async addVignettes() {
 
-    const snapshot = await get( ref( database , 'recruteurs' ) );
+    const snapshot = await get( ref( database , 'recruteurs/' ) );
     const recruteursSnapshot = snapshot.val();
 
-    for (const recruteur in recruteursSnapshot) {
+    
+    for (const recruteurKey in recruteursSnapshot) {
         
-
-        if (Object.hasOwnProperty.call(recruteursSnapshot, recruteur)) {
+        
+        if (Object.hasOwnProperty.call(recruteursSnapshot, recruteurKey)) {
             
-            const recruteursIND = recruteursSnapshot[recruteur];
+            const recruteursIND = recruteursSnapshot[recruteurKey];
             const logoRecruteur = recruteursIND.recruteurLogo;
+            const recruteurName = recruteursIND.recruteurName;
+            
+            console.log(recruteurName);
 
-            document.getElementById('vignettesRecruteurs').innerHTML +=`
-            <img src="${logoRecruteur}" id="logo_${recruteur}" class="logoVitrine" alt="Logo ${recruteursIND.recruteurName}"/>
-            `;
+            if(recruteurName) {
 
+                document.getElementById('vignettesRecruteurs').innerHTML +=`
+                <img src="${logoRecruteur}" id="logo-${recruteurKey}" class="logoVitrine" alt="Logo ${recruteurName}"/>
+                `;
+
+            };
+
+        
         };
 
     };
@@ -146,7 +155,7 @@ export class SiteVitrine {
         const id = vignetteIMG.id; //On target l'id recruteur de chaque logo
         //console.log(id); //= logo_XXX
                     
-        const splittedID = id.split('_')[1]; //On coupe le string id au niveau du '_' et la deuxième partie[1] on l'appelle splittedID
+        const splittedID = id.split('-')[1]; //On coupe le string id au niveau du '_' et la deuxième partie[1] on l'appelle splittedID
         //console.log(splittedID) //= XXX
 
 
@@ -183,29 +192,27 @@ export class SiteVitrine {
 
     addButton() {
 
-        new Button(document.querySelector('#loginButtonRecruteurMailIN') , 'Inscription / Connexion (MAIL_PW)' , () => {
+        new Button(document.querySelector('#loginButtonRecruteurMailIN') , 'Connexion Recruteurs' , () => {
             
             new PwRecrUI()
 
         });
 
+        document.querySelector('#loginButtonCandidat').innerHTML =`
+        <p style="text-align:center; font-style:italic; font-size: 80%;">(Les inscriptions Candidats seront ouvertes très prochainement)</p>
+        `;
+        // new Button(document.querySelector('#loginButtonCandidat') , 'Inscription / Connexion (GOOGLE)' , async () => {
 
-        new Button(document.querySelector('#loginButtonCandidat') , 'Inscription / Connexion (GOOGLE)' , async () => {
+        //     new PopupCandUI();
 
-            new PopupCandUI();
-
-        });
-
+        // });
         
+        // new Button(document.querySelector('#loginButtonCandidatMail') , 'Inscription / Connexion (MAIL_PW)' , () => {
 
-        new Button(document.querySelector('#loginButtonCandidatMail') , 'Inscription / Connexion (MAIL_PW)' , () => {
+        //     new PwCandUI();
 
-            new PwCandUI();
+        // });
 
-        });
-
-    };
-    
-    
+    };    
 
 };

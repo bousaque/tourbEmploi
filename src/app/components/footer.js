@@ -18,7 +18,7 @@ export class FooterApp {
             <img  class="logos_footer" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_footer%2FLogo%20Geneveroule.png?alt=media&token=a66f7074-0388-405f-9a9f-f2a4bb140fa1" alt="Logo Geneveroule" />
             </a>
             <a href="https://clairbois.ch/">
-            <img  class="logos_footer" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/recruteurs_media%2Flogos_recruteurs%2FLogoClairbois2.jpeg?alt=media&token=fdbd3afe-e8b8-4ac8-ad7d-64e2c3feb54b" alt="Logo Clair-Bois" />
+            <img  class="logos_footer" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_footer%2FLogo%20Clair-Bois.jpeg?alt=media&token=4d9da627-9c58-470a-9b0f-c0146f6b425d" alt="Logo Clair-Bois" />
             </a>
             <a href="https://www.022familles.ch/">
             <img  class="logos_footer" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_footer%2FLogo%20022%20Familles.jpeg?alt=media&token=311eb496-cb2d-4343-88e1-abc63b29f06e" alt="Logo 022Familles" />

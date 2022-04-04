@@ -204,7 +204,7 @@
     }
     
     .wrapper {
-        margin: auto;
+        margin: 10% 0%;
         background-color: white;
         border-radius: 10px;
         box-shadow: 0px 5px 15px rgba(0, 0, 0, .1);
@@ -267,6 +267,7 @@
     .overlay:target {
         visibility: visible;
         opacity: 1;
+        z-index: 1;
     }
     
     .popup {
@@ -285,7 +286,7 @@
         font-weight: bold;    
     }
 
-    .popup .close {
+    .popup .closeli {
         position: absolute;
         top: 1%;
         right: 4%;
@@ -294,6 +295,16 @@
         font-weight: bold;
         text-decoration: none;
         color: #333;
+    }
+
+    .close {
+
+        font-size: 130%;
+        color: black;
+    }
+
+    .left {
+        float: right;
     }
     
     .popup .content {
@@ -456,7 +467,7 @@
         padding: 3%;
         margin: 3%;
         box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
-        max-width: 20%;
+        max-width: 70%;
         border: black solid 0.1px;
         cursor: pointer;
     }
@@ -656,18 +667,20 @@
         max-width: 3%;
     }
             
-    #recruteurWeb {
+    #recruteurWeb,
+    #recruteurNameINPUT {
         display: flex;
-        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
         padding: 1% 0;
         margin: 2% 0;
-        border: black solid 0.1px;
         justify-content: center;
+        align-items: center;
+        gap: 5%;
     }
-
-    #modifyLogoandWebRecr {
-        width: 25%;
-        height: 30%;
+        
+    #modifyLogoandWebRecr,
+    #modifyNameRecr,
+    #modifyNumberRecr {
+        max-width: 5vh;
         cursor: pointer;
         margin: 1% 0;
     }
@@ -677,10 +690,36 @@
         margin: 5% auto;
     }
 
+    #addOfferFORM {
+        text-align: center;
+        margin: 10% 1%;
+        padding: 2% 1%;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+    }
+
+    #positionTitleBOX,
+    #dropdown,
+    #pdfOfferBOX,
+    #submitPDF,
+    #eraseBack {
+        text-align: center;
+        margin: 5% auto;
+    }
+
+    #positionTitle,
+    #profBranches,
+    #pdfOffer {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+    }
+
+
     #modifyBOX {
         max-width: 13%;
         margin: inherit;
         position: relative;
+        transform: translateX(-45%);
     }
 
     #modifyFORM > label {
@@ -692,9 +731,28 @@
         outline: none;
         white-space: nowrap;
         -webkit-user-select: none;
-        cursor: pointer;
+        margin: 10% 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #modifyLinkINPUT {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        max-width: 65%;
+    }
+
+    #modifyLinkFORM {
+        display: flex;
+        flex-direction: column;
         margin: 10% 0;
 
+    }
+
+    #modifyLinkFORM > label {
+        display: inline-block;
+        margin: 10% 0;
+        
     }
 
     #modifySUBMIT { 
@@ -707,6 +765,13 @@
         white-space: nowrap;
     }
 
+    #link-chosenName {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 3%;
+        white-space: nowrap;
+        margin: 10% 0%;
+    }
+
     #popupList {
         list-style: inside;
         padding: 2% 3%;
@@ -717,8 +782,109 @@
         font-size: 131%;
 
     }
-   
 
+    #recruteurBOX {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 6% 0%;
+        border: black solid 0.1px;
+        padding: 3% 10%;
+        white-space: nowrap;
+    }
+
+    #recrNameTextDyn {
+        font-size: 150%;
+        font-weight: bold;
+        white-space: normal;
+        max-width: 64%;
+    }
+
+    #recruteurNameRECR {
+        white-space: normal;
+    }
+
+   .creneauRecruteur {
+       box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+       border: black solid 0.1px;
+       padding: 3% 15%;
+       margin: 3% 0%;
+       
+    }
+
+    #calendarRecr {
+        margin: 10% auto;
+    }
+
+    #nbSimulDisplay {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 3% 15%;
+        margin: 3% 0%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 3%;
+        position: relative;
+    }
+
+    #recruteurNumberRECR {
+        transform: translateX(2vw);
+    }
+
+    #modifyNumberSubmit {
+        margin-top: 3%;
+    }
+
+    #recrNumberText {
+        position: absolute;
+    }
+
+    #modifyNumberRecr {
+        transform: translateX(700%);
+    }
+
+    #recrSimul {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 1% 1%;
+        display: block;
+        margin: 3% auto;
+    }
+
+    .mentions {
+        font-style: italic;
+        font-size: 75%;
+    }
+
+    #offreTitle,
+    #offreCategory {
+
+        text-align: center;
+        font-weight: bold;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 2% 1%;
+        max-width: 50%;
+        display: block;
+        margin: 3% auto;       
+    }
+
+    #popupList {
+        list-style: inside;
+        padding: 2% 3%;
+        margin: 1%;
+    }
+
+    #popupList > li > a {
+        color: royalblue;
+        border-bottom: 1px dotted black;
+    }
+
+    .spaceLis {
+        margin: 1% 0;
+    }
     
         
             
@@ -820,15 +986,9 @@
             box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
             border-radius: 50%;
         } 
-
-        #sociR {
-            text-align: center;
-            margin-bottom: 5%;
-            
-        }
         
         .offre-liste {
-            margin: 5% 4%;
+            margin: 3% 4%;
             text-align: center;
             text-decoration: underline;
             border: black solid 0.1px;
@@ -839,7 +999,10 @@
 
         #recruteurOffres li {
             cursor: pointer;
+        }
 
+        #recruteurOffres {
+            text-align: end;
         }
 
         button {

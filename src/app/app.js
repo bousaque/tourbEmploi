@@ -37,25 +37,28 @@ onAuthStateChanged(auth, async (user) => {
         // Présent dans RTDB/users ? Si oui, EspaceCandidatOffres
         
         const dbRefAuth = ref( getDatabase() );
-        const snapshotAuthUser = await get( child ( dbRefAuth , `users/${userId}` ) );
+        const snapshotAuthUser = await get( child ( dbRefAuth , `users/${userId}/` ) );
         const candidatDB = snapshotAuthUser.val();
         
         // Présent dans RTDB/recruteurs ? Si oui, espaceRecruteur
         
         const dbRefRTDB = ref( getDatabase() );
-        const snapshotAuthRecr = await get ( child ( dbRefRTDB , `recruteurs/${userId}` ) );
+        const snapshotAuthRecr = await get ( child ( dbRefRTDB , `recruteurs/${userId}/` ) );
         const recrDB = snapshotAuthRecr.val();
         
         console.log(candidatDB)
+
         let fName;
         if( candidatDB ) {
 
             // const fName   user.displayName.split(' ')[0];
             fName = candidatDB.fName;
+            // console.log(fName)
         
         } else if ( recrDB ) {
 
             fName = user.displayName;
+            // console.log(fName)
 
         };
 
@@ -80,7 +83,7 @@ onAuthStateChanged(auth, async (user) => {
                 if( candidatDB && candidatDB.activity ) {
 
                     console.log(`candidatDB.activity = ${candidatDB.activity}`);
-                    new EspaceCandidat( userId , recrDB ? this.fName : '');
+                    new EspaceCandidat( userId , fName);
                     
                 } else if( candidatDB && !candidatDB.activity ) {
 

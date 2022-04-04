@@ -64,6 +64,7 @@ export class AddOfferRECR {
                         <option value="assurances">Assurances</option>
                         <option value="bat_constr_tp">Bâtiment / Construction / Travaux publics</option>
                         <option value="commercial_vente">Commercial / Vente</option>
+                        <option value="entretien">Entretien Bâtiments / Nettoyage</option>
                         <option value="finances_compta_control">Finances / Comptabilité / Controlling</option>
                         <option value="immobilier">Immobilier</option>
                         <option value="industrie_prod_tech">Industrie / Production / Technique</option>

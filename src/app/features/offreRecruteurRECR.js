@@ -41,11 +41,10 @@ export class OffreRecruteurRECR {
 
 
         document.querySelector('#bodyApp').innerHTML =`
+        <div id="buttonBack"></div>
         <div id="offreTitle">Offre : "${offreDetails.positionName}"</div>
         <div id="offreCategory">Catégorie : "${offreDetails.branchOffer}"</div>
-        <div id="buttonBack"></div>
         <canvas id="pdfCanvas"></canvas>
-        <div id="offreCreneauxAgendaBOX"></div>
         `;
 
     };

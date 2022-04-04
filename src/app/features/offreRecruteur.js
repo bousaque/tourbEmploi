@@ -7,6 +7,7 @@ import * as pdfjsLib from 'pdfjs-dist/webpack';
 //Own
 import { Button } from '../components/button';
 import { OffreDisplayCandidat } from './offresDisplayCandidat';
+import { VitrineRecruteur } from "./vitrineRecruteur";
 import { ChoixCreneaux } from '../components/choixCreneau';
 
 
@@ -35,7 +36,18 @@ export class OffreRecruteur {
         this.initUI();
         this.addButtons();
         this.addOffreCanvas();
-        this.allCreneauxAgendaire();
+        
+        if(this.userId) {
+            
+            this.allCreneauxAgendaire();
+
+        } else {
+                
+            document.querySelector('#offreCreneauxAgendaBOX').style.display = 'none';
+    
+        };
+
+        
 
     };
 
@@ -54,11 +66,22 @@ export class OffreRecruteur {
 
         const backVitrineRecruteur = new Button( document.querySelector('#buttonBack') , 'Retour' , () => {
 
-            // console.log(this.userId)
             // console.log(this.fName)
             // console.log(this.splittedID)
+            if(this.userId) {
+                
+                console.log('this.userId = '+this.userId)
 
-            new OffreDisplayCandidat(this.recruteurID , this.fName , this.userId);
+                new OffreDisplayCandidat(this.recruteurID , this.fName , this.userId);
+            
+            } else if(!this.userId) {
+
+                console.log('this.userId = false')
+
+                new VitrineRecruteur(this.recruteurID)
+
+            };
+
 
         });
 
@@ -166,6 +189,7 @@ export class OffreRecruteur {
             // console.log(this.recruteurLogo)
             // console.log(this.positionName)
             // console.log('Entrée dans newChoixCreneaux{}')
+            
             new ChoixCreneaux(this.userId , this.fName , this.recruteurID , this.offreID , this.logoRecruteur , this.recruteurName , this.positionName);
             
         } else {

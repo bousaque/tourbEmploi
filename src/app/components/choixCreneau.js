@@ -20,8 +20,8 @@ export class ChoixCreneaux {
 
         // console.log(this.userId)
         // console.log(this.fName)
-        console.log(`this.recruteurID = ${this.recruteurID}`)
-        console.log(this.offreID)
+        // console.log(`this.recruteurID = ${this.recruteurID}`)
+        // console.log(this.offreID)
         // console.log(this.logoRecruteur)
         // console.log(this.recruteurName)
         // console.log(this.positionName)
@@ -109,7 +109,7 @@ export class ChoixCreneaux {
             //console.log(document);
             
             document.getElementById('offreCreneauxAgendaBOX').innerHTML +=`
-            <li class="${element.userID ? 'occupay' : 'libre'}" id="creneau_${element.time}">${element.time} : ${element.userID ? 'Pas disponible' : 'Disponible'}</li>
+            <li class="${element.userID ? 'occupay' : 'libre'}" id="creneau-${element.time}">${element.time} : ${element.userID ? 'Pas disponible' : 'Disponible'}</li>
             `;
 
         };
@@ -131,7 +131,7 @@ export class ChoixCreneaux {
             const id = liOffre.id; //On target l'id de chaque offre
             //console.log(id); //= offre-003
                     
-            this.creneauChoisi = id.split('_')[1]; 
+            this.creneauChoisi = id.split('-')[1]; 
             // console.log( this.creneauChoisi)
 
             console.log(this.logoRecruteur)

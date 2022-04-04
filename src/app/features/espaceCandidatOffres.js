@@ -77,7 +77,7 @@ export class EspaceCandidatOffres {
     
                 document.getElementById('recruteurList').innerHTML +=`
                 <li class="logoRecruteur">
-                    <img src="${logoRecruteur}" id="logo_${recruteur}" class="logoOffres" alt="Logo ${recruteursIND.recruteurName}"/>
+                    <img src="${logoRecruteur}" id="logo-${recruteur}" class="logoOffres" alt="Logo ${recruteursIND.recruteurName}"/>
                 </li>
                 `;
     
@@ -85,7 +85,7 @@ export class EspaceCandidatOffres {
     
         };
     
-       };
+    };
 
     addSquareListener() {
 
@@ -98,7 +98,7 @@ export class EspaceCandidatOffres {
         const id = vignetteIMG.id; //On target l'id recruteur de chaque logo
         //console.log(id); //= logo_XXX
                         
-        const splittedID = id.split('_')[1]; //On coupe le string id au niveau du '_' et la deuxième partie[1] on l'appelle splittedID
+        const splittedID = id.split('-')[1]; //On coupe le string id au niveau du '_' et la deuxième partie[1] on l'appelle splittedID
         //console.log(splittedID) //= XXX
     
         new OffreDisplayCandidat(splittedID , this.userId , this.fName);
