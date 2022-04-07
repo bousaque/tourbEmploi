@@ -45,6 +45,7 @@ export class Button {
                 //du coup on lui met les parenthèses.
         
         });
+
     };
 
 };

@@ -113,7 +113,7 @@ export class OffreDisplayCandidat {
     addSquareListener() {
         
         const offreBOX = document.querySelector('#recruteurOffres');
-        const f=  ($event) => {
+        const f =  ($event) => {
             
             const offreLI = $event.target.closest('li'); //...et on vise un type 'li'
             //console.log(offreLI); //=  <img src="..." id="logo_XXX" alt="Logo ..."/>         

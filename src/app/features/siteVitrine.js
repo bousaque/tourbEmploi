@@ -17,8 +17,8 @@ const database = getDatabase(app);
 
 //OWN
 import { VitrineRecruteur } from './vitrineRecruteur';
-import { PwCandUI } from '../components/pwCandUI';
 import { PwRecrUI } from '../components/pwRecrUI';
+import { RecoveryPwRecr } from '../components/recoveryPwRecr';
 import { Button } from '../components/button';
 import { PopupCandUI } from '../components/popupCandUI';
 
@@ -79,27 +79,30 @@ export class SiteVitrine {
                     <div id="loginButtonRecruteurMail">
                         <div id="loginButtonRecruteurMailIN"></div>
                     </div>
+                    <div id="lostPassword">
+                        <div id="lostPasswordIN"></div>
                     </div>
-                    <div class="content" id="about">
+                </div>
+                <div class="content" id="about">
                     <p class="mainTxt text-center">
-                    Tu as entre 18 et 25 ans et tu cherches ton premier emploi ? Tourbillon Emploi te permets de rencontrer des employeurs qui ont des postes à pourvoir dans le canton de Genève. 
+                        Tu as entre 18 et 25 ans et tu cherches ton premier emploi ? Tourbillon Emploi te permets de rencontrer des employeurs qui ont des postes à pourvoir dans le canton de Genève. 
                     </p>
                     <p class="text-center">
-                    Lors de cette demi-journée, tu peux…
+                        Lors de cette demi-journée, tu peux…
                     </p>
                     <ul class="text-center">
                     <li class="bolder mainTxt2">
-                    rencontrer 1 à 3 entreprises qui recrutent 
+                        rencontrer 1 à 3 entreprises qui recrutent 
                     </li>
                     <li class="bolder mainTxt2">
-                    bénéficier d'un coaching individuel de 20 minutes pour te préparer aux entretiens</li>
+                        bénéficier d'un coaching individuel de 20 minutes pour te préparer aux entretiens</li>
                     </li>
                     </ul>
                     <p class="text-center">
-                    Tourbillon Emploi aura lieu le mercredi 4 mai 2022 dès 14h à Genève.
+                        Tourbillon Emploi aura lieu le mercredi 4 mai 2022 dès 14h à Genève.
                     </p>
                     <p class="italic text-center">
-                    Tente ta chance !
+                        Tente ta chance !
                     </p>
                     <div id="loginButtonCandidat"></div>
                     <div id="loginButtonCandidatMail"></div>
@@ -129,7 +132,7 @@ export class SiteVitrine {
             
             console.log(recruteurName);
 
-            if(recruteurName) {
+            if(recruteurName && logoRecruteur) {
 
                 document.getElementById('vignettesRecruteurs').innerHTML +=`
                 <img src="${logoRecruteur}" id="logo-${recruteurKey}" class="logoVitrine" alt="Logo ${recruteurName}"/>
@@ -197,15 +200,25 @@ export class SiteVitrine {
             new PwRecrUI()
 
         });
+        
+        new Button(document.querySelector('#lostPasswordIN') , 'Demander un nouveau mot de passe' , () => {            
+           
+            new RecoveryPwRecr();
+            
+        });
+
 
         document.querySelector('#loginButtonCandidat').innerHTML =`
         <p style="text-align:center; font-style:italic; font-size: 80%;">(Les inscriptions Candidats seront ouvertes très prochainement)</p>
         `;
-        // new Button(document.querySelector('#loginButtonCandidat') , 'Inscription / Connexion (GOOGLE)' , async () => {
 
-        //     new PopupCandUI();
 
-        // });
+
+        new Button(document.querySelector('#loginButtonCandidat') , 'Inscription / Connexion (GOOGLE)' , async () => {
+
+            new PopupCandUI();
+
+        });
         
         // new Button(document.querySelector('#loginButtonCandidatMail') , 'Inscription / Connexion (MAIL_PW)' , () => {
 

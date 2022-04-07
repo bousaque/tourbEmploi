@@ -1,4 +1,4 @@
-import { get , child , ref , getDatabase, update , onValue , query , orderByChild } from "firebase/database";
+import { get , child , ref , getDatabase, update , onValue , query , orderByChild , remove} from "firebase/database";
 import { getStorage, ref as refS , uploadBytes , getDownloadURL } from "firebase/storage";
 
 
@@ -21,8 +21,6 @@ export class EspaceRecruteur {
         this.linkInputVALUE = '';
         this.OffresRecr = '';
         this.numberInputVALUE = '';
-        this.eraseOffreID = '';
-        this.actualIDs = [];
         
         this.dbRef = ref( getDatabase() );
         this.initUI();        
@@ -125,7 +123,7 @@ export class EspaceRecruteur {
         if(this.parallelITW) {
 
             document.querySelector('#nbSimulDisplay').innerHTML =`
-            <div id="recrNumberText">Nombre actuel d'entretiens à la fois : <b id="itwP">${this.parallelITW}</b></div>
+            <div id="recrNumberText">Nombre d'entretiens à la fois : <b id="itwP">${this.parallelITW}</b></div>
             <div id="recruteurNumberRECR">
                 <img id="modifyNumberRecr" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_UI%2FIcon%20awesome-pencil-alt.png?alt=media&token=abac222a-f7cf-454d-88ee-d2355a06f576" alt="ModifyPen" />
             </div>
@@ -366,17 +364,11 @@ export class EspaceRecruteur {
                     //console.log(offreIND); //= toutes les offres en objet individuel
                     
                     document.querySelector('#recruteurOffres').innerHTML +=`
-                    <div id="">
                         <div id="${offre}" class="close">&#10006;</div>
                         <li id="offre_${offre}">
                             <h4 class="offre-liste">${offreIND.positionName}</h4> 
                         </li>
-                    </div>
                     `;
-                    
-                    this.actualIDs.push(`${offre}`);
-                    this.eraseOffreID = offre;
-                    this.offrePDF = offreIND.offrePDF;
     
                 };
             };
@@ -384,7 +376,7 @@ export class EspaceRecruteur {
         } else {
 
             document.querySelector('#recruteurOffres').innerHTML =`
-            <span id="noItwText">(Aucune offre n'a encore été postée, patience !)</span>
+            <span id="noItwText">(Aucune offre n'a encore été postée)</span>
             `;
 
         };
@@ -396,51 +388,44 @@ export class EspaceRecruteur {
         const offreBOX = document.querySelector('#recruteurOffres');
         offreBOX.addEventListener('click', ($event) => {
             
-            const offreLI = $event.target.closest('li'); //...et on vise un type 'li'
-            //console.log(offreLI); //=  <img src="..." id="logo_XXX" alt="Logo ..."/>         
+            const offreLI = $event.target.closest('li');
+            const eraseDiv = $event.target.closest('div');
             
-            if( !offreLI ) {
-                return;
+            // console.log('offreLI = '+offreLI);
+            // console.log('eraseDiv = '+eraseDiv);
+
+            switch (true) {
+                
+                case (eraseDiv!==undefined && offreLI==undefined): 
+
+                    console.log(`eraseDiv!==undefined && offreLI==undefined -> ${eraseDiv!==undefined && offreLI==undefined}`);
+                    const idErase = eraseDiv.id;
+                    console.log(`idErase = ${idErase}`);
+
+                    const refDB = ref( getDatabase() , `offres/${this.recrID}/${idErase}` );
+                    const eraseMethod = remove( refDB );
+
+                    new EspaceRecruteur(this.recrID);
+
+                    break;
+
+                case (offreLI!==undefined):
+
+                    console.log(`offreLI!==undefined -> ${offreLI!==undefined}`);
+                    const id = offreLI.id; 
+                    const idOfferDisplay = id.split('_')[1]; 
+                    console.log(`splittedLI = ${idOfferDisplay}`);
+
+                    new OffreRecruteurRECR(idOfferDisplay, this.recrID , this.recruteurName , this.logoRecruteur );
+
+                    break;
+                
+                default:
+                    console.log('default');
+                    break;
             };
-
-            const id = offreLI.id; //On target l'id recruteur de chaque logo
-            //console.log(id); //= logo_XXX
-            
-            const splittedLI = id.split('_')[1]; //On coupe le string id au niveau du '_' et la deuxième partie[1] on l'appelle splittedID
-            //console.log(splittedLI) //= XXX
-
-            //console.log(splittedLI)
-
-            
-            new OffreRecruteurRECR(splittedLI, this.recrID , this.recruteurName , this.logoRecruteur );
         
         });
-
-        
-        const x = this.actualIDs;
-        console.log(x);
-
-        
-        for ( const id of x ) {
-            
-            const toErase = document.querySelector(`#${id}`);
-            toErase.addEventListener('click', ($event) => {
-                
-                const offre = $event.target.closest('div');
-                console.log(offre);
-                const id = offre.id;
-                console.log(id);
-                const splittedID = id.split('_')[1];
-                console.log(splittedID);
-                
-                this.eraseOffreID = splittedID;
-                this.offrePDF = this.offres[splittedID].offrePDF;
-                console.log(this.offrePDF);
-                
-                this.eraseOffre();
-                
-            });
-        }
         
     };
 

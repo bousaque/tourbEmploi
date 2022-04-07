@@ -10,7 +10,9 @@ export class HeaderApp {
 
         document.querySelector('#headerApp').innerHTML = `
         <div id="header">
-            <img id="logoTourbillon" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_footer%2FLOGO_TourbillonEmploi.png?alt=media&token=3327fe1f-319b-40d0-a622-373c01126c7a" alt="Logo Tourbillon Emploi" />
+            <div id="logosHeaderBOX">
+                <img id="logoTourbillon" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_footer%2FLOGO_TourbillonEmploi.png?alt=media&token=3327fe1f-319b-40d0-a622-373c01126c7a" alt="Logo Tourbillon Emploi" />
+            </div>
             <div class="box">
 	            <a id="popupBox" class="button" href="#popup1">
                     <img id="coachingButton" href="#popup1" class="button" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_UI%2FLogoCoaching1_Climbing.png?alt=media&token=7cde543a-0fdc-4c7b-97c7-5542f30968b1" alt="Bouton Coaching" />

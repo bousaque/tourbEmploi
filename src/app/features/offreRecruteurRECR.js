@@ -11,9 +11,9 @@ import { EspaceRecruteur } from './espaceRecruteur';
 
 export class OffreRecruteurRECR {
 
-    constructor( splittedLI , recrID , recruteurName , logoRecruteur ) {
+    constructor( idOfferDisplay , recrID , recruteurName , logoRecruteur ) {
 
-        this.offreID = splittedLI;
+        this.offreID = idOfferDisplay;
         this.recrID = recrID;
         this.recruteurName = recruteurName;
         this.logoRecruteur = logoRecruteur;
