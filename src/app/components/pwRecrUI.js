@@ -35,8 +35,8 @@ export class PwRecrUI {
                 <div id="pwExplainations">
                 <h3 id="pwExplTitle">Chères Recruteuses, Chers Recruteurs,</h3>
                 <p>
-                    Merci de vous choisir un email qui vous servira d'identifiant, ainsi qu'un mot de passe. Ce dernier doit contenit au moins une majuscule, 
-                    un chiffre et comporter au moins 8 caractères. Un email de confirmation vous sera envoyé à l'adresse email fournie, il vous faudra 
+                    Merci de vous choisir un email qui vous servira d'identifiant, ainsi qu'un mot de passe. Ce dernier doit contenir au moins une majuscule, 
+                    un chiffre et comporter au moins 8 caractères. Un message de confirmation vous sera envoyé à l'adresse email fournie, il vous faudra 
                     simplement <em class="emClick">cliquer dessus pour compléter l'inscription</em> et remplir votre profil Recruteur.
                 </p>
                 </div>         
@@ -91,8 +91,9 @@ export class PwRecrUI {
             const userOBJ = await createUserWithEmailAndPassword(auth, this.emailRecr, this.pwRecr)
             const user = userOBJ.user;
             console.log(user);
-            console.log(auth.currentUser);
+            console.log(user.uid);
             
+            //const refBreakNumber = ref( getDatabase() , `recruteurs/${user.uid}`)
 
             const emailOBJ = await sendEmailVerification(auth.currentUser , {url: "https://tourbillonemploi.ch",});
 
@@ -106,10 +107,6 @@ export class PwRecrUI {
                 `;
                 
             } , 100); 
-
-            
-
-
             
             
 
