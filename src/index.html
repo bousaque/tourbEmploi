@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tourbillon Emploi</title>
-</head>
+<script defer src="main.js"></script></head>
 <body>
 
     <div id="wrapper">
@@ -209,46 +209,87 @@
         border-radius: 10px;
         box-shadow: 0px 5px 15px rgba(0, 0, 0, .1);
     }
-    
-    
-    .button-front.active {
-        border: black solid 0.1px;
+
+    #successBox {
         box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
-        
-    }
-    
-    .active {
-        background-color: white;
-    }
-    
-    
-    .content {  
-        padding: 10px 20px;
-        display: none;
-    }
-    
-    .content.active {
-        display: block;
-    }
-    
-    .displayNone {
-        display: none;
-    }
-    
-    #offres2021 {
-        text-align: center;
-        padding-top: 8%;
-        font-style: italic;
+        padding: 1%;
+        margin: 20%;
     }
 
-    .box {
-        background: rgba(255,255,255,0.2);
-        max-width: 22%;
-        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
-        background-color: white;
+    #successMessage,
+    #successMessage2 {
+        text-align: center;
+        margin: 5%;
+        font-size: 131%;
+        font-weight: bold;
+    }
+
+    #containerPW {
+        display: flex;
+        justify-content: center;
+        padding: 5% 31% 3% 31%;
         border: black solid 0.1px;
-        padding: 1%;
-        cursor: pointer;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 5% auto 7% auto;
+    }
+
+    #usrname,
+    #psw {
+        width: -webkit-fill-available;
+        margin: 5% auto;
+        padding: 2% 1%;
+        background: white;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+    }
+
+    #message {
+        display: none;
+        position: relative;
+        padding: 20px;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .valid {
+        color: green;
+    }
+
+    .valid:before {
+        position: relative;
+        left: -35px;
+    }
+
+    .invalid {
+        color: red;
+    }
+
+    .invalid:before {
+        position: relative;
+        left: -35px;
+    }
+
+    #letter,
+    #capital,
+    #number,
+    #length {
+        text-align: center;
+    }
+
+    #letter {
+        margin-top: 5%;
+    }
+
+    #length {
+        margin-bottom: 2%;
+    }
+
+    #pwExplainations {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 10% 8% 5% 8%;
+        padding: 3% 7%;
+        text-align: center;
     }
 
     .overlay {
@@ -269,21 +310,15 @@
         opacity: 1;
         z-index: 1;
     }
-    
-    .popup {
-        margin: 70px auto;
-        padding: 20px;
-        background: #fff;
-        border-radius: 5px;
-        max-width: 80%;
-        position: relative;
-    }
-    
-    .popup h2 {
-        font-size: 150%;
+
+    #successMessageRECR {
         text-align: center;
-        margin: 5% 0;
-        font-weight: bold;    
+        margin: 15% 7%;
+        font-size: 131%;
+    }
+
+    #userNamePW {
+        text-align: center;
     }
 
     .popup .closeli {
@@ -293,8 +328,13 @@
         transition: all 200ms;
         font-size: 30px;
         font-weight: bold;
-        text-decoration: none;
-        color: #333;
+        color: red;
+    }
+    
+    #bodyApp > h3 {
+        text-align: center;
+        margin: 5% 1%;
+        font-size: 131%;
     }
 
     .close {
@@ -307,16 +347,20 @@
         float: right;
     }
     
-    .popup .content {
-        max-height: 30%;
-        overflow: auto;
+    #signature {
         text-align: center;
+        margin-top: 5%;
+        font-size: 70%;
+        font-style: italic;
     }
 
-    #popupBox {
+    #logosHeaderBOX {
         display: flex;
-        align-items: center;
-        justify-content: space-around;
+        gap: 1%;
+    }
+
+    .resSoc {
+        max-width: 15%;
     }
 
     #loginButtonRecruteur,
@@ -933,35 +977,6 @@
             
         }
         
-        #logoR {
-            max-width: 30%;
-            display: block;
-            margin: 4% auto 1% auto;
-        }
-        
-        #buttonBack {
-            text-align: end;
-            margin-top: 5%;
-            
-        }
-        
-        .buttonWrapper {
-            text-align: center;
-            
-        }
-        
-        .button-front {
-            border:none;
-            padding: 10px 5%;
-            background-color: white;
-            color: #232c3d;
-            font-size: 160%;
-            cursor: pointer;
-            transition: 0.5s;
-            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
-            
-        }
-        
         #logoTourbillon {
             max-width: 35%;
         }
@@ -1111,27 +1126,6 @@
             margin: 5% 0;
         }
         
-        #buttonBack {
-            text-align: right;
-            
-        }
-        
-        #logoR {
-            text-align: left;
-            margin-top: 5%;
-            
-        }
-        
-        .button-front {
-            padding: 10px 5%;
-            background-color: white;
-            color: #232c3d;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.5s;
-            border: none;
-        }
-        
         #logoTourbillon {
             max-width: 35%;
         }
@@ -1215,12 +1209,6 @@
             font-size: 3vw;
         }
 
-        #coachingBox {
-            margin: 2% 0;
-            max-width: 30%;
-            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
-
-        }
     }
     
 </style>
