@@ -1,4 +1,4 @@
-export class Button {
+export class ModifyPen {
 
     constructor(buttonHTML , buttonText, eventButton) {
         //On fait passer les trois paramètres utiles : la zone buttonHTML sur laquelle
@@ -20,13 +20,7 @@ export class Button {
         
         //console.log(this.buttonHTML);
         
-        this.buttonHTML.innerHTML = `
-            <button>
-                <span id="buttonText">
-                    ${this.buttonText}
-                </span>    
-            </button>
-        `;
+        this.buttonHTML.innerHTML = `${this.buttonText}`;
 
         //console.log('buttonHTML READY');
 
@@ -45,7 +39,6 @@ export class Button {
                 //du coup on lui met les parenthèses.
         
         });
-
     };
 
 };

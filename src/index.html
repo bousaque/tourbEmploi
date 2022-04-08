@@ -129,6 +129,16 @@
 
     }
     
+<<<<<<< HEAD
+=======
+    #vignettesRecruteurs {
+        margin: 5% 0 10% 0;
+        display: flex;
+        flex-wrap: wrap;
+        
+    }
+    
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
     #header {
         display: flex;
         justify-content: space-between;
@@ -158,11 +168,171 @@
     }
     
     .wrapper {
-        margin: auto;
+        margin: 10% 0%;
         background-color: white;
         border-radius: 10px;
         box-shadow: 0px 5px 15px rgba(0, 0, 0, .1);
     }
+<<<<<<< HEAD
+=======
+    
+    
+    .button-front.active {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        
+    }
+    
+    .active {
+        background-color: white;
+    }
+    
+    
+    .content {  
+        padding: 10px 20px;
+        display: none;
+    }
+    
+    .content.active {
+        display: block;
+    }
+    
+    .displayNone {
+        display: none;
+    }
+    
+    #offres2021 {
+        text-align: center;
+        padding-top: 8%;
+        font-style: italic;
+    }
+
+    .box {
+        background: rgba(255,255,255,0.2);
+        max-width: 22%;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        background-color: white;
+        border: black solid 0.1px;
+        padding: 1%;
+        cursor: pointer;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        opacity: 0;
+        overflow-y: auto;
+    }
+
+    .overlay:target {
+        visibility: visible;
+        opacity: 1;
+        z-index: 1;
+    }
+    
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        max-width: 80%;
+        position: relative;
+    }
+    
+    .popup h2 {
+        font-size: 150%;
+        text-align: center;
+        margin: 5% 0;
+        font-weight: bold;    
+    }
+
+    .popup .closeli {
+        position: absolute;
+        top: 1%;
+        right: 4%;
+        transition: all 200ms;
+        font-size: 30px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .close {
+        cursor: pointer;
+        font-size: 130%;
+        color: black;
+    }
+
+    .left {
+        float: right;
+    }
+    
+    .popup .content {
+        max-height: 30%;
+        overflow: auto;
+        text-align: center;
+    }
+
+    #popupBox {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    #loginButtonRecruteur,
+    #loginButtonCandidate {
+        text-align: center;
+    
+    }
+
+    #loginTitle,
+    #signupFormHTML,
+    #signupHTML,
+    #signinHTML {
+        text-align: center;
+        margin-top: 8%;
+        font-size: 131%;
+        font-weight: bold;
+    }
+
+    #signature {
+        text-align: center;
+        margin-top: 5%;
+        font-size: 70%;
+        font-style: italic;
+    }
+
+    #signupFname,
+    #signupLname,
+    #signupMail,
+    #signupStatus {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 5%;
+    }
+
+    #signupPhone {
+        margin: 5% 4% 8% -1%;
+        padding: 3% 1%;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+
+    }
+
+    #yesCheckID,
+    #noCheckID,
+    #checkLabelID {
+        font-size: 62%;
+        font-weight: normal;
+        color: #767676;
+    }
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
 
     #successBox {
         box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
@@ -178,6 +348,217 @@
         font-weight: bold;
     }
 
+<<<<<<< HEAD
+=======
+    #buttonOffresHTML,
+    #buttonCoachingHTML {
+        text-align: center;
+        margin: 1%;
+    }
+
+    #candidatAccueil {
+        text-align: center;
+        margin: 5%;
+        font-size: 131%;
+        font-weight: bold;
+    }
+
+    #espCandTitle {
+        font-variant: small-caps;
+    }
+
+    #calTxt {
+        text-align: center;
+        font-style: italic;
+        font-size: 131%;
+        margin-top: 10%;
+    }
+
+    #vignetteCreneauLI,
+    #coaching {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 2% 3%;
+        margin: 7%;
+    }
+
+    #vignetteCreneauDIV {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #entretien {
+        font-weight: bold;
+        padding: unset;
+        font-size: 100%;
+    }
+
+    #coachingTitle {
+        font-weight: bold;
+        font-size: 100%;
+        margin: 2% 0;
+    }
+
+    #coachingSlot {
+        margin: 2% 0;
+    }
+
+    #coaching {
+        text-align: center;
+    }
+
+    #offresRecrTitle {
+        text-align: center;
+        font-size: 131%;
+        font-weight: bold;
+    }
+
+    .logoRecruteur {
+        margin: 2% 1%;
+        padding: 1% 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        cursor: pointer;
+        border: black solid 0.1px;
+    }
+
+    #recruteurName {
+        text-align: center;
+        font-size: 131%;
+        font-weight: bold;
+        margin: 5% 0;
+    }
+
+    #logoRecruteur {            
+        padding: 3%;
+        margin: 3%;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        max-width: 70%;
+        border: black solid 0.1px;
+        cursor: pointer;
+    }
+
+
+    .resSoc {
+        max-width: 10%;
+    }
+
+    #recruteurHead {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 3% 0;
+        margin: 2% 0;
+        border: black solid 0.1px;
+        text-align: center;
+    }
+
+    #videoFront {
+        text-align: center;
+        padding-top: 7%;
+    }
+
+    #offreCreneauxAgendaBOX {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 3% 0;
+        margin: 2% 0;
+        border: black solid 0.1px;
+        text-align: center;
+    }
+
+    .libre {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 2% 20%;
+        padding: 1% 1%;
+        cursor: pointer;
+    }
+
+    .occupay {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 2% 20%;
+        padding: 1% 1%;
+    }
+
+    #priseCreneau {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 2% 15%;
+        padding: 1% 5%;
+        text-align: center;
+
+    }
+
+    #logoRecrIN {
+        max-width: 40%;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 5% 15%;
+        padding: 1% 5%;
+    }
+
+    #boutonReserverCreneau {
+        margin: 5% 1%;
+    }
+
+    #creneauReserver {
+        font-weight: bold;
+        margin: 5% 1%;
+    }
+
+    #backButton {
+        text-align: end;
+        margin-top: 5%;
+    }
+
+    #listDispoCoaching {
+        text-align: center;
+        margin: 5% 1%;
+    }
+
+    #listeCreneaux {
+        margin-bottom: 15%;
+    }
+
+    #resaCoachingBOX {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 2% 15%;
+        padding: 1% 5%;
+        text-align: center;
+    }
+
+    #messageNoCreneaux,
+    #messageCoachingAlready {
+        margin: 2% auto 7% auto;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        max-width: 50%;
+        display: block;
+        padding: 1% 5%;        
+    }
+
+    #ListeCreneauxHTML {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 5% 1%;
+        padding: 1% 1%;
+    }
+
+    #coachingText,
+    #boutonReserverCoaching {
+        margin: 5% auto;
+    }
+
+    #loginButtonCandidat,
+    #loginButtonCandidatMail,
+    #loginButtonRecruteur,
+    #loginButtonRecruteurMail {
+        text-align: center;
+        margin: 2% auto;
+    }
+
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
     #containerPW {
         display: flex;
         justify-content: center;
@@ -238,6 +619,7 @@
         margin-bottom: 2%;
     }
 
+<<<<<<< HEAD
     #pwExplainations {
         border: black solid 0.1px;
         box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
@@ -281,6 +663,242 @@
         margin-top: 5%;
         font-size: 70%;
         font-style: italic;
+=======
+    #recruteurLinks {
+        display: flex;
+        margin: 1% 0%;
+    }
+
+    #fbRecrBOX,
+    #instaRecrBOX,
+    #linkedInRecrBOX,
+    #ytRecrBOX {
+        min-width: 25%;
+    }
+        
+    .modifyPen {
+        cursor: pointer;
+        max-width: 3%;
+    }
+            
+    #recruteurWeb,
+    #recruteurNameINPUT {
+        display: flex;
+        padding: 1% 0;
+        margin: 2% 0;
+        justify-content: center;
+        align-items: center;
+        gap: 5%;
+    }
+        
+    #modifyLogoandWebRecr,
+    #modifyNameRecr,
+    #modifyNumberRecr {
+        max-width: 5vh;
+        cursor: pointer;
+        margin: 1% 0;
+    }
+
+    #addOfferRECR {
+        text-align: center;
+        margin: 5% auto;
+    }
+
+    #addOfferFORM {
+        text-align: center;
+        margin: 10% 1%;
+        padding: 2% 1%;
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+    }
+
+    #positionTitleBOX,
+    #dropdown,
+    #pdfOfferBOX,
+    #submitPDF,
+    #eraseBack {
+        text-align: center;
+        margin: 5% auto;
+    }
+
+    #positionTitle,
+    #profBranches,
+    #pdfOffer {
+        border: black solid 0.1px;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+    }
+
+
+    #modifyBOX {
+        max-width: 13%;
+        margin: inherit;
+        position: relative;
+        transform: translateX(-45%);
+    }
+
+    #modifyFORM > label {
+        content: 'Choisir une image';
+        display: inline-block;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 5%;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        margin: 10% 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #modifyLinkINPUT {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        max-width: 65%;
+    }
+
+    #modifyLinkFORM {
+        display: flex;
+        flex-direction: column;
+        margin: 10% 0;
+
+    }
+
+    #modifyLinkFORM > label {
+        display: inline-block;
+        margin: 10% 0;
+        
+    }
+
+    #modifySUBMIT { 
+        margin: 20% 0%;
+    }
+
+    #file-chosen {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 3%;
+        white-space: nowrap;
+    }
+
+    #link-chosenName {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        padding: 3%;
+        white-space: nowrap;
+        margin: 10% 0%;
+    }
+
+    #popupList {
+        list-style: inside;
+        padding: 2% 3%;
+        margin: 1%;
+    }
+
+    .popList {
+        font-size: 131%;
+
+    }
+
+    #recruteurBOX {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        margin: 6% 0%;
+        border: black solid 0.1px;
+        padding: 3% 10%;
+        white-space: nowrap;
+    }
+
+    #recrNameTextDyn {
+        font-size: 150%;
+        font-weight: bold;
+        white-space: normal;
+        max-width: 64%;
+    }
+
+    #recruteurNameRECR {
+        white-space: normal;
+    }
+
+   .creneauRecruteur {
+       box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+       border: black solid 0.1px;
+       padding: 3% 15%;
+       margin: 3% 0%;
+       
+    }
+
+    #calendarRecr {
+        margin: 10% auto;
+    }
+
+    #nbSimulDisplay {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 3% 15%;
+        margin: 3% 0%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 3%;
+        position: relative;
+    }
+
+    #recruteurNumberRECR {
+        transform: translateX(2vw);
+    }
+
+    #modifyNumberSubmit {
+        margin-top: 3%;
+    }
+
+    #recrNumberText {
+        position: absolute;
+    }
+
+    #modifyNumberRecr {
+        transform: translateX(700%);
+    }
+
+    #recrSimul {
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 1% 1%;
+        display: block;
+        margin: 3% auto;
+    }
+
+    .mentions {
+        font-style: italic;
+        font-size: 75%;
+    }
+
+    #offreTitle,
+    #offreCategory {
+
+        text-align: center;
+        font-weight: bold;
+        box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+        border: black solid 0.1px;
+        padding: 2% 1%;
+        max-width: 50%;
+        display: block;
+        margin: 3% auto;       
+    }
+
+    #popupList {
+        list-style: inside;
+        padding: 2% 3%;
+        margin: 1%;
+    }
+
+    #popupList > li > a {
+        color: royalblue;
+        border-bottom: 1px dotted black;
+    }
+
+    .spaceLis {
+        margin: 1% 0;
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
     }
 
     #logosHeaderBOX {
@@ -288,10 +906,32 @@
         gap: 1%;
     }
 
+<<<<<<< HEAD
     .resSoc {
         max-width: 15%;
     }
             
+=======
+    #ownSocNetworks {
+        display: grid;
+        margin: 10% 0%;
+    }
+
+    #lostPassword {
+        text-align: center;
+        margin-bottom: 5%;
+    }
+
+    #linkedIn {
+        max-width: 4.3%;
+    }
+
+    #hashtagTourbEmploi {
+        margin: 1% 0%;
+    }
+    
+        
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
             
     /*DESKTOP VIEW*/
     @media screen and (min-width: 800px) {
@@ -341,6 +981,48 @@
             padding: 0% 3%;
             font-size: 131%;
         }
+<<<<<<< HEAD
+=======
+        
+        .logoVitrine {
+            
+            max-width: 20%;
+            margin: 3% auto;
+            padding: 1% 10%;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            cursor: pointer;
+            border: black solid 0.1px;
+
+            
+        }
+        
+        #logoLinkedin,
+        #logoYoutube,
+        #logoFacebook,
+        #logoInstagram {
+            max-width: 10%;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            border-radius: 50%;
+        } 
+        
+        .offre-liste {
+            margin: 3% 4%;
+            text-align: center;
+            text-decoration: underline;
+            border: black solid 0.1px;
+            padding: 3% 0;
+            box-shadow: 0px 5px 15px rgb(0 0 0 / 10%);
+            
+        }
+
+        #recruteurOffres li {
+            cursor: pointer;
+        }
+
+        #recruteurOffres {
+            text-align: end;
+        }
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
 
         button {
             background-color: white;

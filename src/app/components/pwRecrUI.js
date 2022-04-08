@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { getAuth, createUserWithEmailAndPassword , sendEmailVerification } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 import { initializeApp } from "firebase/app";
@@ -15,6 +16,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
+=======
+import { getAuth , signInWithEmailAndPassword } from "firebase/auth";
+import { set , child , ref , getDatabase, get } from "firebase/database";
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
 
 import { Button } from '../components/button';
 
@@ -24,13 +29,13 @@ export class PwRecrUI {
 
         this.initUI();
         this.addButtons();
-        this.pwVerifUI();
 
 
     };
 
     initUI() {
 
+<<<<<<< HEAD
         document.querySelector('#bodyApp').innerHTML = `  
                 <div id="pwExplainations">
                 <h3 id="pwExplTitle">Chères Recruteuses, Chers Recruteurs,</h3>
@@ -61,12 +66,33 @@ export class PwRecrUI {
                     <p id="length" class="invalid">Minimum 8 charactères</p>
                 </div>
                 `;
+=======
+        document.querySelector('#loginButtonRecruteurMail').innerHTML = `            
+            <div id="containerPW">
+                <form>
+                    <div id="userNamePW">
+                        <label for="usrname">Adresse E-mail</label>
+                        <input type="email" id="usrname" name="usrname" autofocus required/>
+                    </div>
+                    <div id="passWordPW">
+                        <label for="psw">Mot de Passe</label>
+                        <input type="password" id="psw" name="psw" title="Doit contenir au moins :" required/>
+                    </div>
+                    <div id="submitRecrPW"></div>
+                </form>
+            </div>
+            `;
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
 
     };
 
     addButtons() {
 
         new Button( document.querySelector('#submitRecrPW') , 'Envoyer' , async () => {
+<<<<<<< HEAD
+=======
+
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
 
             const inputM = document.querySelector('input#usrname').value;
             const emailRecr = inputM.toString();
@@ -74,10 +100,22 @@ export class PwRecrUI {
             const inputP = document.querySelector('input#psw').value;
             const pwRecr = inputP.toString();
             
+            if (emailRecr.length < 4) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            if (pwRecr.length < 4) {
+                alert('Please enter a valid password.');
+                return;
+            }
+            
+            localStorage.setItem("signinEmail", emailRecr);
+                        
             this.emailRecr = emailRecr;
             this.pwRecr = pwRecr;
-            const auth = getAuth();
 
+<<<<<<< HEAD
             if (this.emailRecr.length < 4) {
                 alert('Please enter an email address.');
                 return;
@@ -109,84 +147,92 @@ export class PwRecrUI {
             } , 100); 
             
             
+=======
+            const auth = getAuth();
+            //const userAuthOBJ = await signInWithEmailAndPassword(auth, emailRecr, pwRecr);
+
+            let userOUT = '';
+            const res = await signInWithEmailAndPassword(auth, emailRecr, pwRecr)
+            .then( (userCredential) => { 
+                const user = userCredential.user;
+                userOUT = user;
+                console.log('userOUT = '+userOUT)
+                console.log(userOUT.uid);
+                return {id: user.uid};
+            }) 
+            .catch( (err) => { 
+                // console.log(err); 
+                // alert(err)
+
+                switch (true) {
+                    case err.code === 'auth/wrong-password':
+                        console.log('Mot de passe incorrect');
+                        alert('Mot de passe incorrect')
+                        break;
+                    case err.code === 'auth/user-not-found':
+                        console.log('Pas de profil qui corresponde à cet identifiant, merci de vérifier votre email de connexion');
+                        alert('Pas de profil qui corresponde à cet identifiant, merci de vérifier votre email de connexion');
+                        break;
+
+                    case err.code === 'auth/invalid-email':
+                        console.log('Merci de rentrer un email valide');
+                        alert('Merci de rentrer un email valide');
+                        break;
+
+                    case err.code === 'auth/user-disabled':
+                        console.log('Ce profil a été désactivé');
+                        alert('Ce profil a été désactivé');
+                        break;  
+
+                    default:
+                        console.log('Une erreur inconnue est survenue, merci de vérifier vos informations de connexion');
+                        alert('Une erreur inconnue est survenue, merci de vérifier vos informations de connexion');
+                };
+
+            });
+            // if (!res.id) {
+
+            //     return;
+            // }
+            const userAuth = userOUT;
+            this.recrID = userAuth.uid;
+
+            const dbRef = ref( getDatabase() );
+            const recrDB = await get ( child ( dbRef , `recruteurs/${this.recrID}` ) );
+            
+            // console.log( !recrDB.val() );
+            const randomNumberBreak = Math.round(Math.random());
+        
+            if ( !recrDB.val() ) {
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
+
+
+                console.log('Dans le if(), donc -> !recrDB.val()')
+
+                const db = getDatabase();
+
+                //Vérif si déjà venu ? Pour ne pas écraser à chaque reconnection
+                //Si non, écriture
+                const writeDB = await set( ref (db, `recruteurs/${this.recrID}`) , {
+    
+                    emailRecr: this.emailRecr,
+                    breakRandomAssign: randomNumberBreak,
+              
+                });
+                
+            };
+            
+            new EspaceRecruteur(this.recrID);
 
         });
 
     };
 
-    pwVerifUI() {
-
-        const myInput = document.getElementById("psw");
-        const letter = document.getElementById("letter");
-        const capital = document.getElementById("capital");
-        const number = document.getElementById("number");
-        const length = document.getElementById("length");
-    
-        // When the user clicks on the password field, show the message box
-        
-        myInput.addEventListener('focusin' , () => {
-            
-            document.getElementById("message").style.display = "block";
-    
-        });
-        
-        myInput.addEventListener('focusout' , () => {
-            
-            document.getElementById("message").style.display = "none";
-    
-        });
-    
-        
-    
-        // When the user starts to type something inside the password field
-        
-        myInput.addEventListener('keyup' , () => {
-            
-            // Validate lowercase letters
-            const lowerCaseLetters = /[a-z]/g;
-            if (myInput.value.match(lowerCaseLetters)) {
-                letter.classList.remove("invalid");
-                letter.classList.add("valid");
-            } else {
-                letter.classList.remove("valid");
-                letter.classList.add("invalid");
-            }
-    
-            // Validate capital letters
-            const upperCaseLetters = /[A-Z]/g;
-            if (myInput.value.match(upperCaseLetters)) {
-                capital.classList.remove("invalid");
-                capital.classList.add("valid");
-            } else {
-                capital.classList.remove("valid");
-                capital.classList.add("invalid");
-            }
-    
-            // Validate numbers
-            const numbers = /[0-9]/g;
-            if (myInput.value.match(numbers)) {
-                number.classList.remove("invalid");
-                number.classList.add("valid");
-            } else {
-                number.classList.remove("valid");
-                number.classList.add("invalid");
-            }
-    
-            // Validate length
-            if (myInput.value.length >= 8) {
-                length.classList.remove("invalid");
-                length.classList.add("valid");
-            } else {
-                length.classList.remove("valid");
-                length.classList.add("invalid");
-            }
-    
-        });
-
-    };
-
+<<<<<<< HEAD
 
    
 
 
+=======
+>>>>>>> cb7e91f9084f2263e55d60ea8977bcd0bfe9d6b2
 };
