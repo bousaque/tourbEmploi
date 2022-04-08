@@ -123,11 +123,7 @@ export class EspaceRecruteur {
         if(this.parallelITW) {
 
             document.querySelector('#nbSimulDisplay').innerHTML =`
-<<<<<<< HEAD
             <div id="recrNumberText">Combien de recruteurs de votre entreprise seront présents à l'événement : <b id="itwP">${this.parallelITW}</b></div>
-=======
-            <div id="recrNumberText">Nombre d'entretiens à la fois : <b id="itwP">${this.parallelITW}</b></div>
->>>>>>> parent of 575514c (8 avril 2022 II)
             <div id="recruteurNumberRECR">
                 <img id="modifyNumberRecr" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_UI%2FIcon%20awesome-pencil-alt.png?alt=media&token=abac222a-f7cf-454d-88ee-d2355a06f576" alt="ModifyPen" />
             </div>
@@ -136,11 +132,7 @@ export class EspaceRecruteur {
         } else {
 
             document.querySelector('#nbSimulDisplay').innerHTML =`
-<<<<<<< HEAD
             <div id="recrNumberText">Combien de recruteurs de votre entreprise seront présents à l'événement : <b id="itwP">(À compléter)</b></div>
-=======
-            <div id="recrNumberText">Nombre actuel d'entretiens à la fois : <b id="itwP">(À compléter)</b></div>
->>>>>>> parent of 575514c (8 avril 2022 II)
             <div id="recruteurNumberRECR">
                 <img id="modifyNumberRecr" src="https://firebasestorage.googleapis.com/v0/b/projet-nomades-1.appspot.com/o/general_media%2Flogos_UI%2FIcon%20awesome-pencil-alt.png?alt=media&token=abac222a-f7cf-454d-88ee-d2355a06f576" alt="ModifyPen" />
             </div>
