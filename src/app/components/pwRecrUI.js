@@ -1,5 +1,19 @@
-import { getAuth , signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { set , child , ref , getDatabase, get } from "firebase/database";
+import { initializeApp } from "firebase/app";
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCBVL9d_RQUd9bW-A8dLlpU4tC-CO2ftc8",
+    authDomain: "projet-nomades-1.firebaseapp.com",
+    databaseURL: "https://projet-nomades-1-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "projet-nomades-1",
+    storageBucket: "projet-nomades-1.appspot.com",
+    messagingSenderId: "164954171217",
+    appId: "1:164954171217:web:bdbee8166ab73c86959570"
+};
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 import { Button } from '../components/button';
 import { EspaceRecruteur } from '../features/espaceRecruteur';
@@ -43,9 +57,9 @@ export class PwRecrUI {
             
             const inputP = document.querySelector('input#psw').value;
             const pwRecr = inputP.toString();
-            
-            if (emailRecr.length < 4) {
-                alert('Please enter a valid email address.');
+
+            if (this.emailRecr.length < 4) {
+                alert('Please enter an email address.');
                 return;
             }
 
